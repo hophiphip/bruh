@@ -26,11 +26,15 @@ RUN groupadd -g $uid $user
 RUN useradd -u $uid -ms /bin/bash -g $user $user
 
 COPY ./bruh /var/www
+COPY .env /var/www
+
 COPY --chown=$user:$user bruh /var/www
 WORKDIR /var/www
 
 USER $user
 
-CMD ["sh", "-c", "cp -n .env.example .env && composer install && php artisan key:generate && php artisan migrate:refresh --seed && php-fpm"]
+# Add later / test time diff
+#  php artisan migrate:refresh --seed
+CMD ["sh", "-c", "composer install && php artisan key:generate && php-fpm"]
 
 EXPOSE 9000

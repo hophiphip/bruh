@@ -1,5 +1,9 @@
 version: "3.7"
+
+# NOTE: Might be necessary to delete volumes  in the future as they are persistent (can cause issues during development)
+
 services:
+
   app:
     build:
       args:
@@ -34,6 +38,8 @@ services:
 
   mongodb:
     image: mongo
+    container_name: bruh-mongodb
+    hostname: '${MONGO_DB_HOST}'
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: '${MONGO_DB_USERNAME}'
@@ -50,11 +56,37 @@ services:
       retries: 5
       timeout: 10s
 
+  postgres:
+    image: postgres:alpine
+    container_name: bruh-postgres
+    hostname: '${POSTGRES_DB_HOST}'
+    restart: unless-stopped
+    user: postgres
+    environment:
+      POSTGRES_PASSWORD: '${POSTGRES_DB_PASSWORD}'
+      POSTGRES_USER: '${POSTGRES_DB_USERNAME}'
+      POSTGRES_DB: '${POSTGRES_DB_DATABASE}'
+    volumes:
+      - 'postgresdata:/var/lib/postgresql/data'
+    networks:
+      - bruh
+    ports:
+      - '${POSTGRES_DB_PORT}:${POSTGRES_DB_PORT}'
+    healthcheck:
+        test: pg_isready
+        retries: 5
+        timeout: 5s
+        interval: 10s
+
 networks:
   bruh:
     driver: bridge
 
 volumes:
   mongodata:
+    driver: local
+    external: false
+
+  postgresdata:
     driver: local
     external: false
