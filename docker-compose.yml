@@ -1,0 +1,60 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: bruh
+        uid: 1000
+      context: ./
+      dockerfile: ./.docker/Dockerfile
+    image: bruh
+    container_name: bruh-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./bruh/:/var/www
+    networks:
+      - bruh
+    depends_on:
+      - mongodb
+
+  nginx:
+    image: nginx:alpine
+    container_name: bruh-nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./bruh/:/var/www
+      - ./.docker/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - app
+    networks:
+      - bruh
+
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${MONGO_DB_USERNAME}'
+      MONGO_INITDB_ROOT_PASSWORD: '${MONGO_DB_PASSWORD}'
+      MONGO_INITDB_DATABASE: '${MONGO_DB_DATABASE}'
+    volumes:
+      - 'mongodata:/data/db'
+    networks:
+      - bruh
+    ports:
+      - '${MONGO_DB_PORT}:${MONGO_DB_PORT}'
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo 127.0.0.1:27017/admin --quiet
+      retries: 5
+      timeout: 10s
+
+networks:
+  bruh:
+    driver: bridge
+
+volumes:
+  mongodata:
+    driver: local
+    external: false

@@ -1,0 +1,92 @@
+version: "2.4"
+# NOTE: Docker compose version is set to < 3 because of an easier way of doing a service startup status: condition: service_healthy (Not supported in ver. > 3)
+services:
+  app:
+    build:
+      args:
+        user: bruh
+        uid: 1000
+      context: ./
+      dockerfile: ./.docker/Dockerfile
+    image: bruh
+    container_name: bruh-app-e2e
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./bruh/:/var/www
+    networks:
+      - bruh
+    logging:
+      driver: none
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:alpine
+    container_name: bruh-nginx-e2e
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./bruh/:/var/www
+      - ./.docker/nginx/:/etc/nginx/conf.d/
+    networks:
+      - bruh
+    healthcheck:
+      test: curl -f http://127.0.0.1:80 || exit 1
+      retries: 5
+      timeout: 10s
+      interval: 20s
+      start_period: 10s
+    depends_on:
+      - app
+    logging:
+      driver: none
+
+  mongodb:
+    image: mongo
+    container_name: bruh-mongodb-e2e
+    restart: unless-stopped
+    command: mongod --quiet --logpath /dev/null
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${MONGO_DB_USERNAME}'
+      MONGO_INITDB_ROOT_PASSWORD: '${MONGO_DB_PASSWORD}'
+      MONGO_INITDB_DATABASE: '${MONGO_DB_DATABASE}'
+    volumes:
+      - 'mongodata:/data/db'
+    networks:
+      - bruh
+    ports:
+      - '${MONGO_DB_PORT}:${MONGO_DB_PORT}'
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo 127.0.0.1:27017/admin --quiet
+      retries: 5
+      timeout: 10s
+    logging:
+      driver: none
+
+  cypress:
+    image: "cypress/included:4.4.0"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      nginx:
+        condition: service_healthy
+    environment:
+      - CYPRESS_baseUrl=http://nginx:80
+    working_dir: /e2e
+    volumes:
+      - ./.docker/e2e:/e2e
+      - ./bruh/cypress:/e2e/cypress
+    networks:
+      - bruh
+
+networks:
+  bruh:
+    driver: bridge
+
+volumes:
+  mongodata:
+    driver: local
+    external: false
