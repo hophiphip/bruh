@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-02-02T14:03:07.349Z" agent="5.0 (X11)" etag="gmD71pR2DSTQhMF-lfQn" version="16.5.2" type="github">
+<mxfile host="app.diagrams.net" modified="2022-02-02T14:25:38.633Z" agent="5.0 (X11)" etag="zOE7YorGiJr7fKRDdhXZ" version="16.5.2" type="github">
   <diagram id="t3EWiVwUvF7SmmPXYktw" name="Page-1">
     <mxGraphModel dx="1422" dy="796" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -149,6 +149,30 @@
         </mxCell>
         <mxCell id="_WX12jAoZObMtjHYHUED-63" value="TODO: Has more groups &amp;amp; subgroups" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1280" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_WX12jAoZObMtjHYHUED-64" value="transaction" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="760" width="290" height="146" as="geometry" />
+        </mxCell>
+        <mxCell id="_WX12jAoZObMtjHYHUED-65" value="PK: id" style="text;strokeColor=#6c8ebf;fillColor=#dae8fc;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="_WX12jAoZObMtjHYHUED-64">
+          <mxGeometry y="26" width="290" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_WX12jAoZObMtjHYHUED-66" value="FK: insurer/(insurance_company)_id" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="_WX12jAoZObMtjHYHUED-64">
+          <mxGeometry y="56" width="290" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_WX12jAoZObMtjHYHUED-67" value="FK: policyholder_id" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="_WX12jAoZObMtjHYHUED-64">
+          <mxGeometry y="86" width="290" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_WX12jAoZObMtjHYHUED-70" value="FK: insured_id" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="_WX12jAoZObMtjHYHUED-64">
+          <mxGeometry y="116" width="290" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_WX12jAoZObMtjHYHUED-68" value="entity that provides insurance" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1490" y="816" width="210" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="_WX12jAoZObMtjHYHUED-69" value="entity that buys insurance" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1490" y="850" width="210" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="_WX12jAoZObMtjHYHUED-71" value=" person or entity covered under the policy" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1490" y="880" width="230" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
