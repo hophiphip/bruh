@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-02-03T14:30:44.468Z" agent="5.0 (X11)" etag="umosB9hBfhMYSw1L3xbf" version="16.5.2" type="github">
+<mxfile host="app.diagrams.net" modified="2022-02-03T14:32:07.250Z" agent="5.0 (X11)" etag="ulNTWaHHTTYQrOr-Z6e4" version="16.5.2" type="github">
   <diagram id="t3EWiVwUvF7SmmPXYktw" name="Page-1">
-    <mxGraphModel dx="1936" dy="2238" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1936" dy="1069" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -89,7 +89,7 @@
           <mxGeometry y="116" width="200" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_WX12jAoZObMtjHYHUED-64" value="transaction" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" parent="1" vertex="1">
-          <mxGeometry x="1340" y="-210" width="290" height="146" as="geometry" />
+          <mxGeometry x="680" y="80" width="290" height="146" as="geometry" />
         </mxCell>
         <mxCell id="_WX12jAoZObMtjHYHUED-65" value="PK: id" style="text;strokeColor=#6c8ebf;fillColor=#dae8fc;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" parent="_WX12jAoZObMtjHYHUED-64" vertex="1">
           <mxGeometry y="26" width="290" height="30" as="geometry" />
@@ -104,13 +104,13 @@
           <mxGeometry y="116" width="290" height="30" as="geometry" />
         </mxCell>
         <mxCell id="_WX12jAoZObMtjHYHUED-68" value="entity that provides insurance" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1630" y="-154" width="210" height="24" as="geometry" />
+          <mxGeometry x="970" y="136" width="210" height="24" as="geometry" />
         </mxCell>
         <mxCell id="_WX12jAoZObMtjHYHUED-69" value="entity that buys insurance" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1630" y="-120" width="210" height="24" as="geometry" />
+          <mxGeometry x="970" y="170" width="210" height="24" as="geometry" />
         </mxCell>
         <mxCell id="_WX12jAoZObMtjHYHUED-71" value=" person or entity covered under the policy" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1630" y="-90" width="230" height="26" as="geometry" />
+          <mxGeometry x="970" y="200" width="230" height="26" as="geometry" />
         </mxCell>
         <mxCell id="XJMuuKfRiF-_TnkbTJwQ-1" value="insurance_company" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;align=center;fontSize=14;" vertex="1" parent="1">
           <mxGeometry x="700" y="570" width="200" height="116" as="geometry" />
