@@ -11,10 +11,12 @@ class OfferFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'company' => $this->faker->company(),
+            'description' => $this->faker->text(),
         ];
     }
 }
