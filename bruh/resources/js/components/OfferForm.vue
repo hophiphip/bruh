@@ -39,7 +39,7 @@
                                     <textarea class="form-control"
                                               id="description"
                                               v-model="offer.description"
-                                              placeholder="Please enter your message here..."
+                                              placeholder="Offer description..."
                                               rows="5"></textarea>
                             <span v-if="errors.description" class="help-block text-danger">{{ errors.description[0] }}</span>
                         </div>

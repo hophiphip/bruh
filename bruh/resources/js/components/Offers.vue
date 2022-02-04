@@ -1,6 +1,8 @@
 <template>
     <div>
+
         <div class="panel panel-default" v-for="offer in offers">
+
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-user" id="start"></span>
                 <label id="started">By</label> {{ offer.name }}
@@ -16,12 +18,11 @@
             </div>
 
             <div class="panel-footer">
-                <span class="glyphicon glyphicon-calendar" id="visit"></span> {{ offer.date }} |
-                <span class="glyphicon glyphicon-flag" id="comment"></span>
-                <a href="#" id="comments" @click="report(offer.id)">Report</a>
+                <span class="glyphicon glyphicon-calendar" id="visit"></span> {{ offer.date }}
             </div>
 
         </div>
+
         <paginate
             :page-count="pageCount"
             :click-handler="fetch"
@@ -29,6 +30,7 @@
             :next-text="'Next'"
             :container-class="'pagination'">
         </paginate>
+
     </div>
 </template>
 
@@ -55,19 +57,6 @@ export default {
                     this.pageCount = data.meta.last_page;
                 });
         },
-
-        report(id) {
-            if(confirm('Are you sure you want to report this offer?')) {
-                axios.put('api/offers/'+id+'/report')
-                    .then(response => this.removeOffer(id));
-            }
-        },
-
-        removeOffer(id) {
-            this.offers = _.remove(this.offers, function (offer) {
-                return offer.id !== id;
-            });
-        }
     }
 }
 </script>
