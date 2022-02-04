@@ -17,12 +17,12 @@
     <nav class="navbar navbar-findcond">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{{ route('home') }}">GuestBook</a>
+                <a class="navbar-brand" href="{{ route('index') }}">Home page</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active">
-                        <a href="{{ route('sign') }}">Sign the GuestBook</a>
+                        <a href="{{ route('new') }}">Observe offers</a>
                     </li>
                 </ul>
             </div>
