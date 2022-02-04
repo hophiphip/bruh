@@ -6,6 +6,65 @@
 - [Laravel](https://laravel.com/)
 - [MongoDB](https://www.mongodb.com/)
 - [PostgreSQL](https://www.postgresql.org/)
+- [NodeJS](https://nodejs.org/en/)
+
+## ~~Slow~~ Quick start
+Instructions for running the app locally.
+
+### Install Laravel MongoDB Package
+```shell
+sudo pecl install mongodb
+```
+
+Ensure that the mongodb extension is enabled in `php.ini` file.
+Add the following line to `php.init` file.
+```shell
+extension="mongodb.so"
+```
+
+You can find `php.ini` file location by running
+```shell
+php --ini
+```
+
+### Install app dependencies
+```shell
+composer install
+```
+
+### Install web dependencies
+```shell
+npm install
+```
+
+### Compile Vue components
+```shell
+npm run dev
+```
+
+### Create application `.env` file and generate the app key
+Create app `.env` file
+```shell
+cp .env.example.local .env
+```
+
+Generate the app key
+```shell
+php artisan key:generate
+```
+
+### Change `.env` file if necessary and run migrations
+```shell
+php artisan migrate
+```
+
+### Start the app
+```shell
+php artisan serve --host=0.0.0.0 --port=8080
+```
+
+
+# NOTES
 
 ## Setup local MongoDB with `Docker`
 ```shell
