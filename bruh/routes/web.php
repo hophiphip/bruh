@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', OffersController::class . '@index')->name('index');
 Route::get('new', OffersController::class . '@create')->name('new');
+
+Route::get('index', function () {
+   return view('index');
+});
+
+Route::get('clients', function () {
+    return view('clients');
+});
