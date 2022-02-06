@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OffersController;
+use App\Repositories\Interfaces\SearchRepositoryInterface;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +24,17 @@ Route::get('index', function () {
 
 Route::get('clients', function () {
     return view('clients');
+});
+
+Route::get('offers', function (SearchRepositoryInterface $repo) {
+    $query = request('q');
+    if ($query === null) {
+        $query = '';
+    }
+
+    $offers = $repo->search($query);
+
+    return view('offers', [
+        'offers' => $offers,
+    ]);
 });
