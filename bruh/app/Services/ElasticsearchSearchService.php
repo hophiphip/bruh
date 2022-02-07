@@ -24,25 +24,32 @@ class ElasticsearchSearchService implements SearchServiceInterface
 
     public function search(string $query = ''): Collection
     {
-        $items = $this->searchOnElasticsearch($query);
+        $items = $this->searchWithElasticsearch($query);
         return $this->buildCollection($items);
     }
 
-    private function searchOnElasticsearch(string $query = ''): array
+    private function searchWithElasticsearch(string $query = ''): array
     {
         $model = new Offer;
-        // TODO: Query tags / as they are integers need to do sth.
+
         return $this->elasticsearch->search([
             'index' => $model->getSearchIndex(),
             'type' => $model->getSearchType(),
             'body' => [
-                // TODO: Incorrect search for company name
+
+                //
+                // TODO: should and other cool stuff is not parsing correctly for elastic ver. >= 7.7.0
+                //      Might be related: https://github.com/nextcloud/fulltextsearch_elasticsearch/issues/106
+                //
+
                 'query' => [
                     'multi_match' => [
-                        'fields' => ['case', 'description', 'company'],
+                        'fields' => ['case_name', 'description', 'insurer_company_name'],
+                        'fuzziness' => 'AUTO',
                         'query' => $query,
-                    ],
+                    ]
                 ],
+
             ],
         ]);
     }
