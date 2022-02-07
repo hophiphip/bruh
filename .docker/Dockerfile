@@ -1,6 +1,6 @@
 FROM laradock/php-fpm:latest-8.0
 
-# TODO: Need a multistage container build -> run
+# TODO: Need a multistage container build -> run (for NodeJS)
 
 ARG user
 ARG uid
@@ -28,7 +28,8 @@ RUN groupadd -g $uid $user
 RUN useradd -u $uid -ms /bin/bash -g $user $user
 
 COPY ./bruh /var/www
-COPY .env /var/www
+RUN rm -rf /var/www/.env
+COPY .env /var/www/.env
 
 COPY --chown=$user:$user bruh /var/www
 WORKDIR /var/www
