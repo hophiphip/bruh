@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Offer;
 
 class OfferResource extends JsonResource
 {
@@ -15,10 +16,11 @@ class OfferResource extends JsonResource
      */
     public function toArray($request)
     {
+        /* TODO: case_id or caseId ? */
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'company' => $this->company,
+            'case_id' => $this->case_id,
+            'company_id' => $this->company_id,
             'description' => $this->description,
             'date' => $this->created_at->diffForHumans(),
         ];
