@@ -8,9 +8,6 @@ trait Searchable
 {
     public static function bootSearchable()
     {
-        // This makes it easy to toggle the search feature flag
-        // on and off. This is going to prove useful later on
-        // when deploy the new search engine to a live app.
         if (config('services.search.enabled')) {
             static::observe(ElasticsearchObserver::class);
         }
@@ -32,9 +29,7 @@ trait Searchable
 
     public function toSearchArray(): array
     {
-        // By having a custom method that transforms the model
-        // to a searchable array allows us to customize the
-        // data that's going to be searchable per model.
+        /* TODO: Mb. move Offer->toArray() here ? OF no ? as it is a general trait */
         return $this->toArray();
     }
 }
