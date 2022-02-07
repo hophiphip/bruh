@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Offer;
+use App\Models\Insurer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class OfferSeeder extends Seeder
+class InsurerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class OfferSeeder extends Seeder
      */
     public function run()
     {
-        DB::table(app(Offer::class)->getTable())->truncate();
-        Offer::factory()->count(50)->create();
+        DB::table(app(Insurer::class)->getTable())->truncate();
+        Insurer::factory()->count(50)->create();
     }
 }

@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Insurer;
+use App\Models\Offer;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(OfferSeeder::class);
+        DB::table(app(Offer::class)->getTable())->truncate();
+        DB::table(app(Insurer::class)->getTable())->truncate();
+
+        Insurer::factory()->count(20)->create()->each(function ($insurer) {
+            $offers = Offer::factory()->count(5)->make();
+            $insurer->getOffers()->saveMany($offers);
+        });
     }
 }
