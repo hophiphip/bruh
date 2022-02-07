@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Services;
 
 use App\Models\Offer;
-use App\Repositories\Interfaces\SearchRepositoryInterface;
+use App\Services\Interfaces\SearchServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class OffersSearchRepository implements SearchRepositoryInterface
+class OffersSearchService implements SearchServiceInterface
 {
     public function search(string $query = ''): Collection
     {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Services\Interfaces;
 
 use Illuminate\Database\Eloquent\Collection;
 
-interface SearchRepositoryInterface
+interface SearchServiceInterface
 {
     public function search(string $query = ''): Collection;
 }

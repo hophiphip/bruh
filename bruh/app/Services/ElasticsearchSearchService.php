@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Services;
 
 use App\Models\Offer;
-use App\Repositories\Interfaces\SearchRepositoryInterface;
+use App\Services\Interfaces\SearchServiceInterface;
 use Elasticsearch\Client;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
 // TODO: Mb. use ScoutElastic ?
 
-class ElasticsearchSearchRepository implements SearchRepositoryInterface
+class ElasticsearchSearchService implements SearchServiceInterface
 {
     /**
      * @var Client
