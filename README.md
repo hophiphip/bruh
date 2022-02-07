@@ -29,6 +29,8 @@ Reindex elasticsearch
 docker-compose exec app php artisan search:reindex
 ```
 
+Go to `localhost:8000/offers` and try searching for offers.
+
 ---
 **NOTE**    `Docker` memory cap might be exceeded because of `Elasticsearch`.
 Can be fixed with this:
