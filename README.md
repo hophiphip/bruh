@@ -11,5 +11,39 @@ cp .env.example .env
 ```
 Start the app
 ```shell
-docker-compose up
+docker-compose up -d
 ```
+
+Run migrations
+```shell
+docker-compose exec app php artisan migrate:fresh
+```
+
+Seed the database
+```shell
+docker-compose exec app php artisan db:seed
+```
+
+Reindex elasticsearch
+```shell
+docker-compose exec app php artisan search:reindex
+```
+
+---
+**NOTE**    `Docker` memory cap might be exceeded because of `Elasticsearch`.
+Can be fixed with this:
+
+Linux
+```shell
+sysctl -w vm.max_map_count=262144
+```
+
+Windows
+```shell
+wsl -d docker-desktop
+```
+```shell
+sysctl -w vm.max_map_count=262144
+```
+---
+
