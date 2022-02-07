@@ -28,13 +28,15 @@ class ElasticsearchSearchService implements SearchServiceInterface
         return $this->buildCollection($items);
     }
 
-    private function searchWithElasticsearch(string $query = ''): array
+    private function searchWithElasticsearch(string $query = '', int $size = 10): array
     {
         $model = new Offer;
 
         return $this->elasticsearch->search([
             'index' => $model->getSearchIndex(),
             'type' => $model->getSearchType(),
+            'size' => $size,
+
             'body' => [
 
                 //
@@ -44,7 +46,7 @@ class ElasticsearchSearchService implements SearchServiceInterface
 
                 'query' => [
                     'multi_match' => [
-                        'fields' => ['case_name', 'description', 'insurer_company_name'],
+                        'fields' => ['case_name^2', 'description', 'insurer_company_name'],
                         'fuzziness' => 'AUTO',
                         'query' => $query,
                     ]
