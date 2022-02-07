@@ -11,8 +11,7 @@ class OffersSearchRepository implements SearchRepositoryInterface
     public function search(string $query = ''): Collection
     {
         return Offer::query()
-            ->where('name', 'LIKE', "%{$query}%")
-            ->orWhere('company', 'LIKE', "%{$query}%")
+            ->where('description', 'LIKE', "%{$query}%")
             ->get();
     }
 }

@@ -8,6 +8,8 @@ use Elasticsearch\Client;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
+// TODO: Mb. use ScoutElastic ?
+
 class ElasticsearchSearchRepository implements SearchRepositoryInterface
 {
     /**
@@ -29,14 +31,14 @@ class ElasticsearchSearchRepository implements SearchRepositoryInterface
     private function searchOnElasticsearch(string $query = ''): array
     {
         $model = new Offer;
-
+        // TODO: Query tags / as they are integers need to do sth.
         return $this->elasticsearch->search([
             'index' => $model->getSearchIndex(),
             'type' => $model->getSearchType(),
             'body' => [
                 'query' => [
                     'multi_match' => [
-                        'fields' => ['name', 'company', 'description'],
+                        'fields' => ['case', 'description', 'company'],
                         'query' => $query,
                     ],
                 ],
