@@ -36,6 +36,7 @@ class ElasticsearchSearchRepository implements SearchRepositoryInterface
             'index' => $model->getSearchIndex(),
             'type' => $model->getSearchType(),
             'body' => [
+                // TODO: Incorrect search for company name
                 'query' => [
                     'multi_match' => [
                         'fields' => ['case', 'description', 'company'],
