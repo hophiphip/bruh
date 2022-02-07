@@ -16,7 +16,6 @@ class OfferResource extends JsonResource
      */
     public function toArray($request)
     {
-        /* TODO: case_id or caseId ? */
         return [
             'id' => $this->id,
             'case_id' => $this->case_id,
