@@ -28,7 +28,7 @@ class ElasticsearchSearchService implements SearchServiceInterface
         return $this->buildCollection($items);
     }
 
-    private function searchWithElasticsearch(string $query = '', int $size = 10): array
+    private function searchWithElasticsearch(string $query = '', int $size = 10, int $from = 0): array
     {
         $model = new Offer;
 
@@ -36,6 +36,7 @@ class ElasticsearchSearchService implements SearchServiceInterface
             'index' => $model->getSearchIndex(),
             'type' => $model->getSearchType(),
             'size' => $size,
+            'from' => $from,
 
             'body' => [
 
