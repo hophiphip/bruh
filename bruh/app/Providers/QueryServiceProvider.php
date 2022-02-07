@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Repositories;
-use App\Repositories\Interfaces;
+use App\Services;
+use App\Services\Interfaces;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
@@ -18,17 +18,17 @@ class QueryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            Interfaces\SearchRepositoryInterface::class,
+            Interfaces\SearchServiceInterface::class,
 
             function ($app) {
                 //
                 // toggling db-search/elasticsearch
                 //
                 if (!config('services.search.enabled')) {
-                    return new Repositories\OffersSearchRepository();
+                    return new Services\OffersSearchService();
                 }
 
-                return new Repositories\ElasticsearchSearchRepository(
+                return new Services\ElasticsearchSearchService(
                     $app->make(Client::class)
                 );
             }
