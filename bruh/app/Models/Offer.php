@@ -97,9 +97,9 @@ class Offer extends Model
         return [
             'id' => $this->id,
             'case_id' => $this->case_id,
-            'case' => $this->getCaseName(),
+            'case_name' => $this->getCaseName(),
             'insurer_id' => $this->insurer_id,
-            'insurer' => $this->getCompanyName(),
+            'insurer_company_name' => $this->getCompanyName(),
             'description' => $this->description,
         ];
     }
