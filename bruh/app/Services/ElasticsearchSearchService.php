@@ -6,6 +6,7 @@ use App\Models\Offer;
 use App\Services\Interfaces\SearchServiceInterface;
 use Elasticsearch\Client;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
 // TODO: Mb. use ScoutElastic ?
@@ -22,21 +23,30 @@ class ElasticsearchSearchService implements SearchServiceInterface
         $this->elasticsearch = $elasticsearch;
     }
 
-    public function search(string $query = ''): Collection
+    // TODO: This is slow, need to figure out `scroll` feature to fix it.
+    public function search(string $query = '', int $size = 10, int $page = 1): LengthAwarePaginator
     {
         $items = $this->searchWithElasticsearch($query);
-        return $this->buildCollection($items);
+        $collection = $this->buildCollection($items);
+
+        return new LengthAwarePaginator(
+            $collection,
+            $collection->count(),
+            $size,
+            $page
+        );
     }
 
-    private function searchWithElasticsearch(string $query = '', int $size = 10, int $from = 0): array
+    private function searchWithElasticsearch(string $query = ''): array
     {
         $model = new Offer;
 
         return $this->elasticsearch->search([
             'index' => $model->getSearchIndex(),
             'type' => $model->getSearchType(),
-            'size' => $size,
-            'from' => $from,
+
+            // TODO: Hardcoded size limit, but for pagination `scroll` feature must be used.
+            'size' => 1000,
 
             'body' => [
 
