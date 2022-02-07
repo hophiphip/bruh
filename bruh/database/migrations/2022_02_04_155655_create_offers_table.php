@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Insurer;
+use App\Models\Offer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +15,22 @@ class CreateOffersTable extends Migration
      */
     public function up()
     {
-        Schema::create('offers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('company');
+        Schema::create(app(Offer::class)->getTable(), function (Blueprint $table) {
+            $table->bigIncrements('id');
+
+            // NOTE: `case_id` is not referencing any table
+            $table->integer('case_id');
+
+            $table->bigInteger('insurer_id')->unsigned()->index();
             $table->text('description');
             $table->timestamps();
+        });
+
+        Schema::table(app(Offer::class)->getTable(), function (Blueprint $table) {
+            $table->foreign('insurer_id')
+                  ->references('id')
+                  ->on(app(Insurer::class)->getTable())
+                  ->onDelete('cascade');;
         });
     }
 
@@ -29,6 +41,6 @@ class CreateOffersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('offers');
+        Schema::dropIfExists(app(Offer::class)->getTable());
     }
 }
