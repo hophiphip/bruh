@@ -51,7 +51,7 @@ class ElasticsearchSearchService implements SearchServiceInterface
             'body' => [
 
                 //
-                // TODO: should and other cool stuff is not parsing correctly for elastic ver. >= 7.7.0
+                // TODO: should/must/bool/e.t.c and other cool stuff is not parsing correctly for elastic ver. >= 7.7.0
                 //      Might be related: https://github.com/nextcloud/fulltextsearch_elasticsearch/issues/106
                 //
 
