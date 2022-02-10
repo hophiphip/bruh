@@ -26,5 +26,8 @@
     "dependencies": {
         "bootstrap-vue": "^2.21.2",
         "vuejs-paginate": "^2.1.0"
+    },
+    "scripts": {
+        "postinstall": "npm run dev"
     }
 }
