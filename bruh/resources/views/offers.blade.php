@@ -10,7 +10,7 @@
 
             <div class="card-body">
 
-                <form action="{{ url('offers') }}" method="get">
+                <form action="/offers" method="get">
                     <div class="form-group">
                         <input
                             type="text"
