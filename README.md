@@ -1,6 +1,10 @@
 # Bruh
 An online platform for providing easy access to insurance companies services.
 
+## Try it
+https://bruh-service.herokuapp.com/offers
+(Only search capabilities for now)
+
 ## Requirements
 - [Docker](https://www.docker.com/)
 
