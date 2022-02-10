@@ -32,8 +32,6 @@ return [
 
     'search' => [
         'enabled' => env('ELASTICSEARCH_ENABLED', false),
-        //'hosts' => explode(',', env('ELASTICSEARCH_HOSTS')),
-        // exploade seems to be deprecated
-        'hosts' => env('ELASTICSEARCH_HOSTS'),
+        'hosts' => explode(',', env('ELASTICSEARCH_HOSTS')),
     ],
 ];
