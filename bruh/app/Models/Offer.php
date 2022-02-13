@@ -6,6 +6,7 @@ use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use JetBrains\PhpStorm\ArrayShape;
 
 class Offer extends Model
 {
@@ -92,7 +93,15 @@ class Offer extends Model
      *
      * @return array
      */
-    public function toArray()
+    #[ArrayShape([
+        'id' => "mixed",
+        'case_id' => "mixed",
+        'case_name' => "string",
+        'insurer_id' => "mixed",
+        'insurer_company_name' => "string",
+        'description' => "mixed"]
+    )]
+    public function toArray(): array
     {
         return [
             'id' => $this->id,
