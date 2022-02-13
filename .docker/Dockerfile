@@ -5,8 +5,6 @@ FROM laradock/php-fpm:latest-8.0
 ARG user
 ARG uid
 
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-
 RUN set -xe; \
     apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
@@ -17,9 +15,7 @@ RUN set -xe; \
       libzip-dev zip unzip && \
       docker-php-ext-configure zip && \
       docker-php-ext-install zip && \
-      php -m | grep -q 'zip' && \
-      chmod +x /usr/local/bin/install-php-extensions && sync && \
-      install-php-extensions mongodb-stable
+      php -m | grep -q 'zip'
 
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
