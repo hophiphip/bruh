@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\OffersController;
+use App\Models\Insurer;
+use App\Models\Offer;
 use App\Services\Interfaces\SearchServiceInterface;
 use Illuminate\Support\Facades\Route;
 
@@ -15,23 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', OffersController::class . '@index')->name('index');
-Route::get('new', OffersController::class . '@create')->name('new');
 
-Route::get('index', function () {
-   return view('index');
-});
-
-Route::get('clients', function () {
-    return view('clients');
+/* TODO: Add caching */
+Route::get('/', function () {
+    return view('index',[
+        'insurers_count' => Insurer::count(),
+        'offers_count' => Offer::count(),
+    ]);
 });
 
 Route::get('offers', function (SearchServiceInterface $service) {
-    $query = request('q');
-    if ($query === null) {
-        $query = '';
-    }
-
+    $query = request('q') ?? '';
     $offers = $service->search($query);
 
     return view('offers', [
