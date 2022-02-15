@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css?family=Rochester');
+
+.header {
+    display: flex;
+    height: 4rem;
+
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    background-color: #fff;
+}
+
+.header > .logo {
+    flex: none;
+
+    font-family: Rochester, cursive;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 3rem;
+
+    align-items: center;
+    text-align: center;
+
+    color: #DF0EF1;
+}
+
+.header > .padding {
+    flex: 1 1 0;
+}
+
+.header > .for-insurers {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header > .for-insurers > button {
+    background: #DF0EF1;
+    border: 0.5rem solid #DF0EF1;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}

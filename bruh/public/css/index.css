@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+    margin: 0;
+
+    font-family: 'Open Sans', sans-serif;
+    /*background-image: url();*/
+    background-color: #f2f2f2;
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+}
+
+/* main content */
+.main {
+    margin-top: 2.5rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.main * {
+    align-self: center;
+}
+
+/* welcome text */
+.welcome {
+    color: rgb(155, 152, 152);
+}
+
+/* search bar */
+.search {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.search > input {
+    height: 2rem;
+    width: 15rem;
+
+    border: 3px solid #00B4CC;
+    outline: none;
+    color: #9DBFAF;
+
+    padding-left: 0.5rem;
+}
+
+.search > input:focus {
+    color: #00B4CC;
+
+    padding-left: 0.7rem;
+}
+
+.search > button {
+    background: #00B4CC;
+    border: 3px solid #00B4CC;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search > button > svg {
+    width: 2rem;
+    height: 1.75rem;
+}
+
+/* stats */
+.stats-container {
+    display: flex;
+
+    margin-top: 2rem;
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+@media all and (max-width: 500px) {
+    .stats {
+        flex-direction: column;
+    }
+}
+
+.stat {
+    text-align: center;
+
+    padding: 1rem;
+    margin: 0.3rem;
+
+    min-width: 7rem;
+    min-height: 5rem;
+
+    background-color: #fff;
+
+    transition: 0.4s;
+}
+
+@media all and (max-width: 500px) {
+    .stat {
+        padding: 1rem 0 0;
+        margin: 0;
+
+        min-width: 100vw;
+        min-height: 5rem;
+    }
+}
+
+.stat > .title {
+    font-size: 0.7rem;
+}
+
+.stat > .counter {
+    margin-top: 0.7rem;
+    font-size: 1.5rem;
+}
+
+.stat:hover {
+    transform: scale(0.9, 0.9);
+
+    -webkit-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.2);
+    -o-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+@media all and (max-width: 500px) {
+    .stat:hover {
+        transform: none;
+
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -o-box-shadow: none;
+        box-shadow: none;
+    }
+}
