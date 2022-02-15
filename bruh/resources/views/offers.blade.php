@@ -1,42 +1,53 @@
-@extends('templates.index')
+<!doctype html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="utf-8">
 
-@section('content')
-    <div class="container">
-        <div class="card">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-            <div class="card-header">
-                Offers <small>({{ $offers->count() }})</small>
-            </div>
+    <title>Bruh</title>
 
-            <div class="card-body">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-                <form action="/offers" method="get">
-                    <div class="form-group">
-                        <input
-                            type="text"
-                            name="q"
-                            class="form-control"
-                            placeholder="Search..."
-                            value="{{ request('q') }}"
-                        />
-                    </div>
-                </form>
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/offers.css" rel="stylesheet" type="text/css">
+</head>
 
-                <br/>
+<body>
+    @include('shared.header')
 
-                <!-- TODO: Need card of whatever/ and mb. do not submit form page each time but do REST request and update via JS in Vue -->
-                @forelse ($offers as $offer)
-                    <article class="mb-3">
-                        <h4>Case: {{ $offer->getCaseName() }}</h4>
-                        <p class="m-0">Company: {{ $offer->getCompanyName() }}</p>
-                        <h5 class="m-0">{{ $offer->description }}</h5>
-                        <br/>
-                    </article>
-                @empty
-                    <p>No offers found</p>
-                @endforelse
-            </div>
+    <div id="search-container">
+        <form class="search" action="/offers">
+            <input type="text" placeholder="Search.." name="q" value="{{ request('q') }}">
 
-        </div>
+            <button type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </form>
     </div>
-@endsection
+
+    <div id="stats-container">
+        <p>Found</p><h1> {{ $offers->count() }} </h1><p>offers</p>
+    </div>
+
+    <main>
+        @forelse ($offers as $offer)
+            <article class="offer">
+                <h4>Case: {{ $offer->getCaseName() }}</h4>
+                <p>Company: {{ $offer->getCompanyName() }}</p>
+                <h5>{{ $offer->description }}</h5>
+                <br/>
+            </article>
+        @empty
+            <div class="no-offers">
+                <h1>Oops!</h1>
+                <p>Looks like there is no offers for you!</p>
+            </div>
+        @endforelse
+    </main>
+
+</body>
+</html>

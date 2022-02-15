@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f2f2f2;
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+/* search */
+#search-container {
+    margin-top: 1rem;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.search > input {
+    height: 2rem;
+    width: 15rem;
+
+    border: 3px solid #00B4CC;
+    outline: none;
+    color: #9DBFAF;
+
+    padding-left: 0.5rem;
+}
+
+.search > input:focus {
+    color: #00B4CC;
+
+    padding-left: 0.7rem;
+}
+
+.search > button {
+    background: #00B4CC;
+    border: 3px solid #00B4CC;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search > button > svg {
+    width: 2rem;
+    height: 1.75rem;
+}
+
+/* stats */
+#stats-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    margin: 1rem 0 1rem 0;
+}
+
+#stats-container > * {
+    margin: auto 0.5rem auto 0.5rem;
+}
+
+/* main */
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 1rem;
+
+    padding: 1rem 0 1rem 0;
+}
+
+main > * {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+@media all and (max-width: 500px) {
+    main > * {
+        margin-left: 0.1rem;
+        margin-right: 0.1rem;
+    }
+}
+
+/* offer */
+.offer {
+    background: #fff;
+    padding: 0 0.5rem 0 0.5rem;
+}
+
+/* no offers found */
+.no-offers {
+    text-align: center;
+}
+
+.no-offers > h1 {
+    margin: 0.5rem 0 0.5rem 0;
+}
+
+.no-offers > p {
+    color: #2d3748;
+}
