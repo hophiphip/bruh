@@ -93,7 +93,7 @@ docker run -d --name bruh-rabbitmq-local -e RABBITMQ_DEFAULT_USER=${RABBITMQ_USE
 ```shell
 curl -X PUT "https://<ELASTICSEARCH_URL>/<ELASTICSEARCH_INDEX/MODEL_NAME>"
 ```
-In our case index/model(ELASTICSEARCH_INDEX/MODEL_NAME) name is `offers`. (Can be acessed like that: `$model->getSearchIndex()` or `Offer::find(1)->getSearchIndex()`)
+In our case index/model(ELASTICSEARCH_INDEX/MODEL_NAME) name is `offers`. (Can be accessed like that: `$model->getSearchIndex()` or `Offer::find(1)->getSearchIndex()`)
 
 And `ELASTICSEARCH_HOSTS` is set to `ELASTICSEARCH_URL`.
 
