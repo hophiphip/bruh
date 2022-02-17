@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
@@ -18,14 +17,14 @@ class LoginLink extends Mailable
      *
      * @var string $plainToken
      */
-    public string $plainToken;
+    protected string $plainToken;
 
     /**
      * Token expiration date.
      *
      * @var Carbon $expiresAt
      */
-    public Carbon $expiresAt;
+    protected Carbon $expiresAt;
 
     /**
      * Create a new message instance.
