@@ -1,5 +1,5 @@
 # Bruh
-A sample implementation platform for publishing and accessing insurance services.  
+A sample platform implementation for publishing and accessing insurance services.  
 
 ## Try it
 https://bruh-service.herokuapp.com/offers
