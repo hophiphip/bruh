@@ -5,7 +5,7 @@
 
     <div class="padding"></div>
 
-    <a class="for-insurers" href="/insurer">
+    <a class="for-insurers" href="{{ \App\Providers\RouteServiceProvider::INSURER }}">
         <button>For insurers</button>
     </a>
 </header>
