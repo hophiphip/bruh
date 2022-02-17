@@ -1,10 +1,13 @@
 @extends('templates.main', ['title' => 'Login'])
 
 @section('styles')
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
     <link href="/css/login.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
+    @include('shared.header-logo')
+
     <div class="content">
         <div class="center-card">
             @if(!session()->has('success'))
