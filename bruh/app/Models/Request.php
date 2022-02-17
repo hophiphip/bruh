@@ -3,20 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Jenssegers\Mongodb\Eloquent\Model;
-
-/**
- * User submitted request for insurance offer
- */
+use Illuminate\Database\Eloquent\Model;
 
 class Request extends Model
 {
     use HasFactory;
 
     /**
-     * @var string $collection contains collection name
+     * @var string database table name
      */
-    protected $collection = 'request_collection';
+    protected $table = 'requests';
 
 
     /**
@@ -25,5 +21,4 @@ class Request extends Model
     protected $fillable = [
         'email',
     ];
-
 }
