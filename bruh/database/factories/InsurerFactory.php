@@ -18,13 +18,15 @@ class InsurerFactory extends Factory
      *
      * @return array
      */
-    #[ArrayShape(['first_name' => "string", 'last_name' => "string", 'email' => "string", 'company_name' => "string"])]
+    #[ArrayShape(['user_id' => 'integer', 'first_name' => "string", 'last_name' => "string", 'company_name' => "string"])]
     public function definition(): array
     {
         return [
+            /* TODO: Default value needs to be overwritten */
+            'user_id' => 1,
+
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'email' => $this->faker->email(),
             'company_name' => $this->faker->company(),
         ];
     }
