@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OffersController;
 use App\Models\Insurer;
 use App\Models\Offer;
+use App\Providers\RouteServiceProvider;
 use App\Services\Interfaces\SearchServiceInterface;
 use Illuminate\Support\Facades\Route;
 
@@ -19,14 +21,14 @@ use Illuminate\Support\Facades\Route;
 
 
 /* TODO: Add caching */
-Route::get('/', function () {
+Route::get(RouteServiceProvider::HOME, function () {
     return view('index',[
         'insurers_count' => Insurer::count(),
         'offers_count' => Offer::count(),
     ]);
 });
 
-Route::get('offers', function (SearchServiceInterface $service) {
+Route::get(RouteServiceProvider::OFFERS, function (SearchServiceInterface $service) {
     $query = request('q') ?? '';
     $offers = $service->search($query);
 
@@ -34,3 +36,16 @@ Route::get('offers', function (SearchServiceInterface $service) {
         'offers' => $offers,
     ]);
 });
+
+Route::group(['middleware' => ['guest']], function() {
+    Route::get(RouteServiceProvider::LOGIN, [AuthController::class, 'showLogin'])->name('login.show');
+    Route::post(RouteServiceProvider::LOGIN, [AuthController::class, 'login'])->name('login');
+    Route::get(RouteServiceProvider::VERIFY_LOGIN . '/{token}', [AuthController::class, 'verifyLogin'])->name('verify-login');
+});
+
+Route::get(RouteServiceProvider::LOGOUT, [AuthController::class, 'logout'])->name('logout');
+
+/* Only visible for logged-in users */
+Route::get(RouteServiceProvider::INSURER, function () {
+   return view('insurer');
+})->middleware('auth');
