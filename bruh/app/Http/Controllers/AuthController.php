@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
+/* TODO: Code is ugly - fix it. */
 
 class AuthController extends Controller
 {
