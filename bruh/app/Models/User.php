@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\SendEmail;
 use App\Mail\LoginLink;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -84,6 +84,6 @@ class User extends Authenticatable
             'expires_at' => now()->addMinutes($this->tokenLifetimeInMinutes),
         ]);
 
-        Mail::to($this->email)->queue(new LoginLink($plainToken, $token->expires_at));
+        SendEmail::dispatch($this->email, new LoginLink($plainToken, $token->expires_at));
     }
 }
