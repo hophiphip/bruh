@@ -80,6 +80,23 @@ services:
         soft: -1
     cap_add:
       - IPC_LOCK
+
+  rabbitmq:
+    image: rabbitmq:3.9.13-management-alpine
+    container_name: bruh-rabbitmq
+    hostname: rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: "user"
+      RABBITMQ_DEFAULT_PASS: "user"
+    networks:
+      - bruh
+    ports:
+      # The standard AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+
 networks:
   bruh:
     driver: bridge
