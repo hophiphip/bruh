@@ -23,7 +23,7 @@ class CreateInsurersTable extends Migration
 
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('company_name');
+            $table->string('company_name')->unique();
             $table->timestamps();
         });
     }
