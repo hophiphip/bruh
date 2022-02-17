@@ -17,7 +17,42 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/';
+
+    /**
+     * The path for search query page for the application.
+     *
+     * @var string
+     */
+    public const OFFERS = '/offers';
+
+    /**
+     * The path for login verification route for the application.
+     *
+     * @var string
+     */
+    public const VERIFY_LOGIN = '/verify-login';
+
+    /**
+     * The path for the "login" route for the application.
+     *
+     * @var string
+     */
+    public const LOGIN = '/login';
+
+    /**
+     * The path for the "logout" route for the application.
+     *
+     * @var string
+     */
+    public const LOGOUT = "/logout";
+
+    /**
+     * The path for insurer personal panel for the application.
+     *
+     * @var string
+     */
+    public const INSURER = '/insurer';
 
     /**
      * The controller namespace for the application.
