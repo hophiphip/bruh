@@ -2,15 +2,27 @@
 
 namespace App\Models;
 
+use App\Mail\LoginLink;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    public int $tokenLifetimeInMinutes = 15;
+
+    /**
+     * @var string $table user table name
+     */
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +30,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
-        'password',
     ];
 
     /**
@@ -29,7 +39,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -41,4 +50,40 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get authentication session tokens.
+     *
+     * @return HasMany authentication tokens
+     */
+    public function loginTokens(): HasMany
+    {
+        return $this->hasMany(LoginToken::class);
+    }
+
+    /**
+     * Get user insurer instance.
+     *
+     * @return HasOne insurer instance
+     */
+    public function insurer(): HasOne
+    {
+        return $this->hasOne(Insurer::class);
+    }
+
+    /**
+     * Send login link in email.
+     */
+    public function sendLoginLink()
+    {
+        $plainToken = Str::random(32);
+        $tokenHash = hash('sha256', $plainToken);
+
+        $token = $this->loginTokens()->create([
+            'token' => $tokenHash,
+            'expires_at' => now()->addMinutes($this->tokenLifetimeInMinutes),
+        ]);
+
+        Mail::to($this->email)->queue(new LoginLink($plainToken, $token->expires_at));
+    }
 }

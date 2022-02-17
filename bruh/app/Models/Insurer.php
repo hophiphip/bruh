@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Insurer extends Model
 {
@@ -17,7 +19,7 @@ class Insurer extends Model
 
     /**
      * Get insurers' offers.
-     * TODO: This is slooow, and baaad...
+     * TODO: This is slooow, and baaad...or is it?
      *
      * @return HasMany offers
      */
@@ -27,7 +29,17 @@ class Insurer extends Model
     }
 
     /**
+     * Get insurer user instance.
+     *
+     * @return BelongsTo user
+     */
+    public function user(): BelongsTo
+    {
+        return $this->BelongsTo(User::class);
+    }
+
+    /**
      * @var array $fillable fields to be mass-assigned.
      */
-    protected $fillable = ['first_name', 'last_name', 'email', 'company_name'];
+    protected $fillable = ['first_name', 'last_name', 'company_name'];
 }
