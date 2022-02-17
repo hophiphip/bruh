@@ -82,4 +82,11 @@ docker run -d --name bruh-pgsql-db -p 5432:5432 -e POSTGRES_PASSWORD=${POSTGRES_
 ```shell
 docker run -d --name bruh-elastic -e "discovery.type=single-node" -e "bootstrap.memory_lock=true" -e "network.bind_host=0.0.0.0" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" -p 9200:9200 -p 9300:9300 elasticsearch:7.17.0
 ```
+## Creating index in prod Elasticsearch(Bonsai) (Future reference)
+```shell
+curl -X PUT "https://<ELASTICSEARCH_URL>/<ELASTICSEARCH_INDEX/MODEL_NAME>"
+```
+In our case index/model(ELASTICSEARCH_INDEX/MODEL_NAME) name is `offers`. (Can be acessed like that: `$model->getSearchIndex()` or `Offer::find(1)->getSearchIndex()`)
+
+And `ELASTICSEARCH_HOSTS` is set to `ELASTICSEARCH_URL`.
 
