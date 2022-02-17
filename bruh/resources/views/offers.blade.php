@@ -1,24 +1,18 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-<head>
-    <meta charset="utf-8">
+@extends('templates.main', ['title' => 'Search Offers'])
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-    <title>Bruh</title>
-
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+@section('styles')
     <link href="/css/header.css" rel="stylesheet" type="text/css">
     <link href="/css/offers.css" rel="stylesheet" type="text/css">
-</head>
+@endsection
 
-<body>
+
+@section('content')
     @include('shared.header')
 
     <div id="search-container">
-        <form class="search" action="/offers">
+        <form class="search" action="{{ \App\Providers\RouteServiceProvider::OFFERS }}">
+            @csrf
+
             <input type="text" placeholder="Search.." name="q" value="{{ request('q') }}">
 
             <button type="submit">
@@ -48,6 +42,4 @@
             </div>
         @endforelse
     </main>
-
-</body>
-</html>
+@endsection
