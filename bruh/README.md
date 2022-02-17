@@ -9,7 +9,7 @@
 - [NodeJS](https://nodejs.org/en/)
 ## Optional
 - [Elasticsearch](https://www.elastic.co/)
-- [RabbitMQ]()
+- [RabbitMQ](https://www.rabbitmq.com/)
 
 ## ~~Slow~~ Quick start
 Instructions for running the app locally.
