@@ -1,4 +1,4 @@
-@extends('templates.index')
+@extends('old.templates.index')
 
 @section('content')
     <clients-page clients-url="/clients"
