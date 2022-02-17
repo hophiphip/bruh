@@ -1,5 +1,5 @@
 # Bruh
-An online platform for providing easy access to insurance companies services.
+A sample implementation platform for publishing and accessing insurance services.  
 
 ## Try it
 https://bruh-service.herokuapp.com/offers
