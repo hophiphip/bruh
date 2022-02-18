@@ -6,6 +6,7 @@ use App\Models\Insurer;
 use App\Models\Offer;
 use App\Providers\RouteServiceProvider;
 use App\Services\Interfaces\SearchServiceInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,5 +48,10 @@ Route::get(RouteServiceProvider::LOGOUT, [AuthController::class, 'logout'])->nam
 
 /* Only visible for logged-in users */
 Route::get(RouteServiceProvider::INSURER, function () {
-   return view('insurer');
+   $user = Auth::user();
+
+   return view('insurer', [
+       'email' => $user->email,
+       'insurer' => $user->insurer()->get()->first(),
+   ]);
 })->middleware('auth');
