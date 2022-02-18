@@ -82,6 +82,19 @@ services:
     networks:
       - bruh
 
+  mailhog:
+    image: mailhog/mailhog
+    hostname: mailhog
+    container_name: bruh-mailhog-testing
+    logging:
+      # logs not needed
+      driver: 'none'
+    ports:
+      # SMTP server
+      - '1025:1025'
+      # Web UI
+      - '8025:8025'
+
 networks:
   bruh:
     driver: bridge
