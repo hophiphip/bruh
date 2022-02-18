@@ -19,6 +19,8 @@ services:
       - bruh
     depends_on:
       - postgres
+      - elastic
+      - rabbitmq
 
   nginx:
     image: nginx:alpine
@@ -89,12 +91,14 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "user"
       RABBITMQ_DEFAULT_PASS: "user"
+    volumes:
+      - "rabbitmqdata:/var/lib/rabbitmq"
     networks:
       - bruh
     ports:
       # The standard AMQP protocol port
       - '5672:5672'
-      # HTTP management UI
+      # Web UI
       - '15672:15672'
 
 networks:
@@ -107,5 +111,9 @@ volumes:
     external: false
 
   elasticdata:
+    driver: local
+    external: false
+
+  rabbitmqdata:
     driver: local
     external: false
