@@ -10,6 +10,8 @@
 ## Optional
 - [Elasticsearch](https://www.elastic.co/)
 - [RabbitMQ](https://www.rabbitmq.com/)
+## Testing
+- [MailHog](https://github.com/mailhog/MailHog)
 
 ## ~~Slow~~ Quick start
 Instructions for running the app locally.
@@ -88,6 +90,11 @@ docker run -d --name bruh-elastic-local -e "discovery.type=single-node" -e "boot
 ````shell
 docker run -d --name bruh-rabbitmq-local -e RABBITMQ_DEFAULT_USER=${RABBITMQ_USER} -e RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD} -p 5672:5672 -p 15672:15672 rabbitmq:3.9.13-management-alpine
 ````
+
+## Setup local MailHog (for email testing) with 'Docker'
+```shell
+docker run -d --name bruh-mailhog-local -p 8025:8025 -p 1025:1025 mailhog/mailhog
+```
 
 ## Creating index in prod Elasticsearch(Bonsai) (Future reference)
 ```shell
