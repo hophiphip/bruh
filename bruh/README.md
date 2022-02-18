@@ -91,9 +91,14 @@ docker run -d --name bruh-elastic-local -e "discovery.type=single-node" -e "boot
 docker run -d --name bruh-rabbitmq-local -e RABBITMQ_DEFAULT_USER=${RABBITMQ_USER} -e RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD} -p 5672:5672 -p 15672:15672 rabbitmq:3.9.13-management-alpine
 ````
 
-## Setup local MailHog (for email testing) with 'Docker'
+## Setup local MailHog (for email testing) with `Docker`
 ```shell
 docker run -d --name bruh-mailhog-local -p 8025:8025 -p 1025:1025 mailhog/mailhog
+```
+
+## Setup local queue consumer with `Docker` (execute this command in current directory)
+```shell
+docker run -d --name bruh-worker-local --network host -v `pwd`:/var/www/ -w /var/www/ php:8.0-alpine php artisan queue:work
 ```
 
 ## Creating index in prod Elasticsearch(Bonsai) (Future reference)
