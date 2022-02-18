@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-
+  # Main laravel application
   app:
     build:
       args:
@@ -10,6 +10,7 @@ services:
       context: ./
       dockerfile: ./.docker/Dockerfile
     image: bruh
+    hostname: app
     container_name: bruh-app
     restart: unless-stopped
     working_dir: /var/www/
@@ -21,9 +22,36 @@ services:
       - postgres
       - elastic
       - rabbitmq
+    healthcheck:
+      # Check if FRM port is open for connections.
+      # With netstat:
+      # test: ["CMD-SHELL", "netstat -an | grep -q -F \":9000\""]
+      # With PHP:
+      test: [ "CMD-SHELL", "php -r '$$c = @fsockopen(\"localhost\", 9000); if (is_resource($$c)) { fwrite(STDOUT, \"HEALTH CHECK OK\"); fclose($$c); exit(0); } else { fwrite(STDERR, \"HEALTH CHECK FAIL\"); exit(1); }'" ]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
 
+  # Queue worker
+  worker:
+    image: php:8.0-alpine
+    hostname: worker
+    container_name: bruh-worker
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./bruh/:/var/www
+    networks:
+      - bruh
+    depends_on:
+      - app
+    command: php artisan queue:work
+
+  # Nginx proxy
   nginx:
     image: nginx:alpine
+    hostname: nginx
     container_name: bruh-nginx
     restart: unless-stopped
     ports:
@@ -36,6 +64,7 @@ services:
     networks:
       - bruh
 
+  # Main postgreSQL DB
   postgres:
     image: postgres:alpine
     container_name: bruh-postgres
@@ -58,6 +87,7 @@ services:
         timeout: 5s
         interval: 10s
 
+  # Search index engine
   elastic:
     image: elasticsearch:7.17.0
     container_name: bruh-elastic
@@ -83,6 +113,7 @@ services:
     cap_add:
       - IPC_LOCK
 
+  # Queue engine
   rabbitmq:
     image: rabbitmq:3.9.13-management-alpine
     container_name: bruh-rabbitmq
