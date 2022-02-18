@@ -1,6 +1,8 @@
 @extends('templates.main', ['title' => 'Bruh'])
 
 @section('styles')
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+
     <style>
         .content {
             text-align: center;
@@ -9,8 +11,16 @@
 @endsection
 
 @section('content')
+    @include('shared.header-logo')
+
     <div class="content">
-        <h1>Logged in as {{ \Illuminate\Support\Facades\Auth::user()->email }}</h1>
-        <a href="{{ \App\Providers\RouteServiceProvider::LOGOUT }}">Logout</a>
+        <h1>Logged in as {{ $email }} - {{ $insurer->company_name }}</h1>
+
+
+        <a href="{{ \App\Providers\RouteServiceProvider::LOGOUT }}">
+            <button>
+                Logout
+            </button>
+        </a>
     </div>
 @endsection
