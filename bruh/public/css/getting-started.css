@@ -1,0 +1,129 @@
+:root {
+    --body-bg-color: #f2f2f2;
+    --separator-bg-color: darkgrey;
+
+    --content-bg-color: #fff;
+
+    --button-color: #00B4CC;
+    --button-text-color: #fff;
+    --button-hover-color: #00C4DD;
+}
+
+body {
+    margin: 0;
+
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--body-bg-color);
+}
+
+a { text-decoration: none; }
+p { margin: 0; }
+
+.title-contents {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 20rem;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 2rem;
+    background: var(--content-bg-color);
+}
+
+@media all and (max-width: 680px) {
+    .title-contents {
+        width: unset;
+        background: unset;
+        margin-top: 3.5rem;
+    }
+}
+
+.centered {
+    height: 80vh;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    padding: 3rem 1rem 3rem 1rem;
+    height: 10rem;
+    background-color: var(--content-bg-color);
+}
+
+@media all and (max-width: 680px) {
+    .content {
+        padding-top: 3rem;
+        height: unset;
+        flex-direction: column;
+    }
+
+    .content > * {
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+    }
+}
+
+.separator-line {
+    border-left: 0.15rem solid var(--separator-bg-color);
+    border-image: linear-gradient(to bottom, var(--content-bg-color) 1%, var(--separator-bg-color) 50%, var(--content-bg-color) 100%)
+    0 100% 0 100%/0 3px 0 3px stretch;
+
+    height: 100%;
+}
+
+@media all and (max-width: 680px) {
+    .separator-line {
+        border-top: 0.15rem solid transparent;
+        border-image: linear-gradient(to left, var(--content-bg-color) 1%, var(--separator-bg-color) 50%, var(--content-bg-color) 100%)
+        100% 0 100% 0/3px 0 3px 0 stretch;
+
+        width: 100%;
+    }
+}
+
+.on-breakpoint {
+    display: none;
+}
+
+@media all and (max-width: 680px) {
+    .on-breakpoint {
+        display: block;
+    }
+}
+
+.submit-button {
+    margin-top: 0.5rem;
+
+    height: 2.5rem;
+    width: 15.7rem;
+
+    border: none;
+    text-align: center;
+    background: var(--button-color);
+    color: var(--button-text-color);
+}
+
+.submit-button:hover {
+    background: var(--button-hover-color);
+}
+
+.centered-tile {
+    width: 20rem;
+    text-align: center;
+}
+
+.centered-tile > p {
+    height: 4rem;
+}
+
+@media all and (max-width: 680px) {
+    .centered-tile {
+        height: 7rem;
+    }
+}
