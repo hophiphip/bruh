@@ -55,6 +55,20 @@ class RouteServiceProvider extends ServiceProvider
     public const INSURER = '/insurer';
 
     /**
+     * The path for sign up page.
+     *
+     * @var string
+     */
+    public const SIGN_UP = '/sign-up';
+
+    /**
+     * The path for sign in / sign up page.
+     *
+     * @var string
+     */
+    public const GETTING_STARTED = '/getting-started';
+
+    /**
      * The controller namespace for the application.
      *
      * When present, controller route declarations will automatically be prefixed with this namespace.
