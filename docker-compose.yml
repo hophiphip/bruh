@@ -35,7 +35,13 @@ services:
 
   # Queue worker
   worker:
-    image: php:8.0-alpine
+    build:
+      args:
+        user: worker
+        uid: 1000
+      context: ./
+      dockerfile: ./.docker/worker/Dockerfile
+    image: worker
     hostname: worker
     container_name: bruh-worker
     restart: unless-stopped
@@ -45,8 +51,7 @@ services:
     networks:
       - bruh
     depends_on:
-      - app
-    command: php artisan queue:work
+      - rabbitmq
 
   # Nginx proxy
   nginx:
@@ -117,7 +122,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.9.13-management-alpine
     container_name: bruh-rabbitmq
-    hostname: rabbitmq
+    hostname: '${RABBITMQ_HOST}'
     restart: unless-stopped
     environment:
       RABBITMQ_DEFAULT_USER: "user"
