@@ -7,6 +7,10 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 
+    -webkit-box-shadow: 0 0 9px 3px rgba(41,41,41,.05);
+    -moz-box-shadow: 0 0 9px 3px rgba(41,41,41,.05);
+    box-shadow: 0 0 9px 3px rgba(41,41,41,.05);
+
     background-color: #fff;
 }
 
@@ -41,4 +45,38 @@
     text-align: center;
     color: #fff;
     cursor: pointer;
+}
+
+.header > .for-log-in {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    margin-right: 1rem;
+}
+
+.header > .for-log-in > button {
+    background: transparent;
+
+    border: 0.2rem solid #DF0EF1;
+    border-image: linear-gradient(to right, #00B4CC, #DF0EF1) 1;
+
+    background: linear-gradient(to right, #00B4CC, #DF0EF1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    text-align: center;
+    color: #DF0EF1;
+    cursor: pointer;
+
+    height: 2.313rem;
+    width: 6.475rem;
+}
+
+.header > .for-log-in > button:hover {
+    border-image: unset;
+    background: unset;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
 }
