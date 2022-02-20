@@ -5,6 +5,7 @@ FROM laradock/php-fpm:latest-8.0
 ARG user
 ARG uid
 
+# TODO: I just noticed, but it is actually a fucking Ubuntu image
 RUN set -xe; \
     apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
@@ -15,8 +16,8 @@ RUN set -xe; \
       libzip-dev zip unzip && \
       docker-php-ext-configure zip && \
       docker-php-ext-install zip && \
-      php -m | grep -q 'zip'
-
+      php -m | grep -q 'zip' && \
+      docker-php-ext-install sockets
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
