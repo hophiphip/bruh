@@ -4,8 +4,13 @@ body {
     margin: 0;
 
     font-family: 'Open Sans', sans-serif;
-    /*background-image: url();*/
     background-color: #f2f2f2;
+}
+
+@media all and (max-width: 500px) {
+    body {
+        background-color: #fff;
+    }
 }
 
 a {
@@ -31,6 +36,12 @@ p {
 /* welcome text */
 .welcome {
     color: rgb(155, 152, 152);
+}
+
+@media all and (max-width: 500px) {
+    .welcome {
+        font-size: 1.7rem;
+    }
 }
 
 /* search bar */
