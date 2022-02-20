@@ -9,7 +9,7 @@
     @include('shared.header')
 
     <main class="main">
-        <h1 class="welcome">Some text</h1>
+        <h1 class="welcome">Specify your insurance case</h1>
 
         <form class="search" action="{{ \App\Providers\RouteServiceProvider::OFFERS }}">
             @csrf
