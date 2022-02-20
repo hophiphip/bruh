@@ -42,6 +42,10 @@ Route::group(['middleware' => ['guest']], function() {
     Route::get(RouteServiceProvider::LOGIN, [AuthController::class, 'showLogin'])->name('login.show');
     Route::post(RouteServiceProvider::LOGIN, [AuthController::class, 'login'])->name('login');
     Route::get(RouteServiceProvider::VERIFY_LOGIN . '/{token}', [AuthController::class, 'verifyLogin'])->name('verify-login');
+
+    Route::get(RouteServiceProvider::GETTING_STARTED, function () {
+        return view('auth.getting-started');
+    })->name('getting-started');
 });
 
 Route::get(RouteServiceProvider::LOGOUT, [AuthController::class, 'logout'])->name('logout');
