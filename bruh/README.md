@@ -101,6 +101,16 @@ docker run -d --name bruh-mailhog-local -p 8025:8025 -p 1025:1025 mailhog/mailho
 docker run -d --name bruh-worker-local --network host -v `pwd`:/var/www/ -w /var/www/ php:8.0-alpine php artisan queue:work
 ```
 
+## Error: Install or enable PHP's sockets extension.
+In `php.ini` change this line
+```text
+;extension=sockets
+```
+To this
+```text
+extension=sockets
+```
+
 ## Creating index in prod Elasticsearch(Bonsai) (Future reference)
 ```shell
 curl -X PUT "https://<ELASTICSEARCH_URL>/<ELASTICSEARCH_INDEX/MODEL_NAME>"
