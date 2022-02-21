@@ -24,17 +24,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN groupadd -g $uid $user
 RUN useradd -u $uid -ms /bin/bash -g $user $user
 
-COPY ./bruh /var/www
+COPY --chown=$user:$user ./bruh /var/www
 RUN rm -rf /var/www/.env
-COPY .env /var/www/.env
+COPY --chown=$user:$user .env /var/www/.env
 
-COPY --chown=$user:$user bruh /var/www
 WORKDIR /var/www
 
 USER $user
 
-# Add later / test time diff
-#  php artisan migrate:refresh --seed
 CMD ["sh", "-c", "composer install && php artisan key:generate && php-fpm"]
 
 EXPOSE 9000
