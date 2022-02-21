@@ -3,6 +3,9 @@ FROM php:8.0-alpine
 ARG user
 ARG uid
 
+ENV RABBITMQ_HOST localhost
+ENV RABBITMQ_PORT 5672
+
 ENV PHP_DEPS \
     util-linux \
     gnupg \
@@ -32,12 +35,16 @@ RUN set -xe; \
 RUN addgroup -g $uid $user
 RUN adduser -u $uid -s /bin/bash -h /home/$user -G $user -D $user
 
-COPY ./bruh /var/www
+COPY --chown=$user:$user ./bruh /var/www
 RUN rm -rf /var/www/.env
-COPY .env /var/www/.env
+COPY --chown=$user:$user .env /var/www/.env
 
-COPY --chown=$user:$user bruh /var/www
+COPY --chown=$user:$user .docker/scripts/wait.sh /var/www/wait.sh
+RUN chmod +x /var/www/wait.sh
+
 WORKDIR /var/www
 
 USER $user
-CMD ["/bin/sh", "-c", "composer install && php artisan queue:work"]
+
+# Install dependenices with composer -> Wait for RabbitMQ to start -> Start listening for the queue
+CMD ["/bin/sh", "-c", "composer install && timeout 60 ./wait.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} && php artisan queue:work"]
