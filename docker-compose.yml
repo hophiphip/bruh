@@ -14,8 +14,6 @@ services:
     container_name: bruh-app
     restart: unless-stopped
     working_dir: /var/www/
-    volumes:
-      - ./bruh/:/var/www
     networks:
       - bruh
     depends_on:
@@ -46,8 +44,9 @@ services:
     container_name: bruh-worker
     restart: unless-stopped
     working_dir: /var/www
-    volumes:
-      - ./bruh/:/var/www
+    environment:
+      RABBITMQ_HOST: '${RABBITMQ_HOST}'
+      RABBITMQ_PORT: '${RABBITMQ_PORT}'
     networks:
       - bruh
     depends_on:
