@@ -6,20 +6,24 @@ ARG uid
 ENV RABBITMQ_HOST localhost
 ENV RABBITMQ_PORT 5672
 
-ENV PHP_DEPS \
+# TODO: Remove unnecessay deps.
+ENV PHP_DEPS_TEMP \
     util-linux \
-    gnupg \
-    git \
-    zlib \
-    zlib-dev \
-    unzip \
-    curl
+    gnupg
+
+ENV PHP_DEPS \
+    postgresql-dev \
+    libzip-dev \
+    zip
 
 # NOTE: Workaround for issue: https://github.com/docker-library/php/issues/1245
 ENV CFLAGS="$CFLAGS -D_GNU_SOURCE"
 
 RUN set -xe; \
-    apk add --update --no-cache --virtual .build-deps ${PHP_DEPS}; \
+    # Install temporary dependencies
+    apk add --update --no-cache --virtual .build-deps ${PHP_DEPS_TEMP}; \
+    # Install persistent dependencies
+    apk add --no-cache ${PHP_DEPS}; \
     # Ensure that channel definitions are up-to-date
     pecl channel-update pecl.php.net; \
     # Install composer
@@ -28,7 +32,10 @@ RUN set -xe; \
     rm -rf composer-setup.php; \
     # PHP extensions
     docker-php-ext-configure sockets; \
+    docker-php-ext-configure zip; \
+    docker-php-ext-install zip; \
     docker-php-ext-install sockets; \
+    docker-php-ext-install pdo pdo_pgsql; \
     # Cleanup
     apk del .build-deps
 
