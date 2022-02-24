@@ -46,9 +46,9 @@ class LoginLink extends Mailable
     {
         return $this->subject(config('app.name') . ' Login Verification')
             ->markdown('emails.login-link', [
-                'url' => URL::temporarySignedRoute('verify-login', $this->expiresAt,
-                    [ 'token' => $this->plainToken, ]
-                ),
+                'url' => URL::temporarySignedRoute('verify-login', $this->expiresAt, [
+                    'token' => $this->plainToken,
+                ]),
         ]);
     }
 }
