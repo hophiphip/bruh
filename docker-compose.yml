@@ -1,5 +1,7 @@
 version: "3.7"
 
+# TODO: Share .env between `worker` ans `app`. `worker` must wait for the app to start and generate app key
+
 services:
   # Main laravel application
   app:
@@ -14,6 +16,8 @@ services:
     container_name: bruh-app
     restart: unless-stopped
     working_dir: /var/www/
+    volumes:
+      - .env:/var/.env
     environment:
       POSTGRES_DB_HOST: '${POSTGRES_DB_HOST}'
       POSTGRES_DB_PORT: '${POSTGRES_DB_PORT}'
@@ -49,12 +53,15 @@ services:
     container_name: bruh-worker
     restart: unless-stopped
     working_dir: /var/www
+    volumes:
+      - .env:/var/.env
     environment:
       RABBITMQ_HOST: '${RABBITMQ_HOST}'
       RABBITMQ_PORT: '${RABBITMQ_PORT}'
     networks:
       - bruh
     depends_on:
+      # Worker and app both wait for RabbitMQ, and app initializes APP_KEY before trying to connect to RabbitMQ - thus no need for worker to wait for an app
       - rabbitmq
 
   # Nginx proxy
