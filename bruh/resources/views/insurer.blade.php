@@ -4,6 +4,10 @@
     <link href="/css/header.css" rel="stylesheet" type="text/css">
 
     <style>
+        body {
+            margin: 0;
+        }
+
         .content {
             text-align: center;
         }

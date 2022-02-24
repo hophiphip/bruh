@@ -17,22 +17,7 @@ Start the app
 docker-compose up -d
 ```
 
-Run migrations
-```shell
-docker-compose exec app php artisan migrate:fresh
-```
-
-Seed the database
-```shell
-docker-compose exec app php artisan db:seed
-```
-
-Reindex elasticsearch
-```shell
-docker-compose exec app php artisan search:reindex
-```
-
-Go to `localhost:8000/offers` and try searching for offers.
+## Possible issues
 
 ---
 **NOTE**    `Docker` memory cap might be exceeded because of `Elasticsearch`.

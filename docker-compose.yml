@@ -1,7 +1,5 @@
 version: "3.7"
 
-# TODO: Share .env between `worker` ans `app`. `worker` must wait for the app to start and generate app key
-
 services:
   # Main laravel application
   app:
@@ -17,8 +15,10 @@ services:
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
-      - .env:/var/.env
+      - .env:/var/www/.env
+      - appdata:/var/www/
     environment:
+      ELASTICSEARCH_HOSTS: '${ELASTICSEARCH_HOSTS}'
       POSTGRES_DB_HOST: '${POSTGRES_DB_HOST}'
       POSTGRES_DB_PORT: '${POSTGRES_DB_PORT}'
       RABBITMQ_HOST: '${RABBITMQ_HOST}'
@@ -52,17 +52,24 @@ services:
     hostname: worker
     container_name: bruh-worker
     restart: unless-stopped
-    working_dir: /var/www
+    working_dir: /var/www/
     volumes:
-      - .env:/var/.env
+      - .env:/var/www/.env
+      - type: volume
+        source: appdata
+        target: /var/www/
+        volume:
+          nocopy: true
     environment:
       RABBITMQ_HOST: '${RABBITMQ_HOST}'
       RABBITMQ_PORT: '${RABBITMQ_PORT}'
+      APP_HOST: 'app'
+      APP_PORT: 9000
     networks:
       - bruh
     depends_on:
-      # Worker and app both wait for RabbitMQ, and app initializes APP_KEY before trying to connect to RabbitMQ - thus no need for worker to wait for an app
       - rabbitmq
+      - app
 
   # Nginx proxy
   nginx:
@@ -73,7 +80,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./bruh/:/var/www
+      - ./bruh/:/var/www/
       - ./.docker/nginx/:/etc/nginx/conf.d/
     depends_on:
       - app
@@ -92,7 +99,7 @@ services:
       POSTGRES_USER: '${POSTGRES_DB_USERNAME}'
       POSTGRES_DB: '${POSTGRES_DB_DATABASE}'
     volumes:
-      - 'postgresdata:/var/lib/postgresql/data'
+      - postgresdata:/var/lib/postgresql/data
     networks:
       - bruh
     ports:
@@ -116,7 +123,7 @@ services:
       - network.bind_host=0.0.0.0
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
     volumes:
-      - 'elasticdata:/usr/share/elasticsearch/data'
+      - elasticdata:/usr/share/elasticsearch/data
     networks:
       - bruh
     ports:
@@ -139,7 +146,7 @@ services:
       RABBITMQ_DEFAULT_USER: "user"
       RABBITMQ_DEFAULT_PASS: "user"
     volumes:
-      - "rabbitmqdata:/var/lib/rabbitmq"
+      - rabbitmqdata:/var/lib/rabbitmq
     networks:
       - bruh
     ports:
@@ -164,3 +171,5 @@ volumes:
   rabbitmqdata:
     driver: local
     external: false
+
+  appdata: {}

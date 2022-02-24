@@ -6,7 +6,9 @@ ARG uid
 ENV RABBITMQ_HOST localhost
 ENV RABBITMQ_PORT 5672
 
-# TODO: Remove unnecessay deps.
+ENV APP_HOST localhost
+ENV APP_PORT 8080
+
 ENV PHP_DEPS_TEMP \
     util-linux \
     gnupg
@@ -18,6 +20,16 @@ ENV PHP_DEPS \
 
 # NOTE: Workaround for issue: https://github.com/docker-library/php/issues/1245
 ENV CFLAGS="$CFLAGS -D_GNU_SOURCE"
+
+# Setup user/group
+RUN addgroup -g $uid $user
+RUN adduser -u $uid -s /bin/bash -h /home/$user -G $user -D $user
+
+# Project folder is mounter to `app` container project folder
+
+# Add wait script
+COPY --chown=$user:$user .docker/scripts/wait.sh /var/wait.sh
+RUN chmod +x /var/wait.sh
 
 RUN set -xe; \
     # Install temporary dependencies
@@ -33,25 +45,15 @@ RUN set -xe; \
     # PHP extensions
     docker-php-ext-configure sockets; \
     docker-php-ext-configure zip; \
-    docker-php-ext-install zip; \
-    docker-php-ext-install sockets; \
-    docker-php-ext-install pdo pdo_pgsql; \
+    docker-php-ext-install zip sockets pdo pdo_pgsql; \
     # Cleanup
     apk del .build-deps
 
-RUN addgroup -g $uid $user
-RUN adduser -u $uid -s /bin/bash -h /home/$user -G $user -D $user
-
-COPY --chown=$user:$user ./bruh /var/www
-RUN rm -rf /var/www/.env
-COPY --chown=$user:$user .env /var/www/.env
-
-COPY --chown=$user:$user .docker/scripts/wait.sh /var/www/wait.sh
-RUN chmod +x /var/www/wait.sh
-
 WORKDIR /var/www
+
+# As `app` container project folder is mounted, no need to install dependencies second time
 
 USER $user
 
-# Install dependenices with composer -> Wait for RabbitMQ to start -> Start listening for the queue
-CMD ["/bin/sh", "-c", "composer install && timeout 60 ./wait.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} && php artisan queue:work"]
+# Setup project folder contetns -> Wait for RabbitMQ to start -> Start listening for the queue
+CMD ["/bin/sh", "-c", "timeout 60 /var/wait.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} && php artisan queue:work"]

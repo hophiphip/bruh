@@ -41,7 +41,6 @@ class DatabaseSeeder extends Seeder
             Insurer::factory()->count(1)->create()->each(function ($insurer) use ($user) {
                 $offers = Offer::factory()->count(self::OFFER_SEED_COUNT)->make();
 
-                /* TODO: User::find(1)->insurers() returns nothing ? */
                 $insurer->getOffers()->saveMany($offers);
                 $user->insurer()->save($insurer);
             });

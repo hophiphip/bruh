@@ -111,6 +111,22 @@ To this
 extension=sockets
 ```
 
+## Docker compose helpful commands
+Rerun migrations
+```shell
+docker-compose exec app php artisan migrate:fresh
+```
+
+Seed the database
+```shell
+docker-compose exec app php artisan db:seed
+```
+
+Reindex Elasticsearch
+```shell
+docker-compose exec app php artisan search:reindex
+```
+
 ## Creating index in prod Elasticsearch(Bonsai) (Future reference)
 ```shell
 curl -X PUT "https://<ELASTICSEARCH_URL>/<ELASTICSEARCH_INDEX/MODEL_NAME>"
