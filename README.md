@@ -2,8 +2,7 @@
 A sample platform implementation for publishing and accessing insurance services.  
 
 ## Try it
-https://bruh-service.herokuapp.com/offers
-(Only search capabilities for now)
+https://bruh-service.herokuapp.com/
 
 ## Requirements
 - [Docker](https://www.docker.com/)
