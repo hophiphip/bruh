@@ -101,6 +101,60 @@ main > * {
     padding: 0 0.5rem 0 0.5rem;
 }
 
+.case-line {
+   display: flex;
+}
+
+.case-line > h4 {
+    padding: 0.15rem 0.5rem 0.15rem 0.5rem;
+}
+
+.case-name {
+    margin-left: 0.6rem;
+    background: #9dacc5;
+    border-radius: 9999px;
+}
+
+.company-line {
+    display: flex;
+}
+
+.company-line > svg {
+    color: #00B4CC;
+    margin-left: 0.1rem;
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.request-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding-right: 1rem;
+}
+
+.request-button-container > a {
+    border: 1px solid #00B4CC;
+    background: none;
+    text-align: center;
+    height: 2rem;
+    width: 4rem;
+}
+
+.request-button-container > a:hover {
+    border: 1px solid #DF0EF1;
+}
+
+.request-button-container > a > svg {
+    color: #00B4CC;
+    width: 2rem;
+    height: 2rem;
+}
+
+.request-button-container > a > svg:hover {
+    color: #DF0EF1;
+}
+
 /* no offers found */
 .no-offers {
     text-align: center;
