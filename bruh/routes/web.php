@@ -1,12 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OffersController;
-use App\Models\Insurer;
-use App\Models\Offer;
+use App\Http\Controllers\InsurerController;
+use App\Http\Controllers\WebController;
 use App\Providers\RouteServiceProvider;
-use App\Services\Interfaces\SearchServiceInterface;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,42 +17,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-/* TODO: Add caching */
-Route::get(RouteServiceProvider::HOME, function () {
-    return view('index',[
-        'insurers_count' => Insurer::count(),
-        'offers_count' => Offer::count(),
-    ]);
-});
-
-Route::get(RouteServiceProvider::OFFERS, function (SearchServiceInterface $service) {
-    $query = request('q') ?? '';
-    $offers = $service->search($query);
-
-    return view('offers', [
-        'offers' => $offers,
-    ]);
-});
+Route::get(RouteServiceProvider::HOME, [WebController::class, 'home']);
+Route::get(RouteServiceProvider::OFFERS, [WebController::class, 'offers'])->name('offers');
 
 Route::group(['middleware' => ['guest']], function() {
+    Route::get(RouteServiceProvider::GETTING_STARTED, [WebController::class, 'gettingStarted'])->name('getting-started');
+
     Route::get(RouteServiceProvider::LOGIN, [AuthController::class, 'showLogin'])->name('login.show');
-    Route::post(RouteServiceProvider::LOGIN, [AuthController::class, 'login'])->name('login');
     Route::get(RouteServiceProvider::VERIFY_LOGIN . '/{token}', [AuthController::class, 'verifyLogin'])->name('verify-login');
 
-    Route::get(RouteServiceProvider::GETTING_STARTED, function () {
-        return view('auth.getting-started');
-    })->name('getting-started');
+    Route::get(RouteServiceProvider::SIGN_UP, [AuthController::class, 'showSignUp'])->name('signUp.show');
+
+    Route::group(['middleware' => ['xss.sanitize']], function () {
+        Route::post(RouteServiceProvider::LOGIN, [AuthController::class, 'login'])->name('login');
+        Route::post(RouteServiceProvider::SIGN_UP, [AuthController::class, 'signUp'])->name('signUp');
+    });
 });
 
-Route::get(RouteServiceProvider::LOGOUT, [AuthController::class, 'logout'])->name('logout');
-
 /* Only visible for logged-in users */
-Route::get(RouteServiceProvider::INSURER, function () {
-   $user = Auth::user();
-
-   return view('insurer', [
-       'email' => $user->email,
-       'insurer' => $user->insurer()->get()->first(),
-   ]);
-})->middleware('auth');
+Route::get(RouteServiceProvider::LOGOUT, [AuthController::class, 'logout'])->name('logout');
+Route::get(RouteServiceProvider::INSURER, [InsurerController::class, 'insurer'])->middleware('auth')->name('insurer');
