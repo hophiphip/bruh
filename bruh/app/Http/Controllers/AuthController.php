@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Insurer;
 use App\Models\LoginToken;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -41,33 +42,36 @@ class AuthController extends Controller
     {
         $token = LoginToken::whereToken(hash('sha256', $token))->firstOrFail();
 
-        // TODO: Fails when behind a proxy -> the issue is different APP_KEY value -> need to share .env file
         abort_unless($request->hasValidSignature(), 403, "Provided link is invalid");
         abort_unless($token->isValid(), 401, "Provided link has expired");
 
         $token->consume();
+
+        $token->user->verify();
 
         Auth::login($token->user);
 
         return redirect(RouteServiceProvider::INSURER);
     }
 
-    /* TODO: Look at Vercel routes + 3D globe like in GitHub */
-    public function showSignUp()
+    public function showSignUp(): Factory|View|Application
     {
-        // ...
+        return view('auth.sign-up');
     }
 
-    public function signUp(Request $request)
+    public function signUp(Request $request): Redirector|Application|RedirectResponse
     {
         $submit = $request->validate([
-            'email' => [ 'required', 'email', 'exists:users,email'],
-            'company_name' => [ 'required' ],
-            'first_name' => [ 'required' ],
-            'last_name' => [ 'required' ],
+            'email' => [ 'required', 'email', 'unique:'. app(User::class)->getTable() . ',email'],
+            'company_name' => [ 'required', 'max:255', 'unique:' . app(Insurer::class)->getTable() . ',company_name' ],
+
+            'first_name' => [ 'required', 'max:255' ],
+            'last_name' => [ 'required', 'max:255' ],
         ]);
 
-        // ...
+        session()->flash('success', true);
+
+        return redirect(RouteServiceProvider::SIGN_UP);
     }
 
     public function logout(): Redirector|Application|RedirectResponse
