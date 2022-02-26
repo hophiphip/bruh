@@ -9,17 +9,26 @@ use Illuminate\Support\Facades\Schema;
 class CreateLoginTokensTable extends Migration
 {
     /**
+     * Migration table name.
+     *
+     * @var string
+     */
+    protected string $tableName = '';
+
+    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create(app(LoginToken::class)->getTable(), function (Blueprint $table) {
+        $this->tableName = app(LoginToken::class)->getTable();
+
+        Schema::create($this->tableName, function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on(app(User::class)->getTable())->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on($this->tableName)->cascadeOnDelete();
 
             $table->string('token')->unique();
             $table->timestamp('consumed_at')->nullable();
@@ -35,6 +44,6 @@ class CreateLoginTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(app(LoginToken::class)->getTable());
+        Schema::dropIfExists($this->tableName);
     }
 }
