@@ -19,7 +19,6 @@ class Insurer extends Model
 
     /**
      * Get insurers' offers.
-     * TODO: This is slooow, and baaad...or is it?
      *
      * @return HasMany offers
      */
