@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Jobs\SendEmail;
 use App\Mail\LoginLink;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -31,6 +30,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'email',
+        'email_verified_at',
     ];
 
     /**
@@ -69,6 +69,26 @@ class User extends Authenticatable
     public function insurer(): HasOne
     {
         return $this->hasOne(Insurer::class);
+    }
+
+    /**
+     * Get user verification status.
+     *
+     * @return bool
+     */
+    public function isVerified(): bool
+    {
+        return $this->email_verified_at != null;
+    }
+
+    /**
+     * Verify user email.
+     */
+    public function verify()
+    {
+        if (!$this->isVerified()) {
+            $this->update(['email_verified_at' => now()]);
+        }
     }
 
     /**
