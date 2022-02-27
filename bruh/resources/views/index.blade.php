@@ -36,8 +36,8 @@
                 </div>
 
                 <div class="stat">
-                    <div class="title">Requests count</div>
-                    <p class="counter">42</p>
+                    <div class="title">Insurance requests count</div>
+                    <p class="counter">{{ $requests_count }}</p>
                 </div>
             </div>
         </div>

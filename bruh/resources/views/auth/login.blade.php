@@ -31,7 +31,7 @@
                     <!-- CAPTCHA -->
                     <div class="captcha-field">
                         <div class="captcha-title">
-                            <h3>Captcha</h3>
+                            <h4>Solve captcha to continue</h4>
                         </div>
 
                         <div class="captcha">
