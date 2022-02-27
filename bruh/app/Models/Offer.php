@@ -85,7 +85,7 @@ class Offer extends Model
      */
     public function companyName(): string
     {
-        return $this->insurer()->get()->first()->company_name;
+        return $this->insurer()->firstOrFail()->company_name;
     }
 
     public function requests(): HasMany
