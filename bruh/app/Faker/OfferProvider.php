@@ -77,7 +77,7 @@ class OfferProvider extends Base
             $issueCaseId = $this->issueCase();
         }
 
-        $caseName = Offer::getCaseNameById($issueCaseId);
+        $caseName = Offer::caseNameById($issueCaseId);
 
         return self::$descriptionValues[$caseName][array_rand(self::$descriptionValues[$caseName], 1)];
     }
