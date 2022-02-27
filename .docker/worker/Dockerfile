@@ -45,7 +45,8 @@ RUN set -xe; \
     # PHP extensions
     docker-php-ext-configure sockets; \
     docker-php-ext-configure zip; \
-    docker-php-ext-install zip sockets pdo pdo_pgsql; \
+    docker-php-ext-configure gd; \
+    docker-php-ext-install gd zip sockets pdo pdo_pgsql; \
     # Cleanup
     apk del .build-deps
 
