@@ -51,8 +51,46 @@ p { margin: 0; }
     color: #DF0EF1;
 }
 
+.captcha-field {
+    margin-top: 1rem;
+}
+
+.captcha {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.captcha-title {
+    text-align: left;
+}
+
+.captcha-title > h3 {
+    margin: 0.1rem 0 0.1rem 0;
+}
+
+#captcha-span {
+    cursor: pointer;
+    height: 2rem;
+}
+
+#captcha-input {
+    display: block;
+
+    font-size: 1rem;
+
+    height: 3rem;
+    width: 7rem;
+
+    border: 1px solid #00B4CC;
+    outline: none;
+    color: #9DBFAF;
+
+    padding-left: 0.5rem;
+}
+
 .submit-button {
-    margin-top: 0.5rem;
+    margin-top: 2rem;
 
     height: 2.5rem;
     width: 15.7rem;
