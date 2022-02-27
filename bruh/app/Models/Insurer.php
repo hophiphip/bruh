@@ -22,7 +22,7 @@ class Insurer extends Model
      *
      * @return HasMany offers
      */
-    public function getOffers(): HasMany
+    public function offers(): HasMany
     {
         return $this->hasMany(Offer::class);
     }

@@ -6,6 +6,7 @@ use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use JetBrains\PhpStorm\ArrayShape;
 
 class Offer extends Model
@@ -40,7 +41,7 @@ class Offer extends Model
      * @param string $case case name
      * @return int case id
      */
-    public static function getCaseId(string $case): int
+    public static function caseId(string $case): int
     {
         return array_search($case, self::CASES);
     }
@@ -51,7 +52,7 @@ class Offer extends Model
      * @param int $caseId case id
      * @return string case name/value
      */
-    public static function getCaseNameById(int $caseId): string
+    public static function caseNameById(int $caseId): string
     {
         return self::CASES[$caseId];
     }
@@ -61,7 +62,7 @@ class Offer extends Model
      *
      * @return string case name/value
      */
-    public function getCaseName(): string
+    public function caseName(): string
     {
         return self::CASES[$this->attributes['case_id']];
     }
@@ -71,20 +72,25 @@ class Offer extends Model
      *
      * @return BelongsTo insurer
      */
-    public function getInsurer(): BelongsTo
+    public function insurer(): BelongsTo
     {
         return $this->belongsTo(Insurer::class, 'insurer_id', 'id');
     }
 
     /**
      * Get company name that published this offer.
-     * TODO: Might slow down stuff
+     * TODO: Optimization notes: Many multi selects --> JOIN-ing selection will be faster.
      *
      * @return string company name
      */
-    public function getCompanyName(): string
+    public function companyName(): string
     {
-        return $this->getInsurer()->get()->first()->company_name;
+        return $this->insurer()->get()->first()->company_name;
+    }
+
+    public function requests(): HasMany
+    {
+        return $this->hasMany(OfferRequest::class);
     }
 
     /**
@@ -106,9 +112,9 @@ class Offer extends Model
         return [
             'id' => $this->id,
             'case_id' => $this->case_id,
-            'case_name' => $this->getCaseName(),
+            'case_name' => $this->caseName(),
             'insurer_id' => $this->insurer_id,
-            'insurer_company_name' => $this->getCompanyName(),
+            'insurer_company_name' => $this->companyName(),
             'description' => $this->description,
         ];
     }
