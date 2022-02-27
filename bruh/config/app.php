@@ -178,6 +178,8 @@ return [
 
 
         Mews\Captcha\CaptchaServiceProvider::class,
+        Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Stevebauman\Location\LocationServiceProvider::class,
     ],
 
     /*
@@ -234,6 +236,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        'Location' => Stevebauman\Location\Facades\Location::class,
     ],
 
 ];

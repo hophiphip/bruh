@@ -14,6 +14,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Log;
+use Stevebauman\Location\Facades\Location;
 
 
 class WebController extends Controller
@@ -49,14 +51,27 @@ class WebController extends Controller
         ]);
     }
 
-    public function offerRequestSubmit(Request $request): Redirector|Application|RedirectResponse
+    public function offerRequestSubmit(Request $request, int $id): Redirector|Application|RedirectResponse
     {
         $submit = $request->validate([
             'email' => [ 'required', 'email' ],
             'captcha' => 'required|captcha',
         ]);
 
+        // If insurer is verified notify him
+        $offer = Offer::whereId($id)->firstOrFail();
+        $insurer = $offer->insurer()->firstOrFail();
+        $user = $insurer->user()->firstOrFail();
+
+        if ($user->isVerified()) {
+            // TODO: Send notification mail
+        }
+
         /* TODO: Store email-client info in MongoDB for statistics */
+        if ($position = Location::get()) {
+            // TODO: e.t.c
+            //Log::channel('stderr')->info($position->countryName);
+        }
 
         session()->flash('success', true);
 

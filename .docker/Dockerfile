@@ -69,7 +69,8 @@ RUN composer install
 
 USER $user
 
-# Generate app key -> Wait for PostgreSQL to start -> Wait for RabbitMQ to start -> Wait for Elasticsearch to start -> Run migrations -> Seed the database -> Reindex elasticsearch -> Start FastCGI server
-CMD ["sh", "-c", "php artisan key:generate && timeout 60 /var/wait.sh -h ${POSTGRES_DB_HOST} -p ${POSTGRES_DB_PORT} && timeout 60 /var/wait.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} && timeout 60 /var/wait_elastic.sh -h ${ELASTICSEARCH_HOSTS} && php artisan migrate:fresh && php artisan db:seed && php artisan search:reindex && php-fpm"]
+# TODO: use service to start all that crap
+# Generate app key -> Wait for PostgreSQL to start -> Wiat for MongoDB to start -> Wait for RabbitMQ to start -> Wait for Elasticsearch to start -> Run migrations -> Seed the database -> Reindex elasticsearch -> Start FastCGI server
+CMD ["sh", "-c", "php artisan key:generate && timeout 60 /var/wait.sh -h ${POSTGRES_DB_HOST} -p ${POSTGRES_DB_PORT} && timeout 60 /var/wait.sh -h ${MONGO_DB_HOST} -p ${MONGO_DB_PORT} && timeout 60 /var/wait.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} && timeout 60 /var/wait_elastic.sh -h ${ELASTICSEARCH_HOSTS} && php artisan migrate:fresh && php artisan db:seed && php artisan search:reindex && php-fpm"]
 
 EXPOSE 9000
