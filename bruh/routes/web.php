@@ -18,9 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/* Web stuff/search/preview */
 Route::get(RouteServiceProvider::HOME, [WebController::class, 'home']);
 Route::get(RouteServiceProvider::OFFERS, [WebController::class, 'offers'])->name('offers');
 
+/* Log In/Sign Up stuff */
 Route::group(['middleware' => ['guest']], function() {
     Route::get(RouteServiceProvider::GETTING_STARTED, [WebController::class, 'gettingStarted'])->name('getting-started');
 
@@ -35,8 +37,13 @@ Route::group(['middleware' => ['guest']], function() {
     });
 });
 
+/* Captcha related */
 Route::get(RouteServiceProvider::REFRESH_CAPTCHA, [CaptchaController::class, 'refreshCaptcha'])->name('refresh-captcha');
 
-/* Only visible for logged-in users */
+/* Insurer relate - Only visible for logged-in users */
 Route::get(RouteServiceProvider::LOGOUT, [AuthController::class, 'logout'])->name('logout');
 Route::get(RouteServiceProvider::INSURER, [InsurerController::class, 'insurer'])->middleware('auth')->name('insurer');
+
+/* Offer request related */
+Route::get(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offer'])->whereNumber('id');
+Route::post(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offerRequestSubmit'])->whereNumber('id');
