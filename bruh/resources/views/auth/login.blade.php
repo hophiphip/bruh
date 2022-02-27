@@ -6,7 +6,7 @@
 @endsection
 
 @section('scripts')
-    <script src="js/local/jquery-3.6.0.min.js"></script>
+    <script src="/js/local/jquery-3.6.0.min.js"></script>
 @endsection
 
 @section('content')
