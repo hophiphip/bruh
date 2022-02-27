@@ -5,9 +5,11 @@
 
     <div class="padding"></div>
 
-    <a class="for-log-in" href="{{ \App\Providers\RouteServiceProvider::LOGIN }}">
-        <button>Log In</button>
-    </a>
+    @if(! Illuminate\Support\Facades\Auth::check())
+        <a class="for-log-in" href="{{ \App\Providers\RouteServiceProvider::LOGIN }}">
+            <button>Log In</button>
+        </a>
+    @endif
 
     <a class="for-insurers" href="{{ \App\Providers\RouteServiceProvider::INSURER }}">
         <button>For insurers</button>

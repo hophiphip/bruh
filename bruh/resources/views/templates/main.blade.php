@@ -11,6 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @yield('styles')
+    @yield('scripts')
 </head>
 
 <body>
