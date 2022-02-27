@@ -69,6 +69,13 @@ class RouteServiceProvider extends ServiceProvider
     public const GETTING_STARTED = '/getting-started';
 
     /**
+     * Refresh captcha image.
+     *
+     * @var string
+     */
+    public const REFRESH_CAPTCHA = '/refresh-captcha';
+
+    /**
      * The controller namespace for the application.
      *
      * When present, controller route declarations will automatically be prefixed with this namespace.

@@ -16,6 +16,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 
 class AuthController extends Controller
@@ -29,6 +30,9 @@ class AuthController extends Controller
     {
         $submit = $request->validate([
             'email' => [ 'required', 'email', 'exists:users,email'],
+
+            /* TODO: Add fallback to reCaptcha / Move captcha to sign Up ? */
+            'captcha' => 'required|captcha',
         ]);
 
         User::whereEmail($submit['email'])->first()->sendLoginLink();
@@ -68,6 +72,21 @@ class AuthController extends Controller
             'first_name' => [ 'required', 'max:255' ],
             'last_name' => [ 'required', 'max:255' ],
         ]);
+
+        $user = User::create([
+            'email' => $submit['email'],
+            'email_verified_at' => null,
+            'remember_token' => Str::random(32),
+        ]);
+
+        $user->insurer()->create([
+            'first_name' => $submit['first_name'],
+            'last_name' => $submit['last_name'],
+            'company_name' => $submit['company_name'],
+        ]);
+
+        /* TODO: Create an alternative email for Sign Up */
+        $user->sendLoginLink();
 
         session()->flash('success', true);
 
