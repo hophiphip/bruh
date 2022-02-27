@@ -31,6 +31,7 @@ return [
         'array' => 'The :attribute must have between :min and :max items.',
     ],
     'boolean' => 'The :attribute field must be true or false.',
+    'captcha' => 'The :attribute is incorrect.',
     'confirmed' => 'The :attribute confirmation does not match.',
     'current_password' => 'The password is incorrect.',
     'date' => 'The :attribute is not a valid date.',
@@ -157,6 +158,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'captcha' => 'Captcha',
+    ],
 
 ];
