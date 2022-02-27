@@ -27,6 +27,13 @@ class RouteServiceProvider extends ServiceProvider
     public const OFFERS = '/offers';
 
     /**
+     * The path for specific offer request form.
+     *
+     * @var string
+     */
+    public const OFFER = '/offer';
+
+    /**
      * The path for login verification route for the application.
      *
      * @var string
