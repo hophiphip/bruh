@@ -1,11 +1,12 @@
 <?php
 
 use App\Models\Offer;
+use App\Models\OfferRequest;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class OfferRequest extends Migration
+class CreateOfferRequestTable extends Migration
 {
     /**
      * Run the migrations.

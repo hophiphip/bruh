@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 class OfferRequestFactory extends Factory
 {
@@ -11,10 +12,12 @@ class OfferRequestFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    #[ArrayShape(['email' => "string", 'email_verified_at' => "null"])]
+    public function definition(): array
     {
         return [
-
+            'email' => $this->faker->unique()->safeEmail(),
+            'email_verified_at' => null,
         ];
     }
 }
