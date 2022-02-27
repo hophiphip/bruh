@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\InsurerController;
 use App\Http\Controllers\WebController;
 use App\Providers\RouteServiceProvider;
@@ -33,6 +34,8 @@ Route::group(['middleware' => ['guest']], function() {
         Route::post(RouteServiceProvider::SIGN_UP, [AuthController::class, 'signUp'])->name('signUp');
     });
 });
+
+Route::get(RouteServiceProvider::REFRESH_CAPTCHA, [CaptchaController::class, 'refreshCaptcha'])->name('refresh-captcha');
 
 /* Only visible for logged-in users */
 Route::get(RouteServiceProvider::LOGOUT, [AuthController::class, 'logout'])->name('logout');
