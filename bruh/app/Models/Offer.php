@@ -18,6 +18,12 @@ class Offer extends Model
      */
     protected $table = 'offers';
 
+    /**
+     * Redis key for offer count value.
+     *
+     * @var string
+     */
+    public static string $cacheKey = 'offer:count';
 
     /* TODO: It should be called `Situation' or mb. situation is a subgroup for a case */
     /**

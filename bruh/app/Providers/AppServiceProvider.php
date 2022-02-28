@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Insurer;
+use App\Models\Offer;
+use App\Models\OfferRequest;
+use App\Observers\InsurerObserver;
+use App\Observers\OfferObserver;
+use App\Observers\OfferRequestObserver;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Force HTTPS in production.
+     *
+     * @return void
      */
     protected function forceHTTPSInProd()
     {
@@ -29,6 +37,23 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
+     * Set model observers.
+     *
+     * @return void
+     */
+    protected function setObservers()
+    {
+        InsurerObserver::initialize();
+        Insurer::observe(InsurerObserver::class);
+
+        OfferObserver::initialize();
+        Offer::observe(OfferObserver::class);
+
+        OfferRequestObserver::initialize();
+        OfferRequest::observe(OfferRequestObserver::class);
+    }
+
+    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -36,5 +61,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->forceHTTPSInProd();
+        $this->setObservers();
     }
 }

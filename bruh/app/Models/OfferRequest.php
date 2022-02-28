@@ -16,6 +16,12 @@ class OfferRequest extends Model
      */
     protected $table = 'offer_requests';
 
+    /**
+     * Redis key for offer request count value.
+     *
+     * @var string
+     */
+    public static string $cacheKey = 'offer_request:count';
 
     /**
      *  @var array $fillable contains collection fields names

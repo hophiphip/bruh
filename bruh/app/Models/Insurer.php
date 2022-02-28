@@ -18,6 +18,13 @@ class Insurer extends Model
     protected $table = 'insurers';
 
     /**
+     * Redis key for insurer count value.
+     *
+     * @var string
+     */
+    public static string $cacheKey = 'insurer:count';
+
+    /**
      * Get insurers' offers.
      *
      * @return HasMany offers

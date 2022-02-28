@@ -3,15 +3,19 @@
 namespace App\Observers;
 
 use App\Models\Insurer;
+use Illuminate\Support\Facades\Redis;
 
 class InsurerObserver
 {
     /**
-     * Redis key for insurer count value.
+     * Initialize cached value.
      *
-     * @var string
+     * @return void
      */
-    public static string $cacheKey = 'insurer:count';
+    public static function initialize()
+    {
+        Redis::set(Insurer::$cacheKey, Insurer::count());
+    }
 
     /**
      * Handle the Insurer "created" event.
@@ -21,7 +25,7 @@ class InsurerObserver
      */
     public function created(Insurer $insurer)
     {
-        //
+        Redis::set(Insurer::$cacheKey, Insurer::count());
     }
 
     /**
@@ -43,7 +47,7 @@ class InsurerObserver
      */
     public function deleted(Insurer $insurer)
     {
-        //
+        Redis::set(Insurer::$cacheKey, Insurer::count());
     }
 
     /**
@@ -54,7 +58,7 @@ class InsurerObserver
      */
     public function restored(Insurer $insurer)
     {
-        //
+        Redis::set(Insurer::$cacheKey, Insurer::count());
     }
 
     /**
@@ -65,6 +69,6 @@ class InsurerObserver
      */
     public function forceDeleted(Insurer $insurer)
     {
-        //
+        Redis::set(Insurer::$cacheKey, Insurer::count());
     }
 }

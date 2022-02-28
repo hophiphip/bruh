@@ -15,7 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Stevebauman\Location\Facades\Location;
 
 
@@ -23,11 +23,10 @@ class WebController extends Controller
 {
     public function home(): Factory|View|Application
     {
-        /* TODO: Add caching */
         return view('index',[
-            'insurers_count' => Insurer::count(),
-            'offers_count' => Offer::count(),
-            'requests_count' => OfferRequest::count(),
+            'insurers_count' => Redis::get(Insurer::$cacheKey),
+            'offers_count' => Redis::get(Offer::$cacheKey),
+            'requests_count' => Redis::get(OfferRequest::$cacheKey),
         ]);
     }
 
