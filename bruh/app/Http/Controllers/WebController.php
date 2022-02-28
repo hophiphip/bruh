@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Insurer;
-use App\Models\Mongo\ClientLocation;
+use App\Models\ClientLocation;
 use App\Models\Offer;
 use App\Models\OfferRequest;
 use App\Models\User;
@@ -68,7 +68,7 @@ class WebController extends Controller
            'email_verified_at' => null,
         ]);
 
-        // If insurer is verified notify him
+        // If insurer is verified notify him about a new request
         if ($user->isVerified()) {
             $offerRequest->sendNotificationMessage();
         }

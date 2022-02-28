@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Insurer;
 use App\Models\LoginToken;
-use App\Models\Mongo\ClientLocation;
+use App\Models\ClientLocation;
 use App\Models\Offer;
 use App\Models\OfferRequest;
 use App\Models\User;

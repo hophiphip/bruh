@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ClientLocationMigration extends Migration
+class CreateClientLocationCollection extends Migration
 {
     /**
      * The name of the database connection to use.

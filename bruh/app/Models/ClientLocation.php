@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Mongo;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
@@ -10,6 +10,11 @@ class ClientLocation extends Model
     use HasFactory;
 
     /**
+     * @var string MongoDB's connection name.
+     */
+    protected $connection = 'mongodb';
+
+    /**
      * @var string collection name
      */
     protected $collection = 'client_location_collection';
@@ -17,7 +22,9 @@ class ClientLocation extends Model
     /**
      * @var array fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'email', 'location',
+    ];
 
     /**
      * Collection name.

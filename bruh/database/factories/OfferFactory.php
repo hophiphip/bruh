@@ -28,6 +28,7 @@ class OfferFactory extends Factory
         return [
             'case_id' => $issueCase,
             'description' => $this->faker->issueDescription($issueCase),
+            'insurer_id' => 1,
         ];
     }
 }
