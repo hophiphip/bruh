@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Insurer;
+use App\Models\Mongo\ClientLocation;
 use App\Models\Offer;
 use App\Models\OfferRequest;
 use App\Models\User;
@@ -58,24 +59,38 @@ class WebController extends Controller
             'captcha' => 'required|captcha',
         ]);
 
-        // If insurer is verified notify him
         $offer = Offer::whereId($id)->firstOrFail();
         $insurer = $offer->insurer()->firstOrFail();
         $user = $insurer->user()->firstOrFail();
 
+        $offerRequest = $offer->requests()->create([
+           'email' => $submit['email'],
+           'email_verified_at' => null,
+        ]);
+
+        // If insurer is verified notify him
         if ($user->isVerified()) {
-            // TODO: Send notification mail
+            $offerRequest->sendNotificationMessage();
         }
 
-        /* TODO: Store email-client info in MongoDB for statistics */
+        /* TODO: Can be seed up with local DB location storage -- but need to download some stuff and store it in .git repo and licence stuff */
+        // Store client-email-related meta/location data
         if ($position = Location::get()) {
-            // TODO: e.t.c
-            //Log::channel('stderr')->info($position->countryName);
+            ClientLocation::create([
+               'email' => $submit['email'],
+               'location' => [
+                   'country_code' => $position->countryCode,
+                   'country' => $position->countryName,
+                   'city' => $position->cityName,
+                   'lat' => $position->latitude,
+                   'lng' => $position->longitude
+               ],
+            ]);
         }
 
         session()->flash('success', true);
 
-        return back();
+        return redirect(RouteServiceProvider::HOME);
     }
 
     public function gettingStarted(): Factory|View|Application
