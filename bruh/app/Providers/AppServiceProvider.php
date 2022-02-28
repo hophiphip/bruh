@@ -43,14 +43,23 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function setObservers()
     {
-        InsurerObserver::initialize();
-        Insurer::observe(InsurerObserver::class);
+        //
+        // `APP_WORKER` doesn't need to do model-related things.
+        //
+        //  NOTE: This is just a workaround for fast local development
+        //        to skip installing unnecessary extensions.
+        //
+        if (!env('APP_WORKER'))
+        {
+            InsurerObserver::initialize();
+            Insurer::observe(InsurerObserver::class);
 
-        OfferObserver::initialize();
-        Offer::observe(OfferObserver::class);
+            OfferObserver::initialize();
+            Offer::observe(OfferObserver::class);
 
-        OfferRequestObserver::initialize();
-        OfferRequest::observe(OfferRequestObserver::class);
+            OfferRequestObserver::initialize();
+            OfferRequest::observe(OfferRequestObserver::class);
+        }
     }
 
     /**

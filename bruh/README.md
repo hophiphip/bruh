@@ -99,7 +99,7 @@ docker run -d --name bruh-mailhog-local -p 8025:8025 -p 1025:1025 mailhog/mailho
 
 ## Setup local queue consumer with `Docker` (execute this command in current directory)
 ```shell
-docker run -d --name bruh-worker-local --network host -v `pwd`:/var/www/ -w /var/www/ php:8.0-alpine php artisan queue:work
+docker run -d --name bruh-worker-local --network host -v `pwd`:/var/www/ -w /var/www/ -e APP_WORKER=true php:8.0-alpine php artisan queue:work
 ```
 
 ## Setup local Redis with `Docker`
