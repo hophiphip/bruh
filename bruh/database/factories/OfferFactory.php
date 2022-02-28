@@ -28,11 +28,6 @@ class OfferFactory extends Factory
         return [
             'case_id' => $issueCase,
             'description' => $this->faker->issueDescription($issueCase),
-
-            /* TODO: FK, needs to be overwritten
-             *  like that: Offer::factory()->make([ 'insurer_id' => 42 ]);
-             */
-            'insurer_id' => 1,
         ];
     }
 }

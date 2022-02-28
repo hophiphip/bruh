@@ -22,9 +22,6 @@ class InsurerFactory extends Factory
     public function definition(): array
     {
         return [
-            /* TODO: Default value needs to be overwritten */
-            'user_id' => 1,
-
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'company_name' => $this->faker->company(),

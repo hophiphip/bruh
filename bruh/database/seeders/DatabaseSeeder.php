@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Insurer;
 use App\Models\LoginToken;
+use App\Models\Mongo\ClientLocation;
 use App\Models\Offer;
 use App\Models\OfferRequest;
 use App\Models\User;
@@ -40,6 +41,8 @@ class DatabaseSeeder extends Seeder
      */
     public function cleanup()
     {
+        ClientLocation::truncate();
+
         DB::table(app(OfferRequest::class)->getTable())->truncate();
         DB::table(app(Offer::class)->getTable())->truncate();
         DB::table(app(Insurer::class)->getTable())->truncate();
