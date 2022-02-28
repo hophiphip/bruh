@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\SendEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,5 +46,15 @@ class OfferRequest extends Model
     public function offer(): BelongsTo
     {
         return $this->belongsTo(Offer::class);
+    }
+
+    /**
+     * Send notification message about submitted offer request to insurer
+     */
+    public function sendNotificationMessage()
+    {
+        $user = $this->offer()->firstOrFail()->insurer()->firstOrFail()->user()->firstOrFail();
+
+        SendEmail::dispatch($user->email, new OfferRequest());
     }
 }

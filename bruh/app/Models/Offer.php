@@ -88,6 +88,11 @@ class Offer extends Model
         return $this->insurer()->firstOrFail()->company_name;
     }
 
+    /**
+     * Offer's submitted requests.
+     *
+     * @return HasMany
+     */
     public function requests(): HasMany
     {
         return $this->hasMany(OfferRequest::class);
