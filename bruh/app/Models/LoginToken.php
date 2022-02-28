@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/* TODO: Delete login tokens with Model Observer --> cron task might be better but it'll cost in prod that is why I won't do it that way */
+
 class LoginToken extends Model
 {
     use HasFactory;
