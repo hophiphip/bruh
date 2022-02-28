@@ -11,9 +11,18 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
+/* TODO: Job can still fail and there it no workaround for that --> mb. store failed jobs in DB ? */
+
 class SendEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * The number of seconds to wait before retrying the job.
+     *
+     * @var int
+     */
+    public int $backoff = 10;
 
     /**
      * Email address of receiver.
