@@ -196,6 +196,21 @@ services:
       # Web UI
       - '15672:15672'
 
+  # MailHog API for SMTP testing
+  # NOTE: To send real mail need to set proper `.env` config.
+  mailhog:
+    image: mailhog/mailhog
+    hostname: mailhog
+    container_name: bruh-mailhog-testing
+    logging:
+      # logs not needed
+      driver: 'none'
+    ports:
+      # SMTP server
+      - '1025:1025'
+      # Web UI
+      - '8025:8025'
+
 networks:
   bruh:
     driver: bridge

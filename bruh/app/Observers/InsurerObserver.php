@@ -5,6 +5,8 @@ namespace App\Observers;
 use App\Models\Insurer;
 use Illuminate\Support\Facades\Redis;
 
+/* TODO: Mb. user incr/decr instead of SELECT * COUNT FROM Insurer each time ? */
+
 class InsurerObserver
 {
     /**
