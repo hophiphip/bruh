@@ -7,6 +7,7 @@
 - [MongoDB](https://www.mongodb.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [NodeJS](https://nodejs.org/en/)
+- [Redis](https://redis.io/)
 ## Optional
 - [Elasticsearch](https://www.elastic.co/)
 - [RabbitMQ](https://www.rabbitmq.com/)
@@ -101,6 +102,11 @@ docker run -d --name bruh-mailhog-local -p 8025:8025 -p 1025:1025 mailhog/mailho
 docker run -d --name bruh-worker-local --network host -v `pwd`:/var/www/ -w /var/www/ php:8.0-alpine php artisan queue:work
 ```
 
+## Setup local Redis with `Docker`
+```shell
+docker run -d --name bruh-redis-local -p 6379:6379 -e REDIS_PASSWORD=777Passw0rd777 redis:7.0-rc1-alpine /bin/sh -c 'redis-server --maxmemory 100mb --appendonly yes --requirepass ${REDIS_PASSWORD}'
+```
+
 ## Error: Install or enable PHP's sockets extension.
 In `php.ini` change this line
 ```text
@@ -135,3 +141,7 @@ In our case index/model(ELASTICSEARCH_INDEX/MODEL_NAME) name is `offers`. (Can b
 
 And `ELASTICSEARCH_HOSTS` is set to `ELASTICSEARCH_URL`.
 
+## Installing php-redis
+ - [php-redis-repo](https://github.com/phpredis/phpredis/blob/develop/INSTALL.markdown)
+
+Personal note: Compiling some C code just so PHP could serve some text over HTTP...

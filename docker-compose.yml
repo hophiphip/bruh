@@ -132,6 +132,25 @@ services:
       retries: 5
       timeout: 10s
 
+  # Redis caching DB
+  redis:
+    image: redis:7.0-rc1-alpine
+    container_name: bruh-redis
+    hostname: '${REDIS_HOST}'
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: '${REDIS_PASSWORD}'
+    volumes:
+      - redisdata:/var/lib/redis
+      - redisconf:/usr/local/etc/redis/redis.conf
+    networks:
+      - bruh
+    ports:
+      - "6379:6379"
+    command: 'redis-server --maxmemory 100mb --appendonly yes --requirepass ${REDIS_PASSWORD}'
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+
   # Search index engine
   elastic:
     image: elasticsearch:7.17.0
@@ -187,6 +206,14 @@ volumes:
     external: false
 
   mongodata:
+    driver: local
+    external: false
+
+  redisdata:
+    driver: local
+    external: false
+
+  redisconf:
     driver: local
     external: false
 
