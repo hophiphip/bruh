@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\OfferObserver;
 use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,6 +41,22 @@ class Offer extends Model
         6 => 'property',
         7 => 'credit',
     ];
+
+    /**
+     * Define model observer.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        if (!env('APP_WORKER'))
+        {
+            OfferObserver::initialize();
+            Offer::observe(OfferObserver::class);
+        }
+    }
 
     /**
      * Get case id by case name.

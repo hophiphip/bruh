@@ -16,6 +16,8 @@ ENV PHP_DEPS_TEMP \
 ENV PHP_DEPS \
     postgresql-dev \
     libzip-dev \
+    libpng-dev \
+    libpng \
     zip
 
 # NOTE: Workaround for issue: https://github.com/docker-library/php/issues/1245
@@ -38,10 +40,6 @@ RUN set -xe; \
     apk add --no-cache ${PHP_DEPS}; \
     # Ensure that channel definitions are up-to-date
     pecl channel-update pecl.php.net; \
-    # Install composer
-    curl -sS https://getcomposer.org/installer -o composer-setup.php; \
-    php composer-setup.php --install-dir=/usr/local/bin --filename=composer; \
-    rm -rf composer-setup.php; \
     # PHP extensions
     docker-php-ext-configure sockets; \
     docker-php-ext-configure zip; \

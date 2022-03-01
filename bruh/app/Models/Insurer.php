@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\InsurerObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +24,22 @@ class Insurer extends Model
      * @var string
      */
     public static string $cacheCountKey = 'insurer:count';
+
+    /**
+     * Define model observers.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        if (!env('APP_WORKER'))
+        {
+            InsurerObserver::initialize();
+            Insurer::observe(InsurerObserver::class);
+        }
+    }
 
     /**
      * Get insurers' offers.

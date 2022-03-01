@@ -11,6 +11,8 @@ ENV POSTGRES_DB_PORT 5432
 ENV RABBITMQ_HOST localhost
 ENV RABBITMQ_PORT 5672
 
+# TODO: Add more env vars for waiting script
+
 ENV PHP_DEPS_TEMP \
     util-linux \
     gnupg
@@ -18,6 +20,8 @@ ENV PHP_DEPS_TEMP \
 ENV PHP_DEPS \
     postgresql-dev \
     libzip-dev \
+    libpng-dev \
+    libpng \
     zip
 
 # NOTE: Workaround for issue: https://github.com/docker-library/php/issues/1245
@@ -47,10 +51,6 @@ RUN set -xe; \
     apk add --no-cache ${PHP_DEPS}; \
     # Ensure that channel definitions are up-to-date
     pecl channel-update pecl.php.net; \
-    # Install composer
-    curl -sS https://getcomposer.org/installer -o composer-setup.php; \
-    php composer-setup.php --install-dir=/usr/local/bin --filename=composer; \
-    rm -rf composer-setup.php; \
     # PHP extensions
     docker-php-ext-configure sockets; \
     docker-php-ext-configure zip; \
@@ -59,6 +59,10 @@ RUN set -xe; \
     # MongoDB extension
     chmod +x /usr/local/bin/install-php-extensions && sync; \
     install-php-extensions redis mongodb-stable; \
+    # Install composer
+    curl -sS https://getcomposer.org/installer -o composer-setup.php; \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer; \
+    rm -rf composer-setup.php; \
     # Cleanup
     apk del .build-deps
 

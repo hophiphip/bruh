@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\SendEmail;
+use App\Observers\OfferRequestObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -43,6 +44,22 @@ class OfferRequest extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Define model observer.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        if (!env('APP_WORKER'))
+        {
+            OfferRequestObserver::initialize();
+            OfferRequest::observe(OfferRequestObserver::class);
+        }
+    }
 
     /**
      * Get request's offer.
