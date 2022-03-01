@@ -22,7 +22,7 @@ class Insurer extends Model
      *
      * @var string
      */
-    public static string $cacheKey = 'insurer:count';
+    public static string $cacheCountKey = 'insurer:count';
 
     /**
      * Get insurers' offers.

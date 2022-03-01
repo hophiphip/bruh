@@ -5,8 +5,6 @@ namespace App\Observers;
 use App\Models\Insurer;
 use Illuminate\Support\Facades\Redis;
 
-/* TODO: Mb. user incr/decr instead of SELECT * COUNT FROM Insurer each time ? */
-
 class InsurerObserver
 {
     /**
@@ -16,7 +14,7 @@ class InsurerObserver
      */
     public static function initialize()
     {
-        Redis::set(Insurer::$cacheKey, Insurer::count());
+        Redis::set(Insurer::$cacheCountKey, Insurer::count());
     }
 
     /**
@@ -27,7 +25,7 @@ class InsurerObserver
      */
     public function created(Insurer $insurer)
     {
-        Redis::set(Insurer::$cacheKey, Insurer::count());
+        Redis::incr(Insurer::$cacheCountKey);
     }
 
     /**
@@ -49,7 +47,7 @@ class InsurerObserver
      */
     public function deleted(Insurer $insurer)
     {
-        Redis::set(Insurer::$cacheKey, Insurer::count());
+        Redis::decr(Insurer::$cacheCountKey);
     }
 
     /**
@@ -60,7 +58,7 @@ class InsurerObserver
      */
     public function restored(Insurer $insurer)
     {
-        Redis::set(Insurer::$cacheKey, Insurer::count());
+        Redis::incr(Insurer::$cacheCountKey);
     }
 
     /**
@@ -71,6 +69,6 @@ class InsurerObserver
      */
     public function forceDeleted(Insurer $insurer)
     {
-        Redis::set(Insurer::$cacheKey, Insurer::count());
+        Redis::decr(Insurer::$cacheCountKey);
     }
 }

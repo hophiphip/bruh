@@ -14,7 +14,7 @@ class OfferObserver
      */
     public static function initialize()
     {
-        Redis::set(Offer::$cacheKey, Offer::count());
+        Redis::set(Offer::$cacheCountKey, Offer::count());
     }
 
     /**
@@ -25,7 +25,7 @@ class OfferObserver
      */
     public function created(Offer $offer)
     {
-        Redis::set(Offer::$cacheKey, Offer::count());
+        Redis::incr(Offer::$cacheCountKey);
     }
 
     /**
@@ -47,7 +47,7 @@ class OfferObserver
      */
     public function deleted(Offer $offer)
     {
-        Redis::set(Offer::$cacheKey, Offer::count());
+        Redis::decr(Offer::$cacheCountKey);
     }
 
     /**
@@ -58,7 +58,7 @@ class OfferObserver
      */
     public function restored(Offer $offer)
     {
-        Redis::set(Offer::$cacheKey, Offer::count());
+        Redis::incr(Offer::$cacheCountKey);
     }
 
     /**
@@ -69,6 +69,6 @@ class OfferObserver
      */
     public function forceDeleted(Offer $offer)
     {
-        Redis::set(Offer::$cacheKey, Offer::count());
+        Redis::decr(Offer::$cacheCountKey);
     }
 }

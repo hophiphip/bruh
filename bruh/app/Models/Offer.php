@@ -23,7 +23,7 @@ class Offer extends Model
      *
      * @var string
      */
-    public static string $cacheKey = 'offer:count';
+    public static string $cacheCountKey = 'offer:count';
 
     /* TODO: It should be called `Situation' or mb. situation is a subgroup for a case */
     /**

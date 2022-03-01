@@ -24,9 +24,9 @@ class WebController extends Controller
     public function home(): Factory|View|Application
     {
         return view('index',[
-            'insurers_count' => Redis::get(Insurer::$cacheKey),
-            'offers_count' => Redis::get(Offer::$cacheKey),
-            'requests_count' => Redis::get(OfferRequest::$cacheKey),
+            'insurers_count' => Redis::get(Insurer::$cacheCountKey),
+            'offers_count' => Redis::get(Offer::$cacheCountKey),
+            'requests_count' => Redis::get(OfferRequest::$cacheCountKey),
         ]);
     }
 
