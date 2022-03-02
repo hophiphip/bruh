@@ -6,9 +6,6 @@ ARG uid
 ENV RABBITMQ_HOST localhost
 ENV RABBITMQ_PORT 5672
 
-ENV APP_HOST localhost
-ENV APP_PORT 8080
-
 ENV PHP_DEPS_TEMP \
     util-linux \
     gnupg

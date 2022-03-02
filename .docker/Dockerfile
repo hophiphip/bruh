@@ -3,13 +3,19 @@ FROM php:8.0-fpm-alpine
 ARG user
 ARG uid
 
-ENV ELASTICSEARCH_HOSTS localhost:9200
-
 ENV POSTGRES_DB_HOST localhost
 ENV POSTGRES_DB_PORT 5432
 
+ENV MONGO_DB_HOST localhost
+ENV MONGO_DB_PORT 27017
+
+ENV REDIS_HOST localhost
+ENV REDIS_PORT 6379
+
 ENV RABBITMQ_HOST localhost
 ENV RABBITMQ_PORT 5672
+
+ENV ELASTICSEARCH_HOSTS localhost:9200
 
 # TODO: Add more env vars for waiting script
 

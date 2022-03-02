@@ -18,11 +18,15 @@ services:
       - .env:/var/www/.env
       - appdata:/var/www/
     environment:
-      ELASTICSEARCH_HOSTS: '${ELASTICSEARCH_HOSTS}'
       POSTGRES_DB_HOST: '${POSTGRES_DB_HOST}'
       POSTGRES_DB_PORT: '${POSTGRES_DB_PORT}'
+      MONGO_DB_HOST: '${MONGO_DB_HOST}'
+      MONGO_DB_PORT: '${MONGO_DB_PORT}'
+      REDIS_HOST: '${REDIS_HOST}'
+      REDIS_PORT: '${REDIS_PORT}'
       RABBITMQ_HOST: '${RABBITMQ_HOST}'
       RABBITMQ_PORT: '${RABBITMQ_PORT}'
+      ELASTICSEARCH_HOSTS: '${ELASTICSEARCH_HOSTS}'
     networks:
       - bruh
     depends_on:
