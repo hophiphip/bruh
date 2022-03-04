@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class InsurerController extends Controller
 {
-    public function insurer(): Factory|View|Application
+    public function insurer(Request $request): Factory|View|Application
     {
-        $user = Auth::user();
+        // user should not be null - should be managed by middleware - still would null-check because whatever
+        //
+        $user = $request->user() ?? abort(401);
 
         return view('insurer', [
             'email' => $user->email,
