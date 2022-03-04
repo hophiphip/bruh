@@ -17,6 +17,12 @@ Start the app
 docker-compose up -d
 ```
 
+## Recommendations
+Delete volumes between runs (e.g. update webapp files/configs)
+```shell
+docker-compose down -v
+```
+
 ## Possible issues
 
 ---
