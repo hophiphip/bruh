@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostLoginRequest;
+use App\Http\Requests\PostSignUpRequest;
 use App\Models\Insurer;
 use App\Models\LoginToken;
 use App\Models\User;
@@ -26,14 +28,9 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request): RedirectResponse
+    public function login(PostLoginRequest $request): RedirectResponse
     {
-        $submit = $request->validate([
-            'email' => [ 'required', 'email', 'exists:users,email'],
-
-            /* TODO: Add fallback to reCaptcha / Move captcha to sign Up ? */
-            'captcha' => 'required|captcha',
-        ]);
+        $submit = $request->validated();
 
         User::whereEmail($submit['email'])->first()->sendLoginLink();
 
@@ -63,15 +60,9 @@ class AuthController extends Controller
         return view('auth.sign-up');
     }
 
-    public function signUp(Request $request): Redirector|Application|RedirectResponse
+    public function signUp(PostSignUpRequest $request): Redirector|Application|RedirectResponse
     {
-        $submit = $request->validate([
-            'email' => [ 'required', 'email', 'unique:'. app(User::class)->getTable() . ',email'],
-            'company_name' => [ 'required', 'max:255', 'unique:' . app(Insurer::class)->getTable() . ',company_name' ],
-
-            'first_name' => [ 'required', 'max:255' ],
-            'last_name' => [ 'required', 'max:255' ],
-        ]);
+        $submit = $request->validated();
 
         $user = User::create([
             'email' => $submit['email'],
