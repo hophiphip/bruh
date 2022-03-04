@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostLoginRequest;
+use App\Events\UserLogIn;
+use App\Http\Requests\PostLogInRequest;
 use App\Http\Requests\PostSignUpRequest;
 use App\Models\Insurer;
 use App\Models\LoginToken;
@@ -28,11 +29,11 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(PostLoginRequest $request): RedirectResponse
+    public function login(PostLogInRequest $request): RedirectResponse
     {
         $submit = $request->validated();
 
-        User::whereEmail($submit['email'])->first()->sendLoginLink();
+        UserLogIn::dispatch(User::whereEmail($submit['email'])->firstOrFail());
 
         session()->flash('success', true);
 

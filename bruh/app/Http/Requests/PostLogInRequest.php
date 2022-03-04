@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use JetBrains\PhpStorm\ArrayShape;
 
-class PostLoginRequest extends FormRequest
+class PostLogInRequest extends FormRequest
 {
     /**
      * User is authorized to make this request when not authenticated.
