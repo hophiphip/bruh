@@ -7,7 +7,30 @@ use App\Observers\OfferRequestObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\OfferRequest
+ *
+ * @property int $id
+ * @property int $offer_id
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Offer $offer
+ * @method static \Database\Factories\OfferRequestFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|OfferRequest newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OfferRequest newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OfferRequest query()
+ * @method static \Illuminate\Database\Eloquent\Builder|OfferRequest whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OfferRequest whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OfferRequest whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OfferRequest whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OfferRequest whereOfferId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OfferRequest whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class OfferRequest extends Model
 {
     use HasFactory;

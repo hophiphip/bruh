@@ -5,9 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /* TODO: Delete login tokens with Model Observer --> cron task might be better but it'll cost in prod that is why I won't do it that way */
 
+/**
+ * App\Models\LoginToken
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $token
+ * @property Carbon|null $consumed_at
+ * @property Carbon $expires_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken query()
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereConsumedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereUserId($value)
+ * @mixin \Eloquent
+ */
 class LoginToken extends Model
 {
     use HasFactory;
