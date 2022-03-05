@@ -4,14 +4,47 @@ namespace App\Models;
 
 use App\Jobs\SendEmail;
 use App\Mail\LoginLink;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
+/**
+ * App\Models\User
+ *
+ * @property int $id
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Insurer|null $insurer
+ * @property-read Collection|LoginToken[] $loginTokens
+ * @property-read int|null $login_tokens_count
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read Collection|PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -89,21 +122,5 @@ class User extends Authenticatable
         if (!$this->isVerified()) {
             $this->update(['email_verified_at' => now()]);
         }
-    }
-
-    /**
-     * Send login link in email.
-     */
-    public function sendLoginLink()
-    {
-        $plainToken = Str::random(32);
-        $tokenHash = hash('sha256', $plainToken);
-
-        $token = $this->loginTokens()->create([
-            'token' => $tokenHash,
-            'expires_at' => now()->addMinutes($this->tokenLifetimeInMinutes),
-        ]);
-
-        SendEmail::dispatch($this->email, new LoginLink($plainToken, $token->expires_at));
     }
 }
