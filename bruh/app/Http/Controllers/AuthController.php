@@ -78,7 +78,7 @@ class AuthController extends Controller
         ]);
 
         /* TODO: Create an alternative email for Sign Up */
-        $user->sendLoginLink();
+        UserLogIn::dispatch($user);
 
         session()->flash('success', true);
 
