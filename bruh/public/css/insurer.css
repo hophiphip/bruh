@@ -1,0 +1,120 @@
+@import url('/fonts/open_sans.css');
+
+:root {
+    --body-bg-color: #f2f2f2;
+    --separator-bg-color: darkgrey;
+
+    --content-bg-color: #fff;
+
+    --button-text-color: #fff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--body-bg-color);
+}
+
+a {
+    text-decoration: none;
+}
+
+p {
+    margin: 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+h3 {
+    margin: 0;
+}
+
+svg {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.content {
+    text-align: center;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    flex-wrap: wrap;
+
+    margin: 1rem;
+    padding: 0.5rem;
+    background: var(--content-bg-color);
+
+    gap: 1rem;
+}
+
+.user-info > * {
+    align-self: center;
+}
+
+.user-company {
+    padding: 0.1rem 0.3rem 0.1rem 0.3rem;
+    background: #00B4CC;
+    color: #fff;
+}
+
+.verified-mark {
+    color: #00B4CC;
+    margin-left: 0.1rem;
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.logout-button {
+    border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 0.1rem;
+
+    background: #DF0EF1;
+    color: var(--button-text-color);
+}
+
+.logout-button > * {
+    align-self: center;
+}
+
+.logout-button:hover {
+    background: #D76EE0FF;
+}
+
+.offers-list {
+    margin-top: 2rem;
+}
+
+.offer {
+    background: #fff;
+    padding: 0 0.5rem 0 0.5rem;
+    margin: 1rem 1rem 1rem 1rem;
+}
+
+.case-line {
+    display: flex;
+}
+
+.case-line > h4 {
+    padding: 0.15rem 0.5rem 0.15rem 0.5rem;
+}
+
+.case-name {
+    margin-left: 0.6rem;
+    background: #9dacc5;
+    border-radius: 9999px;
+}
+
+.company-line {
+    display: flex;
+}
