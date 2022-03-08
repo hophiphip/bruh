@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Jobs\SendEmail;
+use App\Mail\OfferRequestNotification;
 use App\Observers\OfferRequestObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+
+/* TODO: Add optional request message */
 
 /**
  * App\Models\OfferRequest
@@ -94,13 +97,21 @@ class OfferRequest extends Model
         return $this->belongsTo(Offer::class);
     }
 
+    public function location(): ?array
+    {
+        return ClientLocation::whereEmail($this->email)->first()?->location;
+    }
+
     /**
      * Send notification message about submitted offer request to insurer
+     *
+     * @return void
      */
     public function sendNotificationMessage()
     {
+        // TODO: WTF ?
         $user = $this->offer()->firstOrFail()->insurer()->firstOrFail()->user()->firstOrFail();
 
-        SendEmail::dispatch($user->email, new OfferRequest());
+        SendEmail::dispatch($user->email, new OfferRequestNotification());
     }
 }

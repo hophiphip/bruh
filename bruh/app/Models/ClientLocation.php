@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
+/* TODO: Added a new client by email -- need to update the old one ar add TTL */
+
 class ClientLocation extends Model
 {
     use HasFactory;
