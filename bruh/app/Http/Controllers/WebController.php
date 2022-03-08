@@ -112,10 +112,6 @@ class WebController extends Controller
             'description' => $submit['description'],
         ]);
 
-        /* TODO: Add admin routes */
-        /* TODO: Add tests */
-        /* TODO: Add globe */
-
         return redirect(RouteServiceProvider::INSURER);
     }
 

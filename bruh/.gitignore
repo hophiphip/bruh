@@ -17,3 +17,4 @@ yarn-error.log
 # Compiled from resources
 /public/css/app.css
 /public/js/app.js
+startup.sh
