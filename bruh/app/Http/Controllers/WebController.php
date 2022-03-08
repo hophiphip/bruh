@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Stevebauman\Location\Facades\Location;
 
@@ -90,6 +91,32 @@ class WebController extends Controller
         session()->flash('success', true);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function newOffer(Request $request): Redirector|Application|RedirectResponse
+    {
+        $user = $request->user() ?? abort(401);
+        $insurer = $user->insurer()->firstOrFail();
+
+        $allCases = implode(',', array_values(Offer::CASES));
+
+        $submit = $request->validate([
+            'cases' => 'required|in:' . $allCases,
+            'description' => 'required',
+        ]);
+
+        $caseId = Offer::caseId($submit['cases']);
+
+        $insurer->offers()->create([
+            'case_id' => 1,
+            'description' => $submit['description'],
+        ]);
+
+        /* TODO: Add admin routes */
+        /* TODO: Add tests */
+        /* TODO: Add globe */
+
+        return redirect(RouteServiceProvider::INSURER);
     }
 
     public function gettingStarted(): Factory|View|Application
