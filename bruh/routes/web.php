@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\InsurerController;
 use App\Http\Controllers\WebController;
+use App\Http\Livewire\ShowInsurer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -42,7 +43,8 @@ Route::get(RouteServiceProvider::REFRESH_CAPTCHA, [CaptchaController::class, 're
 
 /* Insurer relate - Only visible for logged-in users */
 Route::get(RouteServiceProvider::LOGOUT, [AuthController::class, 'logout'])->name('logout');
-Route::get(RouteServiceProvider::INSURER, [InsurerController::class, 'insurer'])->middleware('auth')->name('insurer');
+Route::get(RouteServiceProvider::INSURER, ShowInsurer::class)->middleware('auth')->name('insurer');
+Route::post(RouteServiceProvider::INSURER, [WebController::class, 'newOffer'])->middleware('auth')->name('new-offer');
 
 /* Offer request related */
 Route::get(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offer'])->whereNumber('id');
