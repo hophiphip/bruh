@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\InsurerController;
 use App\Http\Controllers\WebController;
+use App\Http\Livewire\Admin;
 use App\Http\Livewire\ShowInsurer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,6 @@ Route::get(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offer'
 Route::post(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offerRequestSubmit'])->whereNumber('id');
 
 /* Admin related routes */
-Route::middleware(['local'])->group(function () {
-    
+Route::middleware(['local', 'role:admin'])->group(function () {
+    Route::get(RouteServiceProvider::ADMIN, Admin::class)->name('admin');
 });

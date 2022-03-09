@@ -135,4 +135,19 @@ class User extends Authenticatable
             $this->update(['email_verified_at' => now()]);
         }
     }
+
+    /**
+     * Toggle user verify status
+     * TODO: This will still reset when user tries to log in.
+     */
+    public function toggleVerified()
+    {
+        if ($this->isVerified()) {
+            $this->update(['email_verified_at' => null ]);
+        } else {
+            $this->verify();
+        }
+    }
+
+    /* TODO: Add blocked status */
 }
