@@ -8,10 +8,9 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
-/* TODO: Livewire is a crap - is can't parse template that contains @section, and all the content must be placed inside a <div>...</div> */
+/* TODO: Livewire is crap - is can't parse template that contains @section, and all the content must be placed inside a <div>...</div> */
 
 class Admin extends Component
 {
