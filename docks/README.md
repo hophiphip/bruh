@@ -5,8 +5,5 @@
 
 # Concepts
 
-## Expected
-![DB Internals 1](https://raw.githubusercontent.com/hophiphip/bruh/master/docks/expected.png)
-
 ## Current
 ![DB Internals 2](https://raw.githubusercontent.com/hophiphip/bruh/master/docks/current.png)

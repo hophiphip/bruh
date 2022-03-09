@@ -7,6 +7,7 @@ use App\Http\Requests\PostLogInRequest;
 use App\Http\Requests\PostSignUpRequest;
 use App\Models\Insurer;
 use App\Models\LoginToken;
+use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
@@ -65,11 +66,16 @@ class AuthController extends Controller
     {
         $submit = $request->validated();
 
+        // TODO: Don't call it each time - move it somewhere
+        $insurerRoleId = Role::whereName('insurer')->firstOrFail()->id;
+
         $user = User::create([
             'email' => $submit['email'],
             'email_verified_at' => null,
             'remember_token' => Str::random(32),
         ]);
+
+        $user->roles()->sync([ $insurerRoleId ]);
 
         $user->insurer()->create([
             'first_name' => $submit['first_name'],

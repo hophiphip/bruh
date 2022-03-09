@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Jobs\SendEmail;
 use App\Mail\OfferRequestNotification;
 use App\Observers\OfferRequestObserver;
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,7 +42,7 @@ class OfferRequest extends Model
     /**
      * @var string $table database table name
      */
-    protected $table = 'offer_requests';
+    protected $table = DatabaseTableNamesProvider::OFFER_REQUEST_TABLE;
 
     /**
      * Redis key for offer request count value.

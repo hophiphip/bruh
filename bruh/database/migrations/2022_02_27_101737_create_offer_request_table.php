@@ -2,6 +2,7 @@
 
 use App\Models\Offer;
 use App\Models\OfferRequest;
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ class CreateOfferRequestTable extends Migration
      */
     public function up()
     {
-        Schema::create(app(OfferRequest::class)->getTable(), function (Blueprint $table) {
+        Schema::create(DatabaseTableNamesProvider::OFFER_REQUEST_TABLE, function (Blueprint $table) {
            $table->bigIncrements('id');
 
             $table->unsignedBigInteger('offer_id');
@@ -35,6 +36,6 @@ class CreateOfferRequestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(app(OfferRequest::class)->getTable());
+        Schema::dropIfExists(DatabaseTableNamesProvider::OFFER_REQUEST_TABLE);
     }
 }

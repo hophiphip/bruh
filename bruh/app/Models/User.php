@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Jobs\SendEmail;
 use App\Mail\LoginLink;
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,7 +56,7 @@ class User extends Authenticatable
     /**
      * @var string $table user table name
      */
-    protected $table = 'users';
+    protected $table = DatabaseTableNamesProvider::USER_TABLE;
 
     /**
      * The attributes that are mass assignable.
@@ -83,6 +85,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * User roles.
+     *
+     * @return BelongsToMany
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
 
     /**
      * Get authentication session tokens.

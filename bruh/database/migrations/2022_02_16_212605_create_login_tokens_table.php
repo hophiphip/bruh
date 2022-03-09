@@ -2,6 +2,7 @@
 
 use App\Models\LoginToken;
 use App\Models\User;
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,22 +10,13 @@ use Illuminate\Support\Facades\Schema;
 class CreateLoginTokensTable extends Migration
 {
     /**
-     * Migration table name.
-     *
-     * @var string
-     */
-    protected string $tableName = '';
-
-    /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        $this->tableName = app(LoginToken::class)->getTable();
-
-        Schema::create($this->tableName, function (Blueprint $table) {
+        Schema::create(DatabaseTableNamesProvider::LOGIN_TOKEN_TABLE, function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('user_id');
@@ -44,6 +36,6 @@ class CreateLoginTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tableName);
+        Schema::dropIfExists(DatabaseTableNamesProvider::LOGIN_TOKEN_TABLE);
     }
 }

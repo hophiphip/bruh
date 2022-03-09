@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,7 +40,7 @@ class LoginToken extends Model
     /**
      * @var string $table login token table name
      */
-    protected $table = 'login_tokens';
+    protected $table = DatabaseTableNamesProvider::LOGIN_TOKEN_TABLE;
 
     protected $guarded = [];
 

@@ -41,10 +41,14 @@ Route::group(['middleware' => ['guest']], function() {
 /* Captcha related */
 Route::get(RouteServiceProvider::REFRESH_CAPTCHA, [CaptchaController::class, 'refreshCaptcha'])->name('refresh-captcha');
 
-/* Insurer relate - Only visible for logged-in users */
+/* Log out - Only visible for logged-in users */
 Route::get(RouteServiceProvider::LOGOUT, [AuthController::class, 'logout'])->name('logout');
-Route::get(RouteServiceProvider::INSURER, ShowInsurer::class)->middleware('auth')->name('insurer');
-Route::post(RouteServiceProvider::INSURER, [WebController::class, 'newOffer'])->middleware('auth')->name('new-offer');
+
+/* Insurer-related routes */
+Route::middleware(['auth', 'role:insurer'])->group(function () {
+    Route::get(RouteServiceProvider::INSURER, ShowInsurer::class)->name('insurer');
+    Route::post(RouteServiceProvider::INSURER, [WebController::class, 'newOffer'])->name('new-offer');
+});
 
 /* Offer request related */
 Route::get(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offer'])->whereNumber('id');

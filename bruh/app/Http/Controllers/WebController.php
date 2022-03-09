@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Stevebauman\Location\Facades\Location;
 
+/* TODO: New signed up users don't show as verified on the insurer page */
 
 class WebController extends Controller
 {

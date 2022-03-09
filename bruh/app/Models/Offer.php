@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\OfferObserver;
+use App\Providers\DatabaseTableNamesProvider;
 use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,7 +44,7 @@ class Offer extends Model
     /**
      * @var string database table name
      */
-    protected $table = 'offers';
+    protected $table = DatabaseTableNamesProvider::OFFER_TABLE;
 
     /**
      * Redis key for offer count value.

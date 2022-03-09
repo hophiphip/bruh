@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
@@ -19,7 +20,7 @@ class ClientLocation extends Model
     /**
      * @var string collection name
      */
-    protected $collection = 'client_location_collection';
+    protected $collection = DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION;
 
     /**
      * @var array fillable fields

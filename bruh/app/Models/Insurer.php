@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\InsurerObserver;
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,7 +45,12 @@ class Insurer extends Model
     /**
      * @var string $table insurer table name
      */
-    protected $table = 'insurers';
+    protected $table = DatabaseTableNamesProvider::INSURER_TABLE;
+
+    /**
+     * @var string database connection instance
+     */
+    protected $connection = 'pgsql';
 
     /**
      * Redis key for insurer count value.

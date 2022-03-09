@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\ClientLocation;
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +22,7 @@ class CreateClientLocationCollection extends Migration
      */
     public function up()
     {
-        Schema::connection($this->connection)->table(app(ClientLocation::class)->collection(), function (Blueprint $collection) {
+        Schema::connection($this->connection)->table(DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION, function (Blueprint $collection) {
             $collection->string('email');
 
             // store location data as JSON
@@ -41,7 +42,7 @@ class CreateClientLocationCollection extends Migration
      */
     public function down()
     {
-        Schema::connection($this->connection)->table(app(ClientLocation::class)->collection(), function (Blueprint $collection) {
+        Schema::connection($this->connection)->table(DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION, function (Blueprint $collection) {
             $collection->dropIfExists();
         });
     }

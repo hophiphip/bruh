@@ -2,6 +2,7 @@
 
 use App\Models\Insurer;
 use App\Models\User;
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ class CreateInsurersTable extends Migration
      */
     public function up()
     {
-        Schema::create(app(Insurer::class)->getTable(), function (Blueprint $table) {
+        Schema::create(DatabaseTableNamesProvider::INSURER_TABLE, function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('user_id');
@@ -35,6 +36,6 @@ class CreateInsurersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(app(Insurer::class)->getTable());
+        Schema::dropIfExists(DatabaseTableNamesProvider::INSURER_TABLE);
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Models\Insurer;
 use App\Models\Offer;
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ class CreateOffersTable extends Migration
      */
     public function up()
     {
-        Schema::create(app(Offer::class)->getTable(), function (Blueprint $table) {
+        Schema::create(DatabaseTableNamesProvider::OFFER_TABLE, function (Blueprint $table) {
             $table->bigIncrements('id');
 
             // NOTE: `case_id` is not referencing any table
@@ -26,7 +27,7 @@ class CreateOffersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table(app(Offer::class)->getTable(), function (Blueprint $table) {
+        Schema::table(DatabaseTableNamesProvider::OFFER_TABLE, function (Blueprint $table) {
             $table->foreign('insurer_id')
                   ->references('id')
                   ->on(app(Insurer::class)->getTable())
@@ -41,6 +42,6 @@ class CreateOffersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(app(Offer::class)->getTable());
+        Schema::dropIfExists(DatabaseTableNamesProvider::OFFER_TABLE);
     }
 }

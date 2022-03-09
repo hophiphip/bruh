@@ -7,6 +7,7 @@ use App\Models\LoginToken;
 use App\Models\ClientLocation;
 use App\Models\Offer;
 use App\Models\OfferRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,7 @@ class DatabaseSeeder extends Seeder
     {
         ClientLocation::truncate();
 
+        DB::table(app(Role::class)->getTable())->truncate();
         DB::table(app(OfferRequest::class)->getTable())->truncate();
         DB::table(app(Offer::class)->getTable())->truncate();
         DB::table(app(Insurer::class)->getTable())->truncate();
@@ -57,17 +59,26 @@ class DatabaseSeeder extends Seeder
      */
     public function seed()
     {
+        // Add the default user roles
+        $this->call([
+            RoleSeeder::class,
+        ]);
+
+        $insurerRoleId = Role::whereName('insurer')->firstOrFail()->id;
+
         $this->command->getOutput()->info('Seeding database...');
         $this->command->getOutput()->progressStart(self::USER_SEED_COUNT);
 
-        User::factory()->count(self::USER_SEED_COUNT)->create()->each(function ($user) {
-            Insurer::factory()->count(1)->create()->each(function ($insurer) use ($user) {
-                Offer::factory()->count(self::OFFER_SEED_COUNT)->create()->each(function ($offer) use ($insurer, $user) {
+        // TODO: Mode everything to seeders
+        User::factory()->count(self::USER_SEED_COUNT)->create()->each(function ($user) use ($insurerRoleId) {
+            Insurer::factory()->count(1)->create()->each(function ($insurer) use ($insurerRoleId, $user) {
+                Offer::factory()->count(self::OFFER_SEED_COUNT)->create()->each(function ($offer) use ($insurerRoleId, $insurer, $user) {
                     $offerRequests = OfferRequest::factory()->count(self::OFFER_REQUEST_SEED_COUNT)->make();
 
                     $offer->requests()->saveMany($offerRequests);
                     $insurer->offers()->save($offer);
                     $user->insurer()->save($insurer);
+                    $user->roles()->sync([ $insurerRoleId ]);
                 });
             });
 
