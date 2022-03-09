@@ -8,6 +8,9 @@ jobs:
   app-tests:
 
     runs-on: [self-hosted,linux]
+    
+    container:
+      image: php:8.0-alpine
 
     services:
       postgres:
