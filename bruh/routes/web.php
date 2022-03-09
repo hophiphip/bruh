@@ -50,6 +50,11 @@ Route::middleware(['auth', 'role:insurer'])->group(function () {
     Route::post(RouteServiceProvider::INSURER, [WebController::class, 'newOffer'])->name('new-offer');
 });
 
-/* Offer request related */
+/* Offer request related routes */
 Route::get(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offer'])->whereNumber('id');
 Route::post(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offerRequestSubmit'])->whereNumber('id');
+
+/* Admin related routes */
+Route::middleware(['local'])->group(function () {
+    
+});
