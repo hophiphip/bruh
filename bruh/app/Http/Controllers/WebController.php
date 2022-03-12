@@ -70,8 +70,6 @@ class WebController extends Controller
            'email_verified_at' => null,
         ]);
 
-        // TODO: Move everything to events
-        // If insurer is verified notify him about a new request
         if ($user->isVerified()) {
             RequestNotification::dispatch($user);
         }

@@ -2,12 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Events\UserLogIn;
+use App\Events\UserSignUp;
 use App\Jobs\SendEmail;
-use App\Mail\LogInLink;
+use App\Mail\SignUpLink;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Str;
 
-class SendUserLogInLink
+class SendUserSignUpLink
 {
     /**
      * Create the event listener.
@@ -22,10 +24,10 @@ class SendUserLogInLink
     /**
      * Handle the event.
      *
-     * @param UserLogIn $event
+     * @param UserSignUp $event
      * @return void
      */
-    public function handle(UserLogIn $event)
+    public function handle(UserSignUp $event)
     {
         $plainToken = Str::random(32);
         $tokenHash = hash('sha256', $plainToken);
@@ -37,6 +39,6 @@ class SendUserLogInLink
             'expires_at' => now()->addMinutes($user->tokenLifetimeInMinutes),
         ]);
 
-        SendEmail::dispatch($user->email, new LogInLink($plainToken, $token->expires_at));
+        SendEmail::dispatch($user->email, new SignUpLink($plainToken, $token->expires_at));
     }
 }

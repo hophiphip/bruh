@@ -3,12 +3,13 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 
-class LoginLink extends Mailable
+class SignUpLink extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -42,13 +43,13 @@ class LoginLink extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->subject(config('app.name') . ' Login Verification')
-            ->markdown('emails.login-link', [
+            ->markdown('emails.signup-link', [
                 'url' => URL::temporarySignedRoute('verify-login', $this->expiresAt, [
                     'token' => $this->plainToken,
                 ]),
-        ]);
+            ]);
     }
 }

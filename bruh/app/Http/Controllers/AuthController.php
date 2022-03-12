@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\UserLogIn;
+use App\Events\UserSignUp;
 use App\Http\Requests\PostLogInRequest;
 use App\Http\Requests\PostSignUpRequest;
-use App\Models\Insurer;
 use App\Models\LoginToken;
 use App\Models\Role;
 use App\Models\User;
@@ -16,10 +16,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 
@@ -83,8 +80,7 @@ class AuthController extends Controller
             'company_name' => $submit['company_name'],
         ]);
 
-        /* TODO: Create an alternative email for Sign Up */
-        UserLogIn::dispatch($user);
+        UserSignUp::dispatch($user);
 
         session()->flash('success', true);
 
