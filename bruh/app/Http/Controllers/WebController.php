@@ -16,7 +16,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Stevebauman\Location\Facades\Location;
 
@@ -27,15 +26,15 @@ class WebController extends Controller
     public function home(): Factory|View|Application
     {
         return view('index',[
-            'insurers_count' => Redis::get(Insurer::$cacheCountKey),
-            'offers_count' => Redis::get(Offer::$cacheCountKey),
             'requests_count' => Redis::get(OfferRequest::$cacheCountKey),
+            'insurers_count' => Redis::get(Insurer::$cacheCountKey),
+            'offers_count'   => Redis::get(Offer::$cacheCountKey),
         ]);
     }
 
     public function offers(SearchServiceInterface $service): Factory|View|Application
     {
-        $rawQuery = request('q') ?? '';
+        $rawQuery   = request('q') ?? '';
         $cleanQuery = htmlspecialchars($rawQuery, ENT_QUOTES, 'UTF-8');
 
         $offers = $service->search($cleanQuery);
@@ -57,7 +56,7 @@ class WebController extends Controller
     public function offerRequestSubmit(Request $request, int $id): Redirector|Application|RedirectResponse
     {
         $submit = $request->validate([
-            'email' => [ 'required', 'email' ],
+            'email'   => [ 'required', 'email' ],
             'captcha' => 'required|captcha',
         ]);
 
@@ -66,7 +65,7 @@ class WebController extends Controller
         $user = $insurer->user()->firstOrFail();
 
         $offerRequest = $offer->requests()->create([
-           'email' => $submit['email'],
+           'email'             => $submit['email'],
            'email_verified_at' => null,
         ]);
 
@@ -78,13 +77,13 @@ class WebController extends Controller
         // Store client-email-related meta/location data
         if ($position = Location::get()) {
             ClientLocation::create([
-               'email' => $submit['email'],
+               'email'    => $submit['email'],
                'location' => [
                    'country_code' => $position->countryCode,
-                   'country' => $position->countryName,
-                   'city' => $position->cityName,
-                   'lat' => $position->latitude,
-                   'lng' => $position->longitude
+                   'country'      => $position->countryName,
+                   'city'         => $position->cityName,
+                   'lat'          => $position->latitude,
+                   'lng'          => $position->longitude
                ],
             ]);
         }
@@ -99,17 +98,15 @@ class WebController extends Controller
         $user = $request->user() ?? abort(401);
         $insurer = $user->insurer()->firstOrFail();
 
-        $allCases = implode(',', array_values(Offer::CASES));
-
         $submit = $request->validate([
-            'cases' => 'required|in:' . $allCases,
+            'cases'       => 'required|in:' . Offer::allCases(),
             'description' => 'required',
         ]);
 
         $caseId = Offer::caseId($submit['cases']);
 
         $insurer->offers()->create([
-            'case_id' => $caseId,
+            'case_id'     => $caseId,
             'description' => $submit['description'],
         ]);
 

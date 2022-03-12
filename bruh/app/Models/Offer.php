@@ -53,7 +53,6 @@ class Offer extends Model
      */
     public static string $cacheCountKey = 'offer:count';
 
-    /* TODO: It should be called `Situation' or mb. situation is a subgroup for a case */
     /**
      * @var array all possible issue cases
      *  NOTE: better to store cases like that (at least for now) as it is faster and better than SQL enums or creating another separate table,
@@ -83,6 +82,16 @@ class Offer extends Model
             OfferObserver::initialize();
             Offer::observe(OfferObserver::class);
         }
+    }
+
+    /**
+     * Get cases array (necessary for validator).
+     *
+     * @return string
+     */
+    public static function allCases(): string
+    {
+        return implode(',', array_values(self::CASES));
     }
 
     /**
