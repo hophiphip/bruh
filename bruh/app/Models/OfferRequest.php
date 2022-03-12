@@ -98,21 +98,13 @@ class OfferRequest extends Model
         return $this->belongsTo(Offer::class);
     }
 
+    /**
+     * Get client location info.
+     *
+     * @return array|null
+     */
     public function location(): ?array
     {
         return ClientLocation::whereEmail($this->email)->first()?->location;
-    }
-
-    /**
-     * Send notification message about submitted offer request to insurer
-     *
-     * @return void
-     */
-    public function sendNotificationMessage()
-    {
-        // TODO: WTF ?
-        $user = $this->offer()->firstOrFail()->insurer()->firstOrFail()->user()->firstOrFail();
-
-        SendEmail::dispatch($user->email, new OfferRequestNotification());
     }
 }

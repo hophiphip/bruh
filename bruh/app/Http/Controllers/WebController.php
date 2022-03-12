@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RequestNotification;
 use App\Models\Insurer;
 use App\Models\ClientLocation;
 use App\Models\Offer;
@@ -69,9 +70,10 @@ class WebController extends Controller
            'email_verified_at' => null,
         ]);
 
+        // TODO: Move everything to events
         // If insurer is verified notify him about a new request
         if ($user->isVerified()) {
-            $offerRequest->sendNotificationMessage();
+            RequestNotification::dispatch($user);
         }
 
         /* TODO: Can be seed up with local DB location storage -- but need to download some stuff and store it in .git repo and licence stuff */
