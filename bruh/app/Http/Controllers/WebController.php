@@ -109,7 +109,7 @@ class WebController extends Controller
         $caseId = Offer::caseId($submit['cases']);
 
         $insurer->offers()->create([
-            'case_id' => 1,
+            'case_id' => $caseId,
             'description' => $submit['description'],
         ]);
 
