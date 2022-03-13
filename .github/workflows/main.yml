@@ -8,6 +8,9 @@ jobs:
   app-tests:
 
     runs-on: [self-hosted,linux]
+    
+    container:
+      image: php:8.0-alpine
 
     services:
       postgres:
@@ -24,7 +27,8 @@ jobs:
           --health-retries 5
 
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+    - name: Setup PHP
+      uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
           php-version: '8.0'
           extensions: curl,mbstring,pecl,xdebug,gd,sockets,pdo,pdo_pgsql
