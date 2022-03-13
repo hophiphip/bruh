@@ -66,6 +66,7 @@ class ElasticsearchSearchService implements SearchServiceInterface
             ],
         ]);
     }
+
     private function buildCollection(array $items): Collection
     {
         $ids = Arr::pluck($items['hits']['hits'], '_id');
