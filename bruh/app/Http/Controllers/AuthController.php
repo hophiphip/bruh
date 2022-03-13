@@ -17,7 +17,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 
 class AuthController extends Controller
@@ -66,17 +65,13 @@ class AuthController extends Controller
         // TODO: Don't call it each time - move it somewhere
         $insurerRoleId = Role::whereName('insurer')->firstOrFail()->id;
 
-        $user = User::create([
-            'email' => $submit['email'],
-            'email_verified_at' => null,
-            'remember_token' => Str::random(32),
-        ]);
+        $user = User::createNew($submit['email']);
 
         $user->roles()->sync([ $insurerRoleId ]);
 
         $user->insurer()->create([
-            'first_name' => $submit['first_name'],
-            'last_name' => $submit['last_name'],
+            'first_name'   => $submit['first_name'],
+            'last_name'    => $submit['last_name'],
             'company_name' => $submit['company_name'],
         ]);
 

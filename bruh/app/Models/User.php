@@ -13,8 +13,11 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+
+/* TODO: Add blocked status */
 
 /**
  * App\Models\User
@@ -146,5 +149,18 @@ class User extends Authenticatable
         }
     }
 
-    /* TODO: Add blocked status */
+    /**
+     * Create a new user with email.
+     *
+     * @param string $email
+     * @return mixed
+     */
+    public static function createNew(string $email): mixed
+    {
+        return self::create([
+            'email'             => $email,
+            'email_verified_at' => null,
+            'remember_token'    => Str::random(32),
+        ]);
+    }
 }

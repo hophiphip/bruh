@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 
+
 class PostNewOfferRequest extends FormRequest
 {
     /**
@@ -25,7 +26,7 @@ class PostNewOfferRequest extends FormRequest
      *
      * @return array
      */
-    #[ArrayShape(['cases' => "string", 'description' => "string"])]
+    #[Pure] #[ArrayShape(['cases' => "string", 'description' => "string"])]
     public function rules(): array
     {
         return [
