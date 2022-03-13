@@ -62,12 +62,9 @@ class AuthController extends Controller
     {
         $submit = $request->validated();
 
-        // TODO: Don't call it each time - move it somewhere
-        $insurerRoleId = Role::whereName('insurer')->firstOrFail()->id;
-
         $user = User::createNew($submit['email']);
 
-        $user->roles()->sync([ $insurerRoleId ]);
+        $user->roles()->sync([ Role::insurerRoleId() ]);
 
         $user->insurer()->create([
             'first_name'   => $submit['first_name'],
