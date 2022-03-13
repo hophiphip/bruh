@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Events\RequestNotification;
+use App\Http\Requests\PostNewOfferRequest;
+use App\Http\Requests\PostOfferRequest;
 use App\Models\Insurer;
 use App\Models\ClientLocation;
 use App\Models\Offer;
 use App\Models\OfferRequest;
-use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Services\Interfaces\SearchServiceInterface;
+use App\Utils\QuerySanitiser;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -34,31 +36,23 @@ class WebController extends Controller
 
     public function offers(SearchServiceInterface $service): Factory|View|Application
     {
-        $rawQuery   = request('q') ?? '';
-        $cleanQuery = htmlspecialchars($rawQuery, ENT_QUOTES, 'UTF-8');
-
-        $offers = $service->search($cleanQuery);
-
         return view('offers', [
-            'offers' => $offers,
+            'offers' => $service->search(
+                QuerySanitiser::sanitise(request('q') ?? '')
+            ),
         ]);
     }
 
     public function offer(int $id): Factory|View|Application
     {
-        $offer = Offer::whereId($id)->firstOrFail();
-
         return view('offer', [
-            'offer' => $offer,
+            'offer' => Offer::whereId($id)->firstOrFail(),
         ]);
     }
 
-    public function offerRequestSubmit(Request $request, int $id): Redirector|Application|RedirectResponse
+    public function offerRequestSubmit(PostOfferRequest $request, int $id): Redirector|Application|RedirectResponse
     {
-        $submit = $request->validate([
-            'email'   => [ 'required', 'email' ],
-            'captcha' => 'required|captcha',
-        ]);
+        $submit = $request->validated();
 
         $offer = Offer::whereId($id)->firstOrFail();
         $insurer = $offer->insurer()->firstOrFail();
@@ -93,15 +87,12 @@ class WebController extends Controller
         return redirect(RouteServiceProvider::HOME);
     }
 
-    public function newOffer(Request $request): Redirector|Application|RedirectResponse
+    public function newOffer(PostNewOfferRequest $request): Redirector|Application|RedirectResponse
     {
+        $submit = $request->validated();
+
         $user = $request->user() ?? abort(401);
         $insurer = $user->insurer()->firstOrFail();
-
-        $submit = $request->validate([
-            'cases'       => 'required|in:' . Offer::allCases(),
-            'description' => 'required',
-        ]);
 
         $caseId = Offer::caseId($submit['cases']);
 
