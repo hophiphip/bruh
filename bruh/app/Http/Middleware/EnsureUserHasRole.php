@@ -19,7 +19,7 @@ class EnsureUserHasRole
      */
     public function handle(Request $request, Closure $next, string $role): Response|RedirectResponse
     {
-        if ($request->user()->roles()->where('name', '=', $role)->exists()) {
+        if ($request->user()?->roles()?->where('name', '=', $role)->exists()) {
             return $next($request);
         }
 
