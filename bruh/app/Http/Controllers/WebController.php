@@ -66,19 +66,8 @@ class WebController extends Controller
             RequestNotification::dispatch($user);
         }
 
-        /* TODO: Can be seed up with local DB location storage -- but need to download some stuff and store it in .git repo and licence stuff */
-        // Store client-email-related meta/location data
         if ($position = Location::get()) {
-            ClientLocation::create([
-               'email'    => $submit['email'],
-               'location' => [
-                   'country_code' => $position->countryCode,
-                   'country'      => $position->countryName,
-                   'city'         => $position->cityName,
-                   'lat'          => $position->latitude,
-                   'lng'          => $position->longitude
-               ],
-            ]);
+            ClientLocation::createNew($submit['email'], $position);
         }
 
         session()->flash('success', true);
