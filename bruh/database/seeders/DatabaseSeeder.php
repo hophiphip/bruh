@@ -64,21 +64,19 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
         ]);
 
-        $insurerRoleId = Role::whereName('insurer')->firstOrFail()->id;
-
         $this->command->getOutput()->info('Seeding database...');
         $this->command->getOutput()->progressStart(self::USER_SEED_COUNT);
 
         // TODO: Mode everything to seeders
-        User::factory()->count(self::USER_SEED_COUNT)->create()->each(function ($user) use ($insurerRoleId) {
-            Insurer::factory()->count(1)->create()->each(function ($insurer) use ($insurerRoleId, $user) {
-                Offer::factory()->count(self::OFFER_SEED_COUNT)->create()->each(function ($offer) use ($insurerRoleId, $insurer, $user) {
+        User::factory()->count(self::USER_SEED_COUNT)->create()->each(function ($user) {
+            Insurer::factory()->count(1)->create()->each(function ($insurer) use ($user) {
+                Offer::factory()->count(self::OFFER_SEED_COUNT)->create()->each(function ($offer) use ($insurer, $user) {
                     $offerRequests = OfferRequest::factory()->count(self::OFFER_REQUEST_SEED_COUNT)->make();
 
                     $offer->requests()->saveMany($offerRequests);
                     $insurer->offers()->save($offer);
                     $user->insurer()->save($insurer);
-                    $user->roles()->sync([ $insurerRoleId ]);
+                    $user->roles()->sync([ Role::insurerRoleId() ]);
                 });
             });
 
