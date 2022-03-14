@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CaptchaController;
-use App\Http\Controllers\InsurerController;
 use App\Http\Controllers\WebController;
 use App\Http\Livewire\Admin;
 use App\Http\Livewire\ShowInsurer;
