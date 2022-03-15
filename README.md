@@ -23,6 +23,12 @@ Delete volumes between runs (e.g. update webapp files/configs)
 docker-compose down -v
 ```
 
+## Tests
+### Unit/Feature tests
+```shell
+docker-compose -f docker-compose-unit.yml up --exit-code-from app
+```
+
 ## Possible issues
 
 ---

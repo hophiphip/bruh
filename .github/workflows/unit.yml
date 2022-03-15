@@ -1,0 +1,23 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  unit-tests:
+
+    runs-on: [self-hosted,linux]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup .env file
+      run: cp -n .env.example .env || true
+
+    - name: Run unit tests
+      run: docker-compose -f docker-compose-unit.yml up --build --exit-code-from app
+
+    - name: Docker volumes cleanup
+      run: docker-compose -f docker-compose-unit.yml down -v

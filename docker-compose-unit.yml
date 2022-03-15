@@ -1,0 +1,248 @@
+version: "3.7"
+
+services:
+  # Main laravel application
+  app:
+    build:
+      args:
+        user: bruh
+        uid: 1000
+      context: ./
+      dockerfile: ./.docker/unit/Dockerfile
+    image: bruh
+    hostname: app
+    container_name: bruh-app-unit
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - .env:/var/www/.env
+      - appdata:/var/www/
+    environment:
+      POSTGRES_DB_HOST: '${POSTGRES_DB_HOST}'
+      POSTGRES_DB_PORT: '${POSTGRES_DB_PORT}'
+      MONGO_DB_HOST: '${MONGO_DB_HOST}'
+      MONGO_DB_PORT: '${MONGO_DB_PORT}'
+      REDIS_HOST: '${REDIS_HOST}'
+      REDIS_PORT: '${REDIS_PORT}'
+      RABBITMQ_HOST: '${RABBITMQ_HOST}'
+      RABBITMQ_PORT: '${RABBITMQ_PORT}'
+      ELASTICSEARCH_HOSTS: '${ELASTICSEARCH_HOSTS}'
+    networks:
+      - bruh
+    depends_on:
+      - postgres
+      - mongodb
+      - elastic
+      - rabbitmq
+    healthcheck:
+      # Check if FRM port is open for connections.
+      # With netstat:
+      # test: ["CMD-SHELL", "netstat -an | grep -q -F \":9000\""]
+      # With PHP:
+      test: [ "CMD-SHELL", "php -r '$$c = @fsockopen(\"localhost\", 9000); if (is_resource($$c)) { fwrite(STDOUT, \"HEALTH CHECK OK\"); fclose($$c); exit(0); } else { fwrite(STDERR, \"HEALTH CHECK FAIL\"); exit(1); }'" ]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
+
+  # Queue worker
+  worker:
+    build:
+      args:
+        user: worker
+        uid: 1000
+      context: ./
+      dockerfile: ./.docker/worker/Dockerfile
+    image: worker
+    hostname: worker
+    container_name: bruh-worker-unit
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - .env:/var/www/.env
+      - type: volume
+        source: appdata
+        target: /var/www/
+        volume:
+          nocopy: true
+    environment:
+      RABBITMQ_HOST: '${RABBITMQ_HOST}'
+      RABBITMQ_PORT: '${RABBITMQ_PORT}'
+      APP_HOST: 'app'
+      APP_PORT: 9000
+      APP_WORKER: true
+    networks:
+      - bruh
+    depends_on:
+      - rabbitmq
+      - app
+
+  # Nginx proxy
+  nginx:
+    image: nginx:alpine
+    hostname: nginx
+    container_name: bruh-nginx-unit
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./bruh/:/var/www/
+      - ./.docker/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - app
+    networks:
+      - bruh
+
+  # Main postgreSQL DB
+  postgres:
+    image: postgres:alpine
+    container_name: bruh-postgres-unit
+    hostname: '${POSTGRES_DB_HOST}'
+    restart: unless-stopped
+    user: postgres
+    environment:
+      POSTGRES_PASSWORD: '${POSTGRES_DB_PASSWORD}'
+      POSTGRES_USER: '${POSTGRES_DB_USERNAME}'
+      POSTGRES_DB: '${POSTGRES_DB_DATABASE}'
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    networks:
+      - bruh
+    ports:
+      - '${POSTGRES_DB_PORT}:${POSTGRES_DB_PORT}'
+    healthcheck:
+      test: pg_isready
+      retries: 5
+      timeout: 5s
+      interval: 10s
+
+  # MongoDB for client info storage
+  mongodb:
+    image: mongo
+    container_name: bruh-mongodb-unit
+    hostname: '${MONGO_DB_HOST}'
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${MONGO_DB_USERNAME}'
+      MONGO_INITDB_ROOT_PASSWORD: '${MONGO_DB_PASSWORD}'
+      MONGO_INITDB_DATABASE: '${MONGO_DB_DATABASE}'
+    volumes:
+      - 'mongodata:/data/db'
+    networks:
+      - bruh
+    ports:
+      - '${MONGO_DB_PORT}:${MONGO_DB_PORT}'
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo 127.0.0.1:27017/admin --quiet
+      retries: 5
+      timeout: 10s
+
+  # Redis caching DB
+  redis:
+    image: redis:7.0-rc1-alpine
+    container_name: bruh-redis-unit
+    hostname: '${REDIS_HOST}'
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: '${REDIS_PASSWORD}'
+    volumes:
+      - redisdata:/var/lib/redis
+      - redisconf:/usr/local/etc/redis/redis.conf
+    networks:
+      - bruh
+    ports:
+      - "6379:6379"
+    command: 'redis-server --maxmemory 100mb --appendonly yes --requirepass ${REDIS_PASSWORD}'
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+
+  # Search index engine
+  elastic:
+    image: elasticsearch:7.17.0
+    container_name: bruh-elastic-unit
+    hostname: elastic
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - network.bind_host=0.0.0.0
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - elasticdata:/usr/share/elasticsearch/data
+    networks:
+      - bruh
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+    cap_add:
+      - IPC_LOCK
+
+  # Queue engine
+  rabbitmq:
+    image: rabbitmq:3.9.13-management-alpine
+    container_name: bruh-rabbitmq-unit
+    hostname: '${RABBITMQ_HOST}'
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: "user"
+      RABBITMQ_DEFAULT_PASS: "user"
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq
+    networks:
+      - bruh
+    ports:
+      # The standard AMQP protocol port
+      - '5672:5672'
+      # Web UI
+      - '15672:15672'
+
+  # MailHog API for SMTP testing
+  # NOTE: To send real mail need to set proper `.env` config.
+  mailhog:
+    image: mailhog/mailhog
+    hostname: mailhog
+    container_name: bruh-mailhog-unit
+    logging:
+      # logs not needed
+      driver: 'none'
+    ports:
+      # SMTP server
+      - '1025:1025'
+      # Web UI
+      - '8025:8025'
+
+networks:
+  bruh:
+    driver: bridge
+
+volumes:
+  postgresdata:
+    driver: local
+    external: false
+
+  mongodata:
+    driver: local
+    external: false
+
+  redisdata:
+    driver: local
+    external: false
+
+  redisconf:
+    driver: local
+    external: false
+
+  elasticdata:
+    driver: local
+    external: false
+
+  rabbitmqdata:
+    driver: local
+    external: false
+
+  appdata: {}

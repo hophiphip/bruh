@@ -7,9 +7,7 @@ use App\Models\Offer;
 use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Database\Factories\UserFactory;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\In;
 
 /* GET */
 it('has index page accessible to unauthenticated user')->get(RouteServiceProvider::HOME)->assertStatus(200);
@@ -24,10 +22,6 @@ it('has logout page redirect to login page to unauthenticated user')->get(RouteS
 it('has insurer page redirect to getting-started page to unauthenticated user')->get(RouteServiceProvider::INSURER)->assertRedirect(RouteServiceProvider::GETTING_STARTED);
 it('has no access to admin page to unauthenticated user')->get(RouteServiceProvider::ADMIN)->assertStatus(403);
 it('has no access to offer request publication page without offer specified')->get(RouteServiceProvider::OFFER)->assertStatus(404);
-
-dataset('offers', function () {
-   yield fn() => Offer::factory()->create();
-});
 
 it('has offer request publication page with specified offer access to unauthenticated user', function (Offer $offer, Insurer $insurer, User $user) {
     $insurer->offers()->save($offer);
