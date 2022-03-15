@@ -20,7 +20,7 @@ class CreateOfferRequestTable extends Migration
            $table->bigIncrements('id');
 
             $table->unsignedBigInteger('offer_id');
-            $table->foreign('offer_id')->references('id')->on(app(Offer::class)->getTable())->cascadeOnDelete();
+            $table->foreign('offer_id')->references('id')->on(DatabaseTableNamesProvider::OFFER_TABLE)->cascadeOnDelete();
 
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();

@@ -20,7 +20,7 @@ class CreateLoginTokensTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on(app(User::class)->getTable())->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on(DatabaseTableNamesProvider::USER_TABLE)->cascadeOnDelete();
 
             $table->string('token')->unique();
             $table->timestamp('consumed_at')->nullable();

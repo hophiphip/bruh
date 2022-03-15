@@ -20,7 +20,7 @@ class CreateInsurersTable extends Migration
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on(app(User::class)->getTable())->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on(DatabaseTableNamesProvider::USER_TABLE)->cascadeOnDelete();
 
             $table->string('first_name');
             $table->string('last_name');

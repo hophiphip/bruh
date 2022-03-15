@@ -59,6 +59,7 @@ class DatabaseSeeder extends Seeder
      */
     public function seed()
     {
+        // TODO: Move to separate seeder and call it separately (mb. from migration) - it is initial constant data
         // Add the default user roles
         $this->call([
             RoleSeeder::class,
