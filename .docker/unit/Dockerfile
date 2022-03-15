@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.0-alpine
 
 ARG user
 ARG uid
@@ -70,6 +70,10 @@ RUN set -xe; \
     # Cleanup
     apk del .build-deps
 
+# Some directory ownership precautions
+RUN chown $user:$user /var/www
+RUN chmod 755 /var/www
+
 WORKDIR /var/www
 
 # Install composer dependencies
@@ -80,4 +84,4 @@ USER $user
 # Generate app key -> Wait for PostgreSQL to start -> Wiat for MongoDB to start -> Wait for Redis to start -> Wait for RabbitMQ to start -> Wait for Elasticsearch to start -> Run migrations -> Seed the database -> Reindex elasticsearch -> Run unit and feature tests
 CMD ["sh", "-c", "php artisan key:generate && timeout 60 /var/wait.sh -h ${POSTGRES_DB_HOST} -p ${POSTGRES_DB_PORT} && timeout 60 /var/wait.sh -h ${MONGO_DB_HOST} -p ${MONGO_DB_PORT} && timeout 60 /var/wait.sh -h ${REDIS_HOST} -p ${REDIS_PORT} && timeout 60 /var/wait.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} && timeout 60 /var/wait_elastic.sh -h ${ELASTICSEARCH_HOSTS} && php artisan migrate:fresh && php artisan db:seed && php artisan search:reindex && php artisan test"]
 
-EXPOSE 9000
+EXPOSE 8000

@@ -13,6 +13,8 @@ services:
     hostname: app
     container_name: bruh-app-unit
     restart: unless-stopped
+    ports:
+      - "8000:8000"
     working_dir: /var/www/
     volumes:
       - .env:/var/www/.env
@@ -37,9 +39,9 @@ services:
     healthcheck:
       # Check if FRM port is open for connections.
       # With netstat:
-      # test: ["CMD-SHELL", "netstat -an | grep -q -F \":9000\""]
+      # test: ["CMD-SHELL", "netstat -an | grep -q -F \":8000\""]
       # With PHP:
-      test: [ "CMD-SHELL", "php -r '$$c = @fsockopen(\"localhost\", 9000); if (is_resource($$c)) { fwrite(STDOUT, \"HEALTH CHECK OK\"); fclose($$c); exit(0); } else { fwrite(STDERR, \"HEALTH CHECK FAIL\"); exit(1); }'" ]
+      test: [ "CMD-SHELL", "php -r '$$c = @fsockopen(\"localhost\", 8000); if (is_resource($$c)) { fwrite(STDOUT, \"HEALTH CHECK OK\"); fclose($$c); exit(0); } else { fwrite(STDERR, \"HEALTH CHECK FAIL\"); exit(1); }'" ]
       interval: 2s
       timeout: 3s
       retries: 30
@@ -68,30 +70,12 @@ services:
     environment:
       RABBITMQ_HOST: '${RABBITMQ_HOST}'
       RABBITMQ_PORT: '${RABBITMQ_PORT}'
-      APP_HOST: 'app'
-      APP_PORT: 9000
       APP_WORKER: 'true'
     networks:
       - bruh
     depends_on:
       - rabbitmq
       - app
-
-  # Nginx proxy
-  nginx:
-    image: nginx:alpine
-    hostname: nginx
-    container_name: bruh-nginx-unit
-    restart: unless-stopped
-    ports:
-      - "8000:80"
-    volumes:
-      - ./bruh/:/var/www/
-      - ./.docker/nginx/:/etc/nginx/conf.d/
-    depends_on:
-      - app
-    networks:
-      - bruh
 
   # Main postgreSQL DB
   postgres:
