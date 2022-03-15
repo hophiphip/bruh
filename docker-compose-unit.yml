@@ -9,7 +9,7 @@ services:
         uid: 1000
       context: ./
       dockerfile: ./.docker/unit/Dockerfile
-    image: bruh
+    image: bruh-unit
     hostname: app
     container_name: bruh-app-unit
     restart: unless-stopped
