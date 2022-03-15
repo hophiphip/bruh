@@ -14,7 +14,7 @@ class OfferRequestObserver
      */
     public static function initialize()
     {
-        Redis::set(OfferRequest::$cacheCountKey, OfferRequest::count());
+        Redis::set(OfferRequest::$cacheCountKey, 0);
     }
 
     /**

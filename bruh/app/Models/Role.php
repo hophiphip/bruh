@@ -70,7 +70,7 @@ class Role extends Model
         $id = Redis::get(self::$cacheInsurerRoleId);
 
         if ($id == null) {
-            RoleObserver::initialize();
+            RoleObserver::set();
             $id = Redis::get(self::$cacheInsurerRoleId);
         }
 

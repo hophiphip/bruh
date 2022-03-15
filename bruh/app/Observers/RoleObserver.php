@@ -14,7 +14,12 @@ class RoleObserver
      */
     public static function initialize()
     {
-        Redis::set(Role::$cacheInsurerRoleId, Role::whereName('insurer')->firstOrFail()->id);
+        //
+    }
+
+    public static function set()
+    {
+        Redis::set(Role::$cacheInsurerRoleId, Role::whereName('insurer')->firstOrFail->id);
     }
 
     /**
@@ -25,7 +30,9 @@ class RoleObserver
      */
     public function created(Role $role)
     {
-        //
+        if ($role->name == 'insurer') {
+            Redis::set(Role::$cacheInsurerRoleId, $role->id);
+        }
     }
 
     /**
@@ -36,7 +43,9 @@ class RoleObserver
      */
     public function updated(Role $role)
     {
-        Redis::set(Role::$cacheInsurerRoleId, Role::whereName('insurer')->firstOrFail()->id);
+        if ($role->name == 'insurer') {
+            Redis::set(Role::$cacheInsurerRoleId, $role->id);
+        }
     }
 
     /**
@@ -47,7 +56,9 @@ class RoleObserver
      */
     public function deleted(Role $role)
     {
-        Redis::set(Role::$cacheInsurerRoleId, Role::whereName('insurer')->firstOrFail()->id);
+        if ($role->name == 'insurer') {
+            Redis::del(Role::$cacheInsurerRoleId);
+        }
     }
 
     /**
@@ -58,7 +69,9 @@ class RoleObserver
      */
     public function restored(Role $role)
     {
-        Redis::set(Role::$cacheInsurerRoleId, Role::whereName('insurer')->firstOrFail()->id);
+        if ($role->name == 'insurer') {
+            Redis::set(Role::$cacheInsurerRoleId, $role->id);
+        }
     }
 
     /**
@@ -69,6 +82,8 @@ class RoleObserver
      */
     public function forceDeleted(Role $role)
     {
-        //
+        if ($role->name == 'insurer') {
+            Redis::del(Role::$cacheInsurerRoleId);
+        }
     }
 }

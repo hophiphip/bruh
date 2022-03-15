@@ -8,6 +8,7 @@ use App\Models\OfferRequest;
 use App\Observers\InsurerObserver;
 use App\Observers\OfferObserver;
 use App\Observers\OfferRequestObserver;
+use App\Observers\RoleObserver;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
