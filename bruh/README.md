@@ -104,7 +104,7 @@ docker run -d --name bruh-worker-local --network host -v `pwd`:/var/www/ -w /var
 
 ## Setup local Redis with `Docker`
 ```shell
-docker run -d --name bruh-redis-local -p 6379:6379 -e REDIS_PASSWORD=777Passw0rd777 redis:7.0-rc1-alpine /bin/sh -c 'redis-server --maxmemory 100mb --appendonly yes --requirepass ${REDIS_PASSWORD}'
+docker run -d --name bruh-redis-local -p 6379:6379 -e REDIS_PASSWORD=${REDIS_PASSWORD} redis:7.0-rc1-alpine /bin/sh -c 'redis-server --maxmemory 100mb --appendonly yes --requirepass ${REDIS_PASSWORD}'
 ```
 
 ## Error: Install or enable PHP's sockets extension.
