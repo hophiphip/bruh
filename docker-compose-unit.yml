@@ -70,7 +70,7 @@ services:
       RABBITMQ_PORT: '${RABBITMQ_PORT}'
       APP_HOST: 'app'
       APP_PORT: 9000
-      APP_WORKER: true
+      APP_WORKER: 'true'
     networks:
       - bruh
     depends_on:
