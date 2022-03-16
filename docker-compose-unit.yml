@@ -12,7 +12,6 @@ services:
     image: bruh-unit
     hostname: app
     container_name: bruh-app-unit
-    restart: unless-stopped
     ports:
       - "8000:8000"
     working_dir: /var/www/
@@ -58,7 +57,6 @@ services:
     image: worker
     hostname: worker
     container_name: bruh-worker-unit
-    restart: unless-stopped
     working_dir: /var/www/
     volumes:
       - .env:/var/www/.env
@@ -82,7 +80,6 @@ services:
     image: postgres:alpine
     container_name: bruh-postgres-unit
     hostname: '${POSTGRES_DB_HOST}'
-    restart: unless-stopped
     user: postgres
     environment:
       POSTGRES_PASSWORD: '${POSTGRES_DB_PASSWORD}'
@@ -105,7 +102,6 @@ services:
     image: mongo
     container_name: bruh-mongodb-unit
     hostname: '${MONGO_DB_HOST}'
-    restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: '${MONGO_DB_USERNAME}'
       MONGO_INITDB_ROOT_PASSWORD: '${MONGO_DB_PASSWORD}'
@@ -126,7 +122,6 @@ services:
     image: redis:7.0-rc1-alpine
     container_name: bruh-redis-unit
     hostname: '${REDIS_HOST}'
-    restart: unless-stopped
     environment:
       REDIS_PASSWORD: '${REDIS_PASSWORD}'
     volumes:
@@ -145,7 +140,6 @@ services:
     image: elasticsearch:7.17.0
     container_name: bruh-elastic-unit
     hostname: elastic
-    restart: unless-stopped
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -171,7 +165,6 @@ services:
     image: rabbitmq:3.9.13-management-alpine
     container_name: bruh-rabbitmq-unit
     hostname: '${RABBITMQ_HOST}'
-    restart: unless-stopped
     environment:
       RABBITMQ_DEFAULT_USER: "user"
       RABBITMQ_DEFAULT_PASS: "user"
