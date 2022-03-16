@@ -12,9 +12,9 @@ Create a config file.
 ```shell
 cp .env.example .env
 ```
-Start the app
+Start the app in background
 ```shell
-docker-compose up -d
+docker-compose -f docker-compose.yml up -d
 ```
 
 ## Recommendations

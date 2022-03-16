@@ -210,6 +210,8 @@ services:
     logging:
       # logs not needed
       driver: 'none'
+    networks:
+      - bruh
     ports:
       # SMTP server
       - '1025:1025'
