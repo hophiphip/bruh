@@ -11,6 +11,9 @@
 |
 */
 
+use Tests\TestCase;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 uses(Tests\TestCase::class)->in('Feature');
 
 /*
@@ -39,7 +42,14 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+/**
+ * Set the currently logged-in user for the application.
+ *
+ * @param Authenticatable $user
+ * @param string|null $driver
+ * @return Tests\TestCase
+ */
+function actingAs(Authenticatable $user, string $driver = null): TestCase
 {
-    // ..
+    return test()->actingAs($user, $driver);
 }
