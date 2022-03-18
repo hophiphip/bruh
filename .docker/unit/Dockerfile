@@ -19,13 +19,19 @@ ENV ELASTICSEARCH_HOSTS localhost:9200
 
 ENV PHP_DEPS_TEMP \
     util-linux \
-    gnupg
+    gnupg \
+    libpng \
+    libpng-dev
 
 ENV PHP_DEPS \
     postgresql-dev \
     libzip-dev \
-    libpng-dev \
-    libpng \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    libwebp-dev \
+    zlib-dev \
+    libxpm-dev \
+    libjpeg-turbo-dev \
     zip
 
 # NOTE: Workaround for issue: https://github.com/docker-library/php/issues/1245
@@ -58,9 +64,12 @@ RUN set -xe; \
     # PHP extensions
     docker-php-ext-configure sockets; \
     docker-php-ext-configure zip; \
-    docker-php-ext-configure gd; \
-    docker-php-ext-install gd zip sockets pdo pdo_pgsql; \
-    # MongoDB extension
+    docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/; \
+    docker-php-ext-install gd; \
+    docker-php-ext-install zip; \
+    docker-php-ext-install sockets; \
+    docker-php-ext-install pdo pdo_pgsql; \
+    # MongoDB, Redis extension
     chmod +x /usr/local/bin/install-php-extensions && sync; \
     install-php-extensions redis mongodb-stable; \
     # Install composer
@@ -70,16 +79,14 @@ RUN set -xe; \
     # Cleanup
     apk del .build-deps
 
-# Some directory ownership precautions
 RUN chown $user:$user /var/www
 RUN chmod 755 /var/www
 
 WORKDIR /var/www
 
-# Install composer dependencies
-RUN composer install
-
 USER $user
+
+RUN composer install
 
 # Generate app key -> Wait for PostgreSQL to start -> Wiat for MongoDB to start -> Wait for Redis to start -> Wait for RabbitMQ to start -> Wait for Elasticsearch to start -> Run migrations -> Seed the database -> Reindex elasticsearch -> Run unit and feature tests
 CMD ["sh", "-c", "php artisan key:generate && timeout 60 /var/wait.sh -h ${POSTGRES_DB_HOST} -p ${POSTGRES_DB_PORT} && timeout 60 /var/wait.sh -h ${MONGO_DB_HOST} -p ${MONGO_DB_PORT} && timeout 60 /var/wait.sh -h ${REDIS_HOST} -p ${REDIS_PORT} && timeout 60 /var/wait.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} && timeout 60 /var/wait_elastic.sh -h ${ELASTICSEARCH_HOSTS} && php artisan migrate:fresh && php artisan db:seed && php artisan search:reindex && php artisan test"]
