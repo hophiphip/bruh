@@ -15,9 +15,5 @@ use App\Http\Controllers\Api\OfferController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::resource('offers', OfferController::class)
     ->only(['index', 'store', 'show']);
