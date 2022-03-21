@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Stevebauman\Location\Position;
 
-/* TODO: Added a new client by email -- need to update the old one ar add TTL */
+/* TODO: Added a new client by email -- need to update the old one or add TTL */
+/* TODO: Databse must store email hash */
 
 class ClientLocation extends Model
 {

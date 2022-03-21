@@ -15,6 +15,7 @@ class InsurerSeeder extends Seeder
      */
     public function run()
     {
+        // TODO: User service for table names
         DB::table(app(Insurer::class)->getTable())->truncate();
         Insurer::factory()->count(50)->create();
     }
