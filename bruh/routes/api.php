@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ClientLocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\OfferController;
@@ -17,3 +18,5 @@ use App\Http\Controllers\Api\OfferController;
 
 Route::resource('offers', OfferController::class)
     ->only(['index', 'store', 'show']);
+
+Route::get('locations', [ClientLocationController::class, 'index']);

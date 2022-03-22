@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Stevebauman\Location\Position;
 

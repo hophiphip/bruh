@@ -5,6 +5,11 @@
     <link href="/css/index.css" rel="stylesheet" type="text/css">
 @endsection
 
+@section('scripts')
+    <script src="//unpkg.com/three"></script>
+    <script src="//unpkg.com/three-globe"></script>
+@endsection
+
 @section('content')
     @include('shared.header')
 
@@ -42,6 +47,69 @@
             </div>
         </div>
     </main>
+
+    <div id="globe"></div>
+
+    <script>
+        let rings = [];
+
+        const colorInterpolator = t => `rgba(223,14,231,${1-t})`;
+
+        const Globe = new ThreeGlobe()
+            .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
+            .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+            .ringsData(rings)
+            .ringColor(() => colorInterpolator)
+            .ringMaxRadius('maxR')
+            .ringPropagationSpeed('propagationSpeed')
+            .ringRepeatPeriod('repeatPeriod');
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('globe').appendChild(renderer.domElement);
+
+        const scene = new THREE.Scene();
+        scene.add(Globe);
+        scene.add(new THREE.AmbientLight(0xbbbbbb));
+        scene.add(new THREE.DirectionalLight(0xffffff, 0.6));
+
+        const camera = new THREE.PerspectiveCamera();
+        camera.aspect = window.innerWidth/window.innerHeight;
+        camera.updateProjectionMatrix();
+        camera.position.z = 500;
+
+        (function animate() {
+            Globe.rotation.y += 0.001;
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        })();
+
+        window.addEventListener('resize', function () {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }, false);
+
+        fetch('/api/locations', {
+            method: "GET",
+        })
+            .then(response => response.json())
+            .then(data => {
+                Globe.ringsData(
+                    data.map(location => ({
+                        lat: location["lat"],
+                        lng: location["lng"],
+                        maxR: 0.5 * 20 + 3,
+                        propagationSpeed: 0.25 * 20 + 1,
+                        repeatPeriod: 0.5 * 2000 + 200
+                    }))
+                );
+            })
+            .catch(err => {
+                throw new Error(err);
+            });
+    </script>
 @endsection
 
 

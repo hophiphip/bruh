@@ -11,12 +11,14 @@ use App\Models\Offer;
 use App\Models\OfferRequest;
 use App\Providers\RouteServiceProvider;
 use App\Services\Interfaces\SearchServiceInterface;
+use App\Utils\GetIpAddress;
 use App\Utils\QuerySanitiser;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Stevebauman\Location\Facades\Location;
 
@@ -26,6 +28,8 @@ class WebController extends Controller
 {
     public function home(): Factory|View|Application
     {
+        var_dump($_SERVER);
+
         return view('index',[
             'requests_count' => Redis::get(OfferRequest::$cacheCountKey),
             'insurers_count' => Redis::get(Insurer::$cacheCountKey),
@@ -66,7 +70,7 @@ class WebController extends Controller
             RequestNotification::dispatch($user);
         }
 
-        if ($position = Location::get()) {
+        if ($position = Location::get(GetIpAddress::getIp())) {
             ClientLocation::createNew($submit['email'], $position);
         }
 
