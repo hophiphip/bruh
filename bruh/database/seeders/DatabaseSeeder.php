@@ -9,6 +9,7 @@ use App\Models\Offer;
 use App\Models\OfferRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -42,14 +43,16 @@ class DatabaseSeeder extends Seeder
      */
     public function cleanup()
     {
-        ClientLocation::truncate();
+        DB::connection(DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION_CONNECTION)
+            ->table(DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION)
+            ->truncate();
 
-        DB::table(app(Role::class)->getTable())->truncate();
-        DB::table(app(OfferRequest::class)->getTable())->truncate();
-        DB::table(app(Offer::class)->getTable())->truncate();
-        DB::table(app(Insurer::class)->getTable())->truncate();
-        DB::table(app(LoginToken::class)->getTable())->truncate();
-        DB::table(app(User::class)->getTable())->truncate();
+        DB::table(DatabaseTableNamesProvider::ROLE_TABLE)->truncate();
+        DB::table(DatabaseTableNamesProvider::OFFER_REQUEST_TABLE)->truncate();
+        DB::table(DatabaseTableNamesProvider::OFFER_TABLE)->truncate();
+        DB::table(DatabaseTableNamesProvider::INSURER_TABLE)->truncate();
+        DB::table(DatabaseTableNamesProvider::LOGIN_TOKEN_TABLE)->truncate();
+        DB::table(DatabaseTableNamesProvider::USER_TABLE)->truncate();
     }
 
     /**

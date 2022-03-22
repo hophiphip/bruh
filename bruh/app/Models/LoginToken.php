@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Providers\DatabaseTableNamesProvider;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,16 +22,16 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read User $user
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken query()
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereConsumedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereExpiresAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|LoginToken whereUserId($value)
+ * @method static Builder|LoginToken newModelQuery()
+ * @method static Builder|LoginToken newQuery()
+ * @method static Builder|LoginToken query()
+ * @method static Builder|LoginToken whereConsumedAt($value)
+ * @method static Builder|LoginToken whereCreatedAt($value)
+ * @method static Builder|LoginToken whereExpiresAt($value)
+ * @method static Builder|LoginToken whereId($value)
+ * @method static Builder|LoginToken whereToken($value)
+ * @method static Builder|LoginToken whereUpdatedAt($value)
+ * @method static Builder|LoginToken whereUserId($value)
  * @mixin \Eloquent
  */
 class LoginToken extends Model

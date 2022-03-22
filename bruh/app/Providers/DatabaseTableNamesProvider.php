@@ -5,6 +5,7 @@ namespace App\Providers;
 class DatabaseTableNamesProvider
 {
     public const CLIENT_LOCATION_COLLECTION = 'client_location_collection';
+    public const CLIENT_LOCATION_COLLECTION_CONNECTION = 'mongodb';
 
     public const INSURER_TABLE = 'insurers';
     public const LOGIN_TOKEN_TABLE = 'login_tokens';

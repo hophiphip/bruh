@@ -17,7 +17,7 @@ class ClientLocation extends Model
     /**
      * @var string MongoDB's connection name.
      */
-    protected $connection = 'mongodb';
+    protected $connection = DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION_CONNECTION;
 
     /**
      * @var string collection name
