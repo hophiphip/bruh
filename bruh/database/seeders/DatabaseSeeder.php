@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
      */
     public function cleanup()
     {
-        DB::connection(DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION_CONNECTION)
+        DB::connection(DatabaseTableNamesProvider::client_location_collection_connection())
             ->table(DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION)
             ->truncate();
 

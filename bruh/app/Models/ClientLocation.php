@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Stevebauman\Location\Position;
 
-/* TODO: Added a new client by email -- need to update the old one or add TTL */
-/* TODO: Databse must store email hash */
+/* TODO: Database must store email hash */
 
 class ClientLocation extends Model
 {
@@ -19,6 +18,17 @@ class ClientLocation extends Model
      * @var string MongoDB's connection name.
      */
     protected $connection = DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION_CONNECTION;
+
+    /**
+     * Overwriting default constructor to set database connection dynamically.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->connection = DatabaseTableNamesProvider::client_location_collection_connection();
+    }
 
     /**
      * @var string collection name

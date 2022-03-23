@@ -22,7 +22,7 @@ class CreateClientLocationCollection extends Migration
      */
     public function up()
     {
-        Schema::connection($this->connection)->table(DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION, function (Blueprint $collection) {
+        Schema::connection($this->connection)->table(DatabaseTableNamesProvider::client_location_collection_connection(), function (Blueprint $collection) {
             $collection->string('email');
 
             // store location data as JSON
@@ -42,7 +42,7 @@ class CreateClientLocationCollection extends Migration
      */
     public function down()
     {
-        Schema::connection($this->connection)->table(DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION, function (Blueprint $collection) {
+        Schema::connection($this->connection)->table(DatabaseTableNamesProvider::client_location_collection_connection(), function (Blueprint $collection) {
             $collection->dropIfExists();
         });
     }

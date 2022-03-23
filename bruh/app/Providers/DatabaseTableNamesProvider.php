@@ -7,6 +7,11 @@ class DatabaseTableNamesProvider
     public const CLIENT_LOCATION_COLLECTION = 'client_location_collection';
     public const CLIENT_LOCATION_COLLECTION_CONNECTION = 'mongodb';
 
+    public static function client_location_collection_connection(): string
+    {
+        return env('MONGO_DB_CONNECTION', self::CLIENT_LOCATION_COLLECTION_CONNECTION);
+    }
+
     public const INSURER_TABLE = 'insurers';
     public const LOGIN_TOKEN_TABLE = 'login_tokens';
     public const OFFER_TABLE = 'offers';
