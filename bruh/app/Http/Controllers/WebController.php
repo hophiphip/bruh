@@ -22,14 +22,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Stevebauman\Location\Facades\Location;
 
-/* TODO: New signed up users don't show as verified on the insurer page */
 
 class WebController extends Controller
 {
     public function home(): Factory|View|Application
     {
-        var_dump($_SERVER);
-
         return view('index',[
             'requests_count' => Redis::get(OfferRequest::$cacheCountKey),
             'insurers_count' => Redis::get(Insurer::$cacheCountKey),
