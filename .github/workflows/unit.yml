@@ -17,7 +17,7 @@ jobs:
       run: cp -n .env.example .env || true
 
     - name: Run unit tests
-      run: docker-compose -f docker-compose-unit.yml up --build --exit-code-from app
+      run: docker-compose -f docker-compose-unit.yml up --build --force-recreate --exit-code-from app
 
     - name: Docker volumes cleanup
       run: docker-compose -f docker-compose-unit.yml down -v
