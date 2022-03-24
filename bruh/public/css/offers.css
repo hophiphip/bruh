@@ -99,6 +99,12 @@ main > * {
 .offer {
     background: #fff;
     padding: 0 0.5rem 0 0.5rem;
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 255, .2);
+}
+
+.offer > h5 {
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    background: #ebebf5;
 }
 
 .case-line {
@@ -133,6 +139,19 @@ main > * {
     padding-right: 1rem;
 }
 
+.request-info {
+    width: 2rem;
+    height: 2rem;
+    color: gray;
+    margin-right: 2rem;
+}
+
+.request-info-count {
+    padding: 0;
+    margin: 0.2rem 0 0;
+    color: gray;
+}
+
 .request-button-container > a {
     border: 1px solid #00B4CC;
     background: none;
@@ -141,17 +160,17 @@ main > * {
     width: 4rem;
 }
 
-.request-button-container > a:hover {
-    border: 1px solid #DF0EF1;
-}
-
 .request-button-container > a > svg {
     color: #00B4CC;
     width: 2rem;
     height: 2rem;
 }
 
-.request-button-container > a > svg:hover {
+.request-button-container > a:hover {
+    border: 1px solid #DF0EF1;
+}
+
+.request-button-container > a:hover > svg {
     color: #DF0EF1;
 }
 

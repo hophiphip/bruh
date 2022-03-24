@@ -69,7 +69,7 @@ class ElasticsearchSearchService implements SearchServiceInterface
     {
         $ids = Arr::pluck($items['hits']['hits'], '_id');
 
-        return Offer::findMany($ids)
+        return Offer::with('requests', 'insurer', 'insurer.user')->findMany($ids)
             ->sortBy(function ($offer) use ($ids) {
                 return array_search($offer->getKey(), $ids);
             });

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Observers\OfferObserver;
 use App\Providers\DatabaseTableNamesProvider;
 use App\Traits\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,15 +27,15 @@ use JetBrains\PhpStorm\ArrayShape;
  * @property-read Collection|OfferRequest[] $requests
  * @property-read int|null $requests_count
  * @method static \Database\Factories\OfferFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Offer newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Offer newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Offer query()
- * @method static \Illuminate\Database\Eloquent\Builder|Offer whereCaseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Offer whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Offer whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Offer whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Offer whereInsurerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Offer whereUpdatedAt($value)
+ * @method static Builder|Offer newModelQuery()
+ * @method static Builder|Offer newQuery()
+ * @method static Builder|Offer query()
+ * @method static Builder|Offer whereCaseId($value)
+ * @method static Builder|Offer whereCreatedAt($value)
+ * @method static Builder|Offer whereDescription($value)
+ * @method static Builder|Offer whereId($value)
+ * @method static Builder|Offer whereInsurerId($value)
+ * @method static Builder|Offer whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Offer extends Model
