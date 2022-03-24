@@ -9,13 +9,6 @@ use Illuminate\Support\Facades\Schema;
 class CreateClientLocationCollection extends Migration
 {
     /**
-     * The name of the database connection to use.
-     *
-     * @var string
-     */
-    protected $connection = 'mongodb';
-
-    /**
      * Run the migrations.
      *
      * @return void
