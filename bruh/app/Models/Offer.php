@@ -139,7 +139,6 @@ class Offer extends Model
 
     /**
      * Get company name that published this offer.
-     * TODO: Optimization notes: Many multi selects --> JOIN-ing selection will be faster.
      *
      * @return string company name
      */

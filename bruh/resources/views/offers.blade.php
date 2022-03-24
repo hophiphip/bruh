@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="company-line">
-                    <p>Company: {{ $offer->companyName() }}</p>
+                    <p>Company: {{ $offer->insurer->company_name }}</p>
 
                     @if($offer->insurer->user->isVerified())
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
