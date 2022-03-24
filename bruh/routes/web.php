@@ -51,8 +51,8 @@ Route::middleware(['auth', 'role:insurer'])->group(function () {
 });
 
 /* Offer request related routes */
-Route::get(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offer'])->whereNumber('id');
-Route::post(RouteServiceProvider::OFFER . '/{id}', [WebController::class, 'offerRequestSubmit'])->whereNumber('id');
+Route::get(RouteServiceProvider::OFFER . '/{offer}', [WebController::class, 'offer']);
+Route::post(RouteServiceProvider::OFFER . '/{offer}', [WebController::class, 'offerRequestSubmit']);
 
 /* Admin related routes */
 Route::middleware(['local', 'role:admin'])->group(function () {

@@ -43,20 +43,18 @@ class WebController extends Controller
         ]);
     }
 
-    public function offer(int $id): Factory|View|Application
+    public function offer(Offer $offer): Factory|View|Application
     {
         return view('offer', [
-            'offer' => Offer::whereId($id)->firstOrFail(),
+            'offer' => $offer,
         ]);
     }
 
-    public function offerRequestSubmit(PostOfferRequest $request, int $id): Redirector|Application|RedirectResponse
+    public function offerRequestSubmit(PostOfferRequest $request, Offer $offer): Redirector|Application|RedirectResponse
     {
         $submit = $request->validated();
 
-        $offer = Offer::whereId($id)->firstOrFail();
-        $insurer = $offer->insurer()->firstOrFail();
-        $user = $insurer->user()->firstOrFail();
+        $user = $offer->insurer()->firstOrFail()->user()->firstOrFail();
 
         $offerRequest = $offer->requests()->create([
            'email'             => $submit['email'],
