@@ -19,4 +19,6 @@ class DatabaseTableNamesProvider
     public const ROLE_TABLE = 'roles';
     public const USER_TABLE = 'users';
     public const OFFER_CASE_TABLE = 'offer_cases';
+
+    public const ROLE_TO_USER_TABLE = 'role_user';
 }
