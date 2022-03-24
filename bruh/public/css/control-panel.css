@@ -7,3 +7,20 @@ body {
 
 a { text-decoration: none; }
 p { margin: 0; }
+
+.user {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 0.5rem 1rem 0.5rem 1rem;
+    padding: 0.5rem;
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 255, .2);
+}
+
+.user > h4 {
+    min-width: 15rem;
+}
+
+.user > h5 {
+    min-width: 15rem;
+}

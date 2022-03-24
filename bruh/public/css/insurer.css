@@ -161,6 +161,11 @@ svg {
     box-shadow: 1px 1px 2px 1px rgba(0, 0, 255, .2);
 }
 
+.offer > h5 {
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    background: #ebebf5;
+}
+
 .offer-requests {
     text-align: left;
 }

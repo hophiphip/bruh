@@ -23,6 +23,7 @@ p { margin: 0; }
     background: #fff;
     text-align: center;
     padding: 3rem;
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 255, .2);
 }
 
 .space {
@@ -33,7 +34,7 @@ p { margin: 0; }
     display: block;
 
     height: 2rem;
-    width: 15rem;
+    width: 18rem;
 
     border: 1px solid #00B4CC;
     outline: none;
@@ -53,6 +54,8 @@ p { margin: 0; }
 
 .captcha-field {
     margin-top: 1rem;
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 255, .2);
+    padding: 1rem;
 }
 
 .captcha {
@@ -66,6 +69,7 @@ p { margin: 0; }
 }
 
 .captcha-title > h4 {
+    color: gray;
     margin: 0.1rem 0 0.1rem 0;
 }
 
@@ -93,7 +97,7 @@ p { margin: 0; }
     margin-top: 2rem;
 
     height: 2.5rem;
-    width: 15.7rem;
+    width: 18rem;
 
     border: none;
     text-align: center;

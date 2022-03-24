@@ -5,8 +5,6 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Middleware\TrustProxies as Middleware;
 use Illuminate\Http\Request;
 
-// TODO: The security is bad, but who case as long as it works
-
 class TrustProxies extends Middleware
 {
     /**
