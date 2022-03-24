@@ -6,5 +6,5 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface SearchServiceInterface
 {
-    public function search(string $query = '', int $size = 10, int $page = 1): LengthAwarePaginator;
+    public function search(string $query = '', int $size = 1000, int $page = 0): LengthAwarePaginator;
 }

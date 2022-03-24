@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
-// TODO: Mb. use ScoutElastic ?
-
 class ElasticsearchSearchService implements SearchServiceInterface
 {
     /**
@@ -24,9 +22,9 @@ class ElasticsearchSearchService implements SearchServiceInterface
     }
 
     // TODO: This is slow, need to figure out `scroll` feature to fix it.
-    public function search(string $query = '', int $size = 10, int $page = 1): LengthAwarePaginator
+    public function search(string $query = '', int $size = 1000, int $page = 0): LengthAwarePaginator
     {
-        $items = $this->searchWithElasticsearch($query);
+        $items = $this->searchWithElasticsearch($query, $page, $size);
         $collection = $this->buildCollection($items);
 
         return new LengthAwarePaginator(
@@ -37,7 +35,7 @@ class ElasticsearchSearchService implements SearchServiceInterface
         );
     }
 
-    private function searchWithElasticsearch(string $query = ''): array
+    private function searchWithElasticsearch(string $query = '', int $from = 0, int $size = 100): array
     {
         $model = new Offer;
 
@@ -45,8 +43,8 @@ class ElasticsearchSearchService implements SearchServiceInterface
             'index' => $model->getSearchIndex(),
             'type' => $model->getSearchType(),
 
-            // TODO: Hardcoded size limit, but for pagination `scroll` feature must be used.
-            'size' => 1000,
+            'from' => $from,
+            'size' => $size,
 
             'body' => [
 

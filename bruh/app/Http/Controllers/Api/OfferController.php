@@ -9,6 +9,7 @@ use App\Services\Interfaces\SearchServiceInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use JetBrains\PhpStorm\Pure;
 
 class OfferController extends Controller
 {
@@ -26,18 +27,11 @@ class OfferController extends Controller
 
     public function paginate(Request $request, SearchServiceInterface $service): LengthAwarePaginator
     {
-        $perPage = $request->input('per_page');
-        $query = $request->input('q');
+        $perPage  = $request->input('size') ?? 1000;
+        $fromPage = $request->input('page') ?? 0;
+        $query    = $request->input('q')    ?? '';
 
-        if (!$perPage) {
-            $perPage = 10;
-        }
-
-        if (!$query) {
-            $query = '';
-        }
-
-        return $service->search($query, $perPage);
+        return $service->search($query, $perPage, $fromPage);
     }
 
     /**
@@ -46,6 +40,7 @@ class OfferController extends Controller
      * @param Offer $offer
      * @return OfferResource
      */
+    #[Pure]
     public function show(Offer $offer): OfferResource
     {
         return new OfferResource($offer);

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class OffersSearchService implements SearchServiceInterface
 {
-    public function search(string $query = '', int $size = 10, int $page = 1): LengthAwarePaginator
+    public function search(string $query = '', int $size = 1000, int $page = 0): LengthAwarePaginator
     {
         return Offer::query()
             ->where('description', 'LIKE', "%{$query}%")

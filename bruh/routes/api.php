@@ -16,7 +16,5 @@ use App\Http\Controllers\Api\OfferController;
 |
 */
 
-Route::resource('offers', OfferController::class)
-    ->only(['index', 'store', 'show']);
-
+Route::get('offer', [OfferController::class, 'paginate']);
 Route::get('locations', [ClientLocationController::class, 'index']);
