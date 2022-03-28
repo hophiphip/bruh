@@ -4,11 +4,8 @@ namespace App\Models;
 
 use App\Providers\DatabaseTableNamesProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Log;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Stevebauman\Location\Position;
-
-/* TODO: Database must store email hash */
 
 class ClientLocation extends Model
 {
@@ -18,17 +15,6 @@ class ClientLocation extends Model
      * @var string MongoDB's connection name.
      */
     protected $connection = DatabaseTableNamesProvider::CLIENT_LOCATION_COLLECTION_CONNECTION;
-
-    /**
-     * Overwriting default constructor to set database connection dynamically.
-     *
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->connection = DatabaseTableNamesProvider::client_location_collection_connection();
-    }
 
     /**
      * @var string collection name
@@ -43,6 +29,17 @@ class ClientLocation extends Model
     ];
 
     /**
+     * Overwriting default constructor to set database connection dynamically.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->connection = DatabaseTableNamesProvider::client_location_collection_connection();
+    }
+
+    /**
      * Collection name.
      *
      * @return string
@@ -52,9 +49,9 @@ class ClientLocation extends Model
         return $this->collection;
     }
 
-
     /**
      * Create a new client location info from email and position.
+     *  Reference: https://github.com/stevebauman/location#drivers
      *
      * @param string $email
      * @param Position $position
@@ -62,8 +59,6 @@ class ClientLocation extends Model
      */
     public static function createNew(string $email, Position $position): mixed
     {
-        /* TODO: Can be seed up with local DB location storage -- but need to download some stuff and store it in .git repo and licence stuff */
-
         return ClientLocation::create([
             'email'    => $email,
             'location' => [
