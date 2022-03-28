@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Stevebauman\Location\Position;
 
+// TODO: Use cross database relationships --> read: github.com/laravel-mongodb#cross-database-relationships
+
 class ClientLocation extends Model
 {
     use HasFactory;
