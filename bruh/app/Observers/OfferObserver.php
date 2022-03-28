@@ -29,17 +29,6 @@ class OfferObserver
     }
 
     /**
-     * Handle the Offer "updated" event.
-     *
-     * @param Offer $offer
-     * @return void
-     */
-    public function updated(Offer $offer)
-    {
-        //
-    }
-
-    /**
      * Handle the Offer "deleted" event.
      *
      * @param Offer $offer
