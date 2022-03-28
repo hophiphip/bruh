@@ -27,9 +27,9 @@ class OfferController extends Controller
 
     public function paginate(Request $request, SearchServiceInterface $service): LengthAwarePaginator
     {
-        $perPage  = $request->input('size') ?? 1000;
-        $fromPage = $request->input('page') ?? 0;
-        $query    = $request->input('q')    ?? '';
+        $perPage  = $request->input('size', 1000);
+        $fromPage = $request->input('page', 0);
+        $query    = $request->input('q', '');
 
         return $service->search($query, $perPage, $fromPage);
     }
