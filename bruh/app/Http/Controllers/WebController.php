@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Events\RequestNotification;
@@ -13,19 +15,15 @@ use App\Providers\RouteServiceProvider;
 use App\Services\Interfaces\SearchServiceInterface;
 use App\Utils\GetIpAddress;
 use App\Utils\QuerySanitiser;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Stevebauman\Location\Facades\Location;
 
-
 class WebController extends Controller
 {
-    public function home(): Factory|View|Application
+    public function home(): View
     {
         return view('index',[
             'requests_count' => Redis::get(OfferRequest::$cacheCountKey),
@@ -34,7 +32,7 @@ class WebController extends Controller
         ]);
     }
 
-    public function offers(SearchServiceInterface $service): Factory|View|Application
+    public function offers(SearchServiceInterface $service): View
     {
         return view('offers', [
             'offers' => $service->search(
@@ -43,14 +41,14 @@ class WebController extends Controller
         ]);
     }
 
-    public function offer(Offer $offer): Factory|View|Application
+    public function offer(Offer $offer): View
     {
         return view('offer', [
             'offer' => $offer,
         ]);
     }
 
-    public function offerRequestSubmit(PostOfferRequest $request, Offer $offer): Redirector|Application|RedirectResponse
+    public function offerRequestSubmit(PostOfferRequest $request, Offer $offer): Redirector|RedirectResponse
     {
         $submit = $request->validated();
 
@@ -74,7 +72,7 @@ class WebController extends Controller
         return redirect(RouteServiceProvider::HOME);
     }
 
-    public function newOffer(PostNewOfferRequest $request): Redirector|Application|RedirectResponse
+    public function newOffer(PostNewOfferRequest $request): Redirector|RedirectResponse
     {
         $submit = $request->validated();
 
@@ -91,7 +89,7 @@ class WebController extends Controller
         return redirect(RouteServiceProvider::INSURER);
     }
 
-    public function gettingStarted(): Factory|View|Application
+    public function gettingStarted(): View
     {
         return view('auth.getting-started');
     }
